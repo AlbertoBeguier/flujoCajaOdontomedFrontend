@@ -1,0 +1,33 @@
+.formulario-categoria {
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-agregar-categoria {
+  background-color: #3e499c !important;
+  color: white !important;
+  font-weight: 600 !important;
+  padding: 10px 20px !important;
+  border-radius: 30px !important;
+  margin-top: 20px !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-agregar-categoria:hover {
+  background-color: #2b3371 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+.alerta-error {
+  color: #c62828 !important;
+  border-radius: 8px !important;
+  margin-bottom: 16px !important;
+}
+
+.alerta-success {
+  color: #2e7d32 !important;
+  border-radius: 8px !important;
+  margin-bottom: 16px !important;
+}

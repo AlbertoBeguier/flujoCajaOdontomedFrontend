@@ -1,0 +1,136 @@
+.form-fields-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.ruta-navegacion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.btn-navegacion {
+  background: none;
+  border: none;
+  color: #3e499c;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.btn-navegacion:hover {
+  background-color: #e8eaf6;
+}
+
+.separador-ruta {
+  color: #666;
+  margin: 0 4px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-input {
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 100%;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #3e499c;
+}
+
+.codigo-sugerido {
+  color: orange;
+  font-size: 1rem;
+}
+
+.lista-categorias {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.categoria-item {
+  padding: 12px;
+
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.categoria-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.categoria-codigo {
+  color: orange;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.categoria-nombre {
+  color: #3e499c;
+  font-weight: 600;
+}
+
+.categoria-acciones {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.btn-agregar-subcategoria,
+.btn-navegar {
+  background-color: #3e499c;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.btn-navegar {
+  background-color: #2b3371;
+}
+
+.btn-agregar-subcategoria:hover,
+.btn-navegar:hover {
+  opacity: 0.9;
+}
+
+.lista-subcategorias {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 24px;
+}
+
+.subcategoria-item {
+  padding: 8px;
+
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  margin-top: 8px;
+}

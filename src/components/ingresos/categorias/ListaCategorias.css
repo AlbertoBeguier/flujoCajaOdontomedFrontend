@@ -1,0 +1,35 @@
+.lista-categorias-titulo {
+  color: #3e499c;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.tabla-categorias {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-header {
+  background-color: #3e499c !important;
+  color: white !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+}
+
+.tabla-row {
+  transition: background-color 0.3s;
+}
+
+.tabla-row:nth-of-type(even) {
+  background-color: white;
+}
+
+.tabla-row:hover {
+  background-color: #f0f2ff;
+}
+
+.tabla-cell {
+  color: #333 !important;
+  font-size: 0.95rem !important;
+}
