@@ -4,7 +4,8 @@ import { NavBar } from "./components/NavBar";
 import { Footer } from "./components/Footer";
 import { PaginaInicial } from "./components/PaginaInicial";
 import { Ingresos } from "./components/ingresos/Ingresos";
-import { AgregarIngresos } from "./components/ingresos/AgregarIngresos";
+
+import { GestionCategorias } from "./components/ingresos/categorias/GestionCategorias";
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
         {/* Ruta para el componente Ingresos */}
         <Route path="/ingresos" element={<Ingresos />} />
         {/* Ruta para el componente AgregarIngresos */}
-        <Route path="/agregar-ingresos" element={<AgregarIngresos />} />
+        <Route path="/agregar-ingresos" element={<GestionCategorias />} />
       </Routes>
       <Footer />
     </Router>

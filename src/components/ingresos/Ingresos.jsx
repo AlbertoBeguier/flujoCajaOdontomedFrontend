@@ -16,7 +16,7 @@ export const Ingresos = () => {
         <Link to="/agregar-ingresos">
           <button className="btn-agregar-ingresos">
             <FaPlusCircle className="btn-ingresos-icon" />
-            Agregar Registros
+            Agregar Categorías
           </button>
         </Link>
         <button className="btn-reg-ingresos">

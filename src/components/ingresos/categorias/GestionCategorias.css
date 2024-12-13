@@ -1,12 +1,8 @@
-.categorias-container {
-  margin: 20px;
-  padding: 20px;
-}
-
 .gestion-categorias-titulo {
   color: #3e499c;
   font-weight: 600;
   margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .notification {
