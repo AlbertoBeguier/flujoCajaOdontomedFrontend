@@ -12,9 +12,7 @@ import {
 import "./ListaCategorias.css";
 
 export const ListaCategorias = ({ categorias }) => {
-  // Función para ordenar las categorías jerárquicamente
   const ordenarCategorias = (cats) => {
-    // Convertir códigos a números para comparación correcta
     const compararCodigos = (a, b) => {
       const partsA = a.codigo.split(".").map(Number);
       const partsB = b.codigo.split(".").map(Number);
@@ -44,7 +42,6 @@ export const ListaCategorias = ({ categorias }) => {
             <TableRow>
               <TableCell className="tabla-header">Código</TableCell>
               <TableCell className="tabla-header">Nombre</TableCell>
-              <TableCell className="tabla-header">Nivel</TableCell>
               <TableCell className="tabla-header">Categoría Padre</TableCell>
             </TableRow>
           </TableHead>
@@ -53,7 +50,6 @@ export const ListaCategorias = ({ categorias }) => {
               <TableRow key={categoria._id} className="tabla-row">
                 <TableCell className="tabla-cell">{categoria.codigo}</TableCell>
                 <TableCell className="tabla-cell">{categoria.nombre}</TableCell>
-                <TableCell className="tabla-cell">{categoria.nivel}</TableCell>
                 <TableCell className="tabla-cell">
                   {categoria.categoriaPadre || "-"}
                 </TableCell>
@@ -72,7 +68,7 @@ ListaCategorias.propTypes = {
       _id: PropTypes.string.isRequired,
       codigo: PropTypes.string.isRequired,
       nombre: PropTypes.string.isRequired,
-      nivel: PropTypes.number.isRequired,
+      nivel: PropTypes.number.isRequired, // Mantenemos esto porque se usa en otras partes
       categoriaPadre: PropTypes.string,
     })
   ).isRequired,

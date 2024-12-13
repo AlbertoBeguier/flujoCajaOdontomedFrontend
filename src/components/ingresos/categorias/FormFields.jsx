@@ -178,7 +178,6 @@ export const FormFields = ({ formData, handleChange, categorias }) => {
 
       {categoriasNivel.length > 0 && (
         <div className="categorias-nivel">
-          <h4>Categorías en este nivel:</h4>
           <ul className="lista-categorias">
             {categoriasNivel.map((categoria) => (
               <li key={categoria._id} className="categoria-item">

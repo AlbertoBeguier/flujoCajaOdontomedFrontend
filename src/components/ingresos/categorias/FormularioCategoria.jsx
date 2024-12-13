@@ -9,10 +9,12 @@ import "./FormularioCategoria.css";
 export const FormularioCategoria = ({ onCategoriaCreada, categorias }) => {
   const [formData, setFormData] = useState(INITIAL_FORM_STATE);
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setIsSubmitting(true);
 
     try {
       await createCategoria(formData);
@@ -20,6 +22,8 @@ export const FormularioCategoria = ({ onCategoriaCreada, categorias }) => {
       onCategoriaCreada();
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -54,8 +58,9 @@ export const FormularioCategoria = ({ onCategoriaCreada, categorias }) => {
         type="submit"
         variant="contained"
         className="btn-agregar-categoria"
+        disabled={isSubmitting || !formData.nombre.trim()}
       >
-        Agregar Categoría
+        {isSubmitting ? "Agregando..." : "Agregar Categoría"}
       </Button>
     </Box>
   );
