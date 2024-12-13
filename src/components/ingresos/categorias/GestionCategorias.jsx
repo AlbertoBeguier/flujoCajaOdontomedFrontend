@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Box, Paper, Typography, Alert, Snackbar } from "@mui/material";
 import { FormularioCategoria } from "./FormularioCategoria";
 import { ListaCategorias } from "./ListaCategorias";
+import logo from "../../../assets/odontomed512_512.png";
+import logo1 from "../../../assets/odontomedBigLogo.png";
 import "./GestionCategorias.css";
 
 export const GestionCategorias = () => {
@@ -47,40 +49,47 @@ export const GestionCategorias = () => {
   };
 
   return (
-    <Box className="categorias-container">
-      <Paper className="formulario-categoria">
-        <Typography
-          variant="h6"
-          gutterBottom
-          className="gestion-categorias-titulo"
-        >
-          Nueva Categoría
-        </Typography>
-        <FormularioCategoria
-          onCategoriaCreada={handleCategoriaCreada}
-          categorias={categorias}
-        />
-      </Paper>
+    <>
+      <div className="pagina-ingresos-container">
+        <img src={logo} alt="Logo" className="ingresos-logo" />
+        <img src={logo1} alt="Logo1" className="ingresos-logo-1" />
+        <p className="ingresos-titulo">Registro de categorías</p>
+      </div>
+      <Box className="categorias-container">
+        <Paper className="formulario-categoria">
+          <Typography
+            variant="h6"
+            gutterBottom
+            className="gestion-categorias-titulo"
+          >
+            Nueva Categoría
+          </Typography>
+          <FormularioCategoria
+            onCategoriaCreada={handleCategoriaCreada}
+            categorias={categorias}
+          />
+        </Paper>
 
-      <Paper className="tabla-categorias">
-        <ListaCategorias categorias={categorias} />
-      </Paper>
+        <Paper className="tabla-categorias">
+          <ListaCategorias categorias={categorias} />
+        </Paper>
 
-      <Snackbar
-        open={notification.open}
-        autoHideDuration={6000}
-        onClose={handleCloseNotification}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        className="notification"
-      >
-        <Alert
+        <Snackbar
+          open={notification.open}
+          autoHideDuration={6000}
           onClose={handleCloseNotification}
-          severity={notification.severity}
-          className={`alerta-${notification.severity}`}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          className="notification"
         >
-          {notification.message}
-        </Alert>
-      </Snackbar>
-    </Box>
+          <Alert
+            onClose={handleCloseNotification}
+            severity={notification.severity}
+            className={`alerta-${notification.severity}`}
+          >
+            {notification.message}
+          </Alert>
+        </Snackbar>
+      </Box>
+    </>
   );
 };

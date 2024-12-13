@@ -1,7 +1,7 @@
 .lista-categorias-titulo {
   color: #3e499c;
   font-weight: 600;
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
   text-align: center;
 }
 
@@ -10,7 +10,7 @@
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: auto !important;
-  max-width: 700px !important;
+  max-width: 600px !important;
   margin: 0 auto !important;
 }
 
@@ -18,14 +18,14 @@
   background-color: #3e499c !important;
   color: white !important;
   font-weight: 600 !important;
-  font-size: 1rem !important;
+  font-size: 0.9rem !important;
   white-space: nowrap !important;
   padding: 12px 16px !important;
 }
 
 .tabla-cell {
   color: white !important;
-  font-size: 0.95rem !important;
+  font-size: 0.8rem !important;
   padding: 8px 16px !important;
   white-space: nowrap !important;
 }
