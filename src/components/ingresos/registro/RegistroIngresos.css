@@ -5,3 +5,18 @@
   flex-wrap: wrap; /* Permite que los elementos se ajusten en caso de falta de espacio */
   text-align: center;
 }
+
+.ingresos-registro-titulo {
+  font-size: 2.2rem;
+  color: #3e499c; /* O cualquier color que desees */
+  margin-top: 10px; /* Espaciado superior */
+  margin-left: 25px;
+  font-weight: 600;
+}
+
+.registro-ingresos-parrafo-1 {
+  text-align: center;
+  font-size: 1.3rem;
+  color: #40b5a6;
+  margin-top: 10px;
+}
