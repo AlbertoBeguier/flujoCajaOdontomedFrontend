@@ -37,15 +37,19 @@
 .alerta-error {
   color: #c62828 !important;
   border-radius: 8px !important;
+  border: 1px solid #c62828 !important;
   margin-bottom: 16px !important;
   position: relative !important;
   z-index: 2 !important;
+  background-color: black !important;
 }
 
 .alerta-success {
   color: #2e7d32 !important;
   border-radius: 8px !important;
+  border: 1px solid #2e7d32 !important;
   margin-bottom: 16px !important;
   position: relative !important;
   z-index: 2 !important;
+  background-color: black !important;
 }
