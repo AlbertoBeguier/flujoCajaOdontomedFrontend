@@ -1,20 +1,19 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Box, Button, Alert } from "@mui/material";
+import { Box, Alert } from "@mui/material";
 import { FormFields } from "./FormFields";
 import { createCategoria } from "../../../services/categoriasService";
 import { INITIAL_FORM_STATE } from "../../../config/constants";
+import { FaSave } from "react-icons/fa";
 import "./FormularioCategoria.css";
 
 export const FormularioCategoria = ({ onCategoriaCreada, categorias }) => {
   const [formData, setFormData] = useState(INITIAL_FORM_STATE);
   const [error, setError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setIsSubmitting(true);
 
     try {
       await createCategoria(formData);
@@ -22,8 +21,6 @@ export const FormularioCategoria = ({ onCategoriaCreada, categorias }) => {
       onCategoriaCreada();
     } catch (err) {
       setError(err.message);
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -48,20 +45,22 @@ export const FormularioCategoria = ({ onCategoriaCreada, categorias }) => {
         </Alert>
       )}
 
-      <FormFields
-        formData={formData}
-        handleChange={handleChange}
-        categorias={categorias || []}
-      />
+      {/* Botón centrado arriba */}
+      <div className="icono-centrado">
+        <FaSave
+          className="icono-agregar"
+          onClick={handleSubmit}
+          title="Guardar categoría"
+        />
+      </div>
 
-      <Button
-        type="submit"
-        variant="contained"
-        className="btn-agregar-categoria"
-        disabled={isSubmitting || !formData.nombre.trim()}
-      >
-        {isSubmitting ? "Agregando..." : "Agregar Categoría"}
-      </Button>
+      <div className="input-container">
+        <FormFields
+          formData={formData}
+          handleChange={handleChange}
+          categorias={categorias || []}
+        />
+      </div>
     </Box>
   );
 };
