@@ -1,7 +1,8 @@
-.gestion-categorias-titulo {
-  color: #3e499c;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
+.pagina-ingresos-container-1 {
+  display: flex; /* Flexbox para alinear elementos */
+  align-items: center; /* Alinea verticalmente */
+  justify-content: center; /* Centra horizontalmente */
+  flex-wrap: wrap; /* Permite que los elementos se ajusten en caso de falta de espacio */
   text-align: center;
 }
 

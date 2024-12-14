@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Paper, Typography, Alert, Snackbar } from "@mui/material";
+import { Box, Paper, Alert, Snackbar } from "@mui/material";
 import { FormularioCategoria } from "./FormularioCategoria";
 import { ListaCategorias } from "./ListaCategorias";
 import logo from "../../../assets/odontomed512_512.png";
@@ -50,20 +50,13 @@ export const GestionCategorias = () => {
 
   return (
     <>
-      <div className="pagina-ingresos-container">
+      <div className="pagina-ingresos-container-1">
         <img src={logo} alt="Logo" className="ingresos-logo" />
         <img src={logo1} alt="Logo1" className="ingresos-logo-1" />
         <p className="ingresos-titulo">Registro de categorías</p>
       </div>
       <Box className="categorias-container">
         <Paper className="formulario-categoria">
-          <Typography
-            variant="h6"
-            gutterBottom
-            className="gestion-categorias-titulo"
-          >
-            Nueva Categoría
-          </Typography>
           <FormularioCategoria
             onCategoriaCreada={handleCategoriaCreada}
             categorias={categorias}
