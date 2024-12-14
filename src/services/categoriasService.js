@@ -16,3 +16,13 @@ export const createCategoria = async (categoriaData) => {
 
   return response.json();
 };
+export const getCategorias = async () => {
+  const response = await fetch(`${API_BASE_URL}/api/categorias-ingresos`);
+
+  if (!response.ok) {
+    const data = await response.json();
+    throw new Error(data.mensaje || "Error al obtener las categorías");
+  }
+
+  return response.json();
+};
