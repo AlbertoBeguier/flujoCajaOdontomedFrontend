@@ -39,10 +39,12 @@ export const Ingresos = () => {
       </div>
 
       <div className="pagina-ingresos-container">
-        <button className="btn-reg-ingresos">
-          <FaCashRegister className="btn-ingresos-icon" />
-          Registrar Ingresos
-        </button>
+        <Link to="/registar-ingresos">
+          <button className="btn-reg-ingresos">
+            <FaCashRegister className="btn-ingresos-icon" />
+            Registrar Ingresos
+          </button>{" "}
+        </Link>
         <Link to="/agregar-ingresos">
           <button className="btn-agregar-ingresos">
             <FaPlusCircle className="btn-ingresos-icon" />

@@ -1,0 +1,7 @@
+.pagina-ingresos-container-2 {
+  display: flex; /* Flexbox para alinear elementos */
+  align-items: center; /* Alinea verticalmente */
+  justify-content: center; /* Centra horizontalmente */
+  flex-wrap: wrap; /* Permite que los elementos se ajusten en caso de falta de espacio */
+  text-align: center;
+}
