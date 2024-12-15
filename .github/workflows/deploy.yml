@@ -1,0 +1,24 @@
+name: Deploy to VPS
+on:
+  push:
+    branches:
+      - main  # Cambia esto al nombre de tu rama principal si es diferente
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Setup SSH
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_ALBERTO }} # Reemplazar por KEY que quiero usar generada en https://github.com/settings/keys
+      run: |
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan 91.108.126.42 >> ~/.ssh/known_hosts
+    - name: Copy files via SSH
+      run: |
+        rsync -avz --delete --exclude '.git*' . root@91.108.126.42:/var/www/FlujoDeCajaOdontomed 
+
+        
