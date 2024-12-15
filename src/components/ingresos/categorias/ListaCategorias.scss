@@ -15,6 +15,7 @@
   width: auto !important;
   max-width: 600px !important;
   margin: 0 auto !important;
+  background-color: transparent !important;
 }
 
 .tabla-header {
@@ -24,13 +25,15 @@
   font-size: 0.9rem !important;
   white-space: nowrap !important;
   padding: 12px 16px !important;
+  border: 1px solid var.$color-principal-estudio !important;
 }
 
 .tabla-cell {
   color: white !important;
   font-size: 0.8rem !important;
-  padding: 8px 16px !important;
+  padding: 4px 16px !important;
   white-space: nowrap !important;
+  border-bottom: 1px solid var.$color-principal-estudio !important;
 }
 
 /* Ajustes para el ancho de las columnas */

@@ -44,7 +44,7 @@
 
 .form-input {
   padding: 12px;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var.$color-principal-cliente;
   border-radius: 8px;
   font-size: 1rem;
   width: 100%;
@@ -58,8 +58,9 @@
 }
 
 .codigo-sugerido {
-  color: var.$color-principal-cliente;
+  color: white;
   font-size: 1rem;
+  font-weight: 400;
 }
 
 .lista-categorias {
@@ -73,9 +74,8 @@
 
 .categoria-item {
   padding: 12px;
-
   border-radius: 8px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var.$color-principal-cliente;
 }
 
 .categoria-info {
@@ -133,6 +133,6 @@
   padding: 8px;
 
   border-radius: 6px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var.$color-principal-cliente;
   margin-top: 8px;
 }

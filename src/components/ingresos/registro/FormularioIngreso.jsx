@@ -44,32 +44,34 @@ export const FormularioIngreso = ({
   };
 
   return (
-    <div className="formulario-ingreso-container">
-      <h2 className="formulario-titulo">Registrar Ingreso</h2>
-      <RutaCategoria rutaCompleta={rutaCompleta} />
-      {error && <div className="error-mensaje">{error}</div>}
-      <form onSubmit={handleSubmit} className="formulario-ingreso">
-        <div className="campos-inline">
-          <div className="campo-formulario">
-            <label htmlFor="fecha">Fecha:</label>
-            <EntradaFecha
-              id="fecha"
-              valor={fecha}
-              alCambiar={setFecha}
-              requerido
-            />
+    <div className="container-general">
+      <div className="formulario-ingreso-container">
+        <h2 className="formulario-titulo">Registrar Ingreso</h2>
+        <RutaCategoria rutaCompleta={rutaCompleta} />
+        {error && <div className="error-mensaje">{error}</div>}
+        <form onSubmit={handleSubmit} className="formulario-ingreso">
+          <div className="campos-inline">
+            <div className="campo-formulario">
+              <label htmlFor="fecha">Fecha:</label>
+              <EntradaFecha
+                id="fecha"
+                valor={fecha}
+                alCambiar={setFecha}
+                requerido
+              />
+            </div>
+            <div className="campo-formulario">
+              <label htmlFor="importe">Importe:</label>
+              <EntradaMonetaria
+                valor={importe}
+                alCambiar={setImporte}
+                placeholder="0,00"
+              />
+            </div>
           </div>
-          <div className="campo-formulario">
-            <label htmlFor="importe">Importe:</label>
-            <EntradaMonetaria
-              valor={importe}
-              alCambiar={setImporte}
-              placeholder="0,00"
-            />
-          </div>
-        </div>
-        <BotonesFormulario onCancelar={onCancelar} />
-      </form>
+          <BotonesFormulario onCancelar={onCancelar} />
+        </form>
+      </div>{" "}
     </div>
   );
 };

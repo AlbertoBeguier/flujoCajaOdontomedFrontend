@@ -1,10 +1,14 @@
 @use "../../../styles/variables" as var;
 
+.container-general {
+  margin-top: 120px;
+}
+
 .formulario-ingreso-container {
   max-width: 600px;
   margin: 20px auto;
   padding: 20px;
-  border: 1px solid #ddd;
+  border: 1px solid var.$color-principal-cliente;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
