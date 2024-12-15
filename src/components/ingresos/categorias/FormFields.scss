@@ -1,3 +1,5 @@
+@use "../../../styles/variables" as var;
+
 .form-fields-container {
   display: flex;
   flex-direction: column;
@@ -18,7 +20,7 @@
 .btn-navegacion {
   background: none;
   border: none;
-  color: #3e499c;
+  color: var.$color-principal-estudio;
   cursor: pointer;
   font-size: 0.9rem;
   padding: 4px 8px;
@@ -52,11 +54,11 @@
 
 .form-input:focus {
   outline: none;
-  border-color: #3e499c;
+  border-color: var.$color-principal-estudio;
 }
 
 .codigo-sugerido {
-  color: #40b5a6;
+  color: var.$color-principal-cliente;
   font-size: 1rem;
 }
 
@@ -84,13 +86,13 @@
 }
 
 .categoria-codigo {
-  color: #40b5a6;
+  color: var.$color-principal-cliente;
   font-weight: 600;
   margin-left: 10px;
 }
 
 .categoria-nombre {
-  color: #3e499c;
+  color: var.$color-principal-estudio;
   font-weight: 600;
 }
 
@@ -102,7 +104,7 @@
 
 .btn-agregar-subcategoria,
 .btn-navegar {
-  background-color: #3e499c;
+  background-color: var.$color-principal-estudio;
   color: white;
   border: none;
   padding: 8px 16px;

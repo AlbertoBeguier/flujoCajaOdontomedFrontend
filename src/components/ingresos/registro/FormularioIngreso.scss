@@ -1,3 +1,5 @@
+@use "../../../styles/variables" as var;
+
 .formulario-ingreso-container {
   max-width: 600px;
   margin: 20px auto;
@@ -8,7 +10,7 @@
 }
 
 .formulario-titulo {
-  color: #3e499c;
+  color: var.$color-principal-estudio;
   font-size: 1.8rem;
   margin-bottom: 20px;
   text-align: center;
@@ -18,7 +20,7 @@
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 20px;
-  color: #3e499c;
+  color: var.$color-principal-estudio;
   font-weight: 500;
   text-align: center;
 }
@@ -41,7 +43,7 @@
 
 .campo-formulario label {
   display: block;
-  color: #40b5a6;
+  color: var.$color-principal-cliente;
   font-size: 1rem;
   margin-bottom: 8px;
 }
@@ -69,7 +71,7 @@
 }
 
 .campo-formulario input:focus {
-  border-color: #40b5a6;
+  border-color: var.$color-principal-cliente;
   outline: none;
   box-shadow: 0 0 0 2px rgba(64, 181, 166, 0.2);
 }
@@ -97,7 +99,7 @@
 }
 
 .boton-guardar {
-  background-color: #40b5a6;
+  background-color: var.$color-principal-cliente;
   color: white;
 }
 
@@ -106,7 +108,7 @@
 }
 
 .boton-guardar:hover {
-  background-color: #3e499c;
+  background-color: var.$color-principal-estudio;
 }
 
 /* Estilos para el calendario nativo */

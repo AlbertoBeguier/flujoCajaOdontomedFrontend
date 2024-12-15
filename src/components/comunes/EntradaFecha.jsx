@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import "./EntradaFecha.css";
+import "./EntradaFecha.scss";
 
 export const EntradaFecha = ({ id, valor, alCambiar, requerido = false }) => {
   return (

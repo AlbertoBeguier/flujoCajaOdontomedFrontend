@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import logo from "../../assets/odontomed512_512.png";
 import logo1 from "../../assets/odontomedBigLogo.png";
-import "./Ingresos.css";
+import "./Ingresos.scss";
 import { FaPlusCircle, FaCashRegister } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ListaCategorias } from "./categorias/ListaCategorias";

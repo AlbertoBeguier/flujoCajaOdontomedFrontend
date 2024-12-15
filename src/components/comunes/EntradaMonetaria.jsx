@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { NumericFormat } from "react-number-format";
-import "./EntradaMonetaria.css";
+import "./EntradaMonetaria.scss";
 
 export const EntradaMonetaria = ({
   valor,

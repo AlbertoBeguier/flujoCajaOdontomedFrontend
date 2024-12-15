@@ -5,7 +5,7 @@ import { FormFields } from "./FormFields";
 import { createCategoria } from "../../../services/categoriasService";
 import { INITIAL_FORM_STATE } from "../../../config/constants";
 import { FaSave } from "react-icons/fa";
-import "./FormularioCategoria.css";
+import "./FormularioCategoria.scss";
 
 export const FormularioCategoria = ({ onCategoriaCreada, categorias }) => {
   const [formData, setFormData] = useState(INITIAL_FORM_STATE);

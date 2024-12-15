@@ -4,7 +4,7 @@ import { EntradaMonetaria } from "../../comunes/EntradaMonetaria";
 import { EntradaFecha } from "../../comunes/EntradaFecha";
 import { RutaCategoria } from "./RutaCategoria";
 import { BotonesFormulario } from "./BotonesFormulario";
-import "./FormularioIngreso.css";
+import "./FormularioIngreso.scss";
 
 export const FormularioIngreso = ({
   categoriaSeleccionada,

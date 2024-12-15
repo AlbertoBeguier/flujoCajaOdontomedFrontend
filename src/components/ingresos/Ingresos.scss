@@ -1,3 +1,5 @@
+@use "../../styles/variables" as var;
+
 /* Elimina el subrayado de todos los enlaces */
 a {
   text-decoration: none; /* Elimina el subrayado */
@@ -25,7 +27,7 @@ a {
 
 .ingresos-titulo {
   font-size: 2.3rem;
-  color: #3e499c; /* O cualquier color que desees */
+  color: var.$color-principal-estudio; /* O cualquier color que desees */
   margin-top: 10px; /* Espaciado superior */
   margin-left: 25px;
   font-weight: 600;
@@ -62,27 +64,27 @@ a {
 }
 
 .btn-reg-ingresos {
-  border-color: #3e499c; /* Verde para ingresos */
+  border-color: var.$color-principal-estudio; /* Verde para ingresos */
   background-color: black; /* Fondo suave */
-  color: #3e499c; /* Color del texto */
+  color: var.$color-principal-estudio; /* Color del texto */
   font-weight: 700;
 }
 
 .btn-reg-ingresos:hover {
-  background-color: #3e499c; /* Fondo más oscuro al pasar el cursor */
+  background-color: var.$color-principal-estudio; /* Fondo más oscuro al pasar el cursor */
   color: white; /* Color del texto al pasar el cursor */
   border-color: rgb(167, 160, 160);
 }
 
 .btn-mostar-ingresos {
-  border-color: #40b5a6; /* Rojo para gastos */
+  border-color: var.$color-principal-cliente; /* Rojo para gastos */
   background-color: black; /* Fondo suave */
-  color: #40b5a6; /* Color del texto */
+  color: var.$color-principal-cliente; /* Color del texto */
   font-weight: 700;
 }
 
 .btn-mostar-ingresos:hover {
-  background-color: #40b5a6; /* Fondo más oscuro al pasar el cursor */
+  background-color: var.$color-principal-cliente; /* Fondo más oscuro al pasar el cursor */
   color: white; /* Color del texto al pasar el cursor */
   border-color: rgb(167, 160, 160);
 }
@@ -156,14 +158,14 @@ a {
 }
 
 .nivel-titulo {
-  color: #3e499c; /* Borde visible */
+  color: var.$color-principal-estudio; /* Borde visible */
   font-size: 1.2em;
   margin-left: 5px;
   margin-top: 0px;
 }
 
 .nivel-column {
-  border: 1px solid #3e499c; /* Borde visible */
+  border: 1px solid var.$color-principal-estudio; /* Borde visible */
   padding: 2px;
   border-radius: 5px;
   width: auto; /* Ajusta el ancho de cada columna */
@@ -181,7 +183,7 @@ a {
 }
 
 .nivel:hover {
-  border: 1px solid #3e499c; /* Borde visible al pasar el cursor */
+  border: 1px solid var.$color-principal-estudio; /* Borde visible al pasar el cursor */
 }
 
 .nivel-opcion {
@@ -194,19 +196,19 @@ a {
 }
 
 .nivel-opcion:hover {
-  background-color: #3e499c;
+  background-color: var.$color-principal-estudio;
   color: white;
 }
 
 .nivel-opcion.seleccionado {
-  background-color: #40b5a6;
+  background-color: var.$color-principal-cliente;
   border-color: white;
   color: white;
 }
 
 .btn-agregar-subnivel {
   margin-left: 10px;
-  background-color: #3e499c#3e499c;
+  background-color: var.$color-principal-estudio;
   color: white;
   border: none;
   border-radius: 5px;

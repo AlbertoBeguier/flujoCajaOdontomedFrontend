@@ -9,7 +9,7 @@ import {
   Typography,
   Paper,
 } from "@mui/material";
-import "./ListaCategorias.css";
+import "./ListaCategorias.scss";
 
 export const ListaCategorias = ({ categorias }) => {
   const ordenarCategorias = (cats) => {

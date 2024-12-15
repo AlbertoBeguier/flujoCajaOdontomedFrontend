@@ -4,7 +4,7 @@ import logo1 from "../../../assets/odontomedBigLogo.png";
 import { createIngreso } from "../../../services/ingresosService";
 import { FormularioIngreso } from "./FormularioIngreso";
 import { useCategorias } from "../../../hooks/useCategorias";
-import "./RegistroIngresos.css";
+import "./RegistroIngresos.scss";
 
 export const RegistroIngresos = () => {
   const {

@@ -4,7 +4,7 @@ import { FormularioCategoria } from "./FormularioCategoria";
 import { ListaCategorias } from "./ListaCategorias";
 import logo from "../../../assets/odontomed512_512.png";
 import logo1 from "../../../assets/odontomedBigLogo.png";
-import "./GestionCategorias.css";
+import "./GestionCategorias.scss";
 
 export const GestionCategorias = () => {
   const [categorias, setCategorias] = useState([]);

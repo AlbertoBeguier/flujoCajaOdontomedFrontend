@@ -1,3 +1,5 @@
+@use "../../styles/variables" as var;
+
 .entrada-fecha {
   width: 100%;
   padding: 10px;
@@ -14,7 +16,7 @@
 }
 
 .entrada-fecha:focus {
-  border-color: #40b5a6;
+  border-color: var.$color-principal-cliente;
   outline: none;
   box-shadow: 0 0 0 2px rgba(64, 181, 166, 0.2);
 }

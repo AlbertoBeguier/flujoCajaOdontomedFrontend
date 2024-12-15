@@ -1,5 +1,7 @@
+@use "../../../styles/variables" as var;
+
 .lista-categorias-titulo {
-  color: #3e499c;
+  color: var.$color-principal-estudio;
   font-weight: 600;
   margin-bottom: 0.8rem;
   text-align: center;
@@ -16,7 +18,7 @@
 }
 
 .tabla-header {
-  background-color: #3e499c !important;
+  background-color: var.$color-principal-estudio !important;
   color: white !important;
   font-weight: 600 !important;
   font-size: 0.9rem !important;

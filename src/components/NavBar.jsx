@@ -3,7 +3,7 @@ import logo from "../assets/logoEstudio.png";
 import logo1 from "../assets/logoEstudio1.png";
 import whatsappIcon from "/whatsapp.png";
 import { Link, useNavigate } from "react-router-dom";
-import "../styles/NavBar.css";
+import "../styles/NavBar.scss";
 import { obtenerFechaActual } from "../utils/fechaActual";
 import { Undo2, PhoneCall } from "lucide-react";
 

@@ -1,6 +1,6 @@
 import logo from "../assets/odontomed512_512.png";
 import logo1 from "../assets/odontomedBigLogo.png";
-import "../styles/PaginaInicial.css";
+import "../styles/PaginaInicial.scss";
 import { FaDollarSign, FaMoneyBillWave } from "react-icons/fa";
 import { Link } from "react-router-dom"; // Importa Link de react-router-dom
 

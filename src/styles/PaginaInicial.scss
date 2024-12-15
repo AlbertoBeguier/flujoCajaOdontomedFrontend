@@ -1,3 +1,5 @@
+@use "variables" as var;
+
 /* Elimina el subrayado de todos los enlaces */
 a {
   text-decoration: none; /* Elimina el subrayado */
@@ -25,7 +27,7 @@ a {
 
 .pag-ini-titulo {
   font-size: 2.3rem;
-  color: #3e499c; /* O cualquier color que desees */
+  color: var.$color-principal-estudio; /* O cualquier color que desees */
   margin-top: 10px; /* Espaciado superior */
   margin-left: 50px;
   font-weight: 600;
@@ -48,14 +50,14 @@ a {
 }
 
 .btn-ingresos {
-  border-color: #3e499c; /* Verde para ingresos */
+  border-color: var.$color-principal-estudio; /* Verde para ingresos */
   background-color: black; /* Fondo suave */
-  color: #3e499c; /* Color del texto */
+  color: var.$color-principal-estudio; /* Color del texto */
   font-weight: 700;
 }
 
 .btn-ingresos:hover {
-  background-color: #3e499c; /* Fondo más oscuro al pasar el cursor */
+  background-color: var.$color-principal-estudio; /* Fondo más oscuro al pasar el cursor */
   color: white; /* Color del texto al pasar el cursor */
   border-color: rgb(167, 160, 160);
 }

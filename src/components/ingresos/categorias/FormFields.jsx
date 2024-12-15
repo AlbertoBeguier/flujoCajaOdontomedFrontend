@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useState, useEffect, useCallback } from "react";
-import "./FormFields.css";
+import "./FormFields.scss";
 
 export const FormFields = ({ formData, handleChange, categorias }) => {
   const [siguienteCodigo, setSiguienteCodigo] = useState("");

@@ -1,3 +1,5 @@
+@use "variables" as var;
+
 * {
   padding: 0;
 }
@@ -30,7 +32,7 @@ body {
 }
 
 .button-contacto {
-  color: #3e499c; /* text-white */
+  color: var.$color-principal-estudio; /* text-white */
   font-weight: bold; /* font-bold */
   padding: 0.2rem 0.3rem; /* py-2 px-4 */
   border-radius: 0.25rem; /* rounded */
@@ -50,7 +52,7 @@ body {
 }
 
 .button-volver {
-  color: #3e499c; /* text-white */
+  color: var.$color-principal-estudio; /* text-white */
   font-weight: bold; /* font-bold */
   padding: 0.2rem 0.3rem; /* py-2 px-4 */
   border-radius: 0.25rem; /* rounded */
