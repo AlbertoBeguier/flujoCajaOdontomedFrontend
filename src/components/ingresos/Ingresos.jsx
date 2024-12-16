@@ -5,6 +5,7 @@ import "./Ingresos.scss";
 import { FaPlusCircle, FaCashRegister } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ListaCategorias } from "./categorias/ListaCategorias";
+import { API_BASE_URL } from "../../config/constants";
 
 export const Ingresos = () => {
   const [categorias, setCategorias] = useState([]);
@@ -14,7 +15,7 @@ export const Ingresos = () => {
     const fetchCategorias = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/categorias-ingresos"
+          `${API_BASE_URL}/api/categorias-ingresos`
         );
         if (!response.ok) {
           throw new Error("Error al cargar las categorías");
