@@ -8,7 +8,7 @@ import ingresosRoutes from "./routes/ingresos.js";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5006; // Cambiado aquí
 
 app.use(cors());
 app.use(express.json());
