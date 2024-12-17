@@ -8,26 +8,47 @@ import ingresosRoutes from "./routes/ingresos.js";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5006;
+const PORT = process.env.PORT || 5005;
+
+console.log('Iniciando servidor en puerto:', PORT);
+console.log('FRONTEND_URL:', process.env.FRONTEND_URL);
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'https://caja-om.estudiobeguier.com',
+  origin: 'https://caja-om.estudiobeguier.com',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
+
+// Log todas las peticiones
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.url} - Origin: ${req.headers.origin}`);
+  next();
+});
+
 app.use(express.json());
 
-const mongoURI =
-    process.env.MONGO_URI || "mongodb+srv://aabeguier:FlujoCajaOdontomed1235813@cluster0.xx1m0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const mongoURI = process.env.MONGO_URI || "mongodb://localhost:27017/FlujoDeCajaOdontomed";
+console.log('Intentando conectar a MongoDB...');
+
 mongoose
     .connect(mongoURI)
     .then(() => console.log("Conexión exitosa a MongoDB"))
-    .catch((error) =>
-        console.error("Error al conectar a MongoDB:", error.message)
-    );
+    .catch((error) => {
+        console.error("Error detallado al conectar a MongoDB:", {
+            message: error.message,
+            code: error.code,
+            name: error.name
+        });
+    });
 
 app.use("/api/categorias-ingresos", ingresosCategoriasRoutes);
 app.use("/api/ingresos", ingresosRoutes);
+
+// Ruta de prueba
+app.get("/test", (req, res) => {
+    res.json({ status: "ok", message: "Servidor funcionando correctamente" });
+});
 
 app.get("/", (req, res) => {
     res.json({ mensaje: "Servidor funcionando correctamente" });

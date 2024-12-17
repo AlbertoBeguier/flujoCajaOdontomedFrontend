@@ -5,6 +5,7 @@ import { ListaCategorias } from "./ListaCategorias";
 import logo from "../../../assets/odontomed512_512.png";
 import logo1 from "../../../assets/odontomedBigLogo.png";
 import "./GestionCategorias.scss";
+import { API_BASE_URL } from "../../../config/constants";
 
 export const GestionCategorias = () => {
   const [categorias, setCategorias] = useState([]);
@@ -17,7 +18,7 @@ export const GestionCategorias = () => {
   const fetchCategorias = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/categorias-ingresos"
+        `${API_BASE_URL}/api/categorias-ingresos`
       );
       const data = await response.json();
       setCategorias(data);
