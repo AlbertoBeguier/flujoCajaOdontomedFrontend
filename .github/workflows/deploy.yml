@@ -26,10 +26,10 @@ jobs:
         run: |
           rsync -avz --delete --exclude '.git*' . root@91.108.126.42:/var/www/FlujoDeCajaOdontomed
 
-      - name: SSH into server and navigate to /backup directory, install dependencies, and install express
+      - name: SSH into server and navigate to /backend directory, install dependencies, and install express
         run: |
           ssh root@91.108.126.42 << 'EOF'
-            cd /var/www/FlujoDeCajaOdontomed/backup  # Cambia esta ruta si es necesario
+            cd /var/www/FlujoDeCajaOdontomed/backend  # Cambiado a la carpeta backend
             npm install  # Instala todas las dependencias
             npm install express  # Instala express
-          EOF
+          EOF
