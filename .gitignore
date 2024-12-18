@@ -1,7 +1,7 @@
-# Ignorar todo por defecto
+# Ignora todo por defecto
 *
 
-# Excepciones: permitir solo estas carpetas
+# Excepciones: permite solo las carpetas dist, .vite y backend
 !dist/
 !.vite/
 !backend/
@@ -10,4 +10,4 @@
 dist/node_modules/
 backend/node_modules/
 
-# Si necesitas ignorar más archivos dentro de las carpetas, añádelos aquí
+git add dist/. vite/. backend/.
