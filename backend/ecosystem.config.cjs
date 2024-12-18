@@ -4,7 +4,7 @@ export default {
     script: "server.js",
     env: {
       NODE_ENV: "production",
-      PORT: "5005", // Corregido a 5005
+      PORT: "5008", // Corregido a 5005
       MONGO_URI: "mongodb+srv://aabeguier:FlujoCajaOdontomed1235813@cluster0.xx1m0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
       FRONTEND_URL: "https://caja-om.estudiobeguier.com"
     },
