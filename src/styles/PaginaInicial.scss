@@ -1,0 +1,82 @@
+@use "variables" as var;
+
+/* Elimina el subrayado de todos los enlaces */
+a {
+  text-decoration: none; /* Elimina el subrayado */
+}
+
+.pagina-inicial-container {
+  display: flex; /* Flexbox para alinear elementos */
+  align-items: center; /* Alinea verticalmente */
+  justify-content: center; /* Centra horizontalmente */
+  flex-wrap: wrap; /* Permite que los elementos se ajusten en caso de falta de espacio */
+  text-align: center;
+  margin: 20px 0; /* Espaciado vertical */
+}
+
+.pagina-inicial-logo {
+  width: 60px; /* Tamaño del primer logo */
+  margin-right: 10px; /* Espacio entre los logos */
+}
+
+.pagina-inicial-logo-1 {
+  width: 200px; /* Tamaño del segundo logo */
+  margin-left: 10px; /* Espacio entre los logos */
+  margin-top: 7px;
+}
+
+.pag-ini-titulo {
+  font-size: 2.3rem;
+  color: #27ddd1; /* O cualquier color que desees */
+  margin-top: 10px; /* Espaciado superior */
+  margin-left: 50px;
+  font-weight: 600;
+}
+
+.btn-ingresos,
+.btn-gastos {
+  display: flex; /* Flexbox para alinear icono y texto */
+  align-items: center; /* Alinea icono y texto verticalmente */
+  justify-content: flex-start; /* Icono y texto alineados al inicio */
+  background-color: transparent; /* Fondo transparente */
+  color: white;
+  border: 2px solid; /* Borde visible */
+  border-radius: 30px; /* Bordes redondeados */
+  padding: 10px 15px;
+  margin: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-ingresos {
+  border-color: var.$color-principal-estudio; /* Verde para ingresos */
+  background-color: black; /* Fondo suave */
+  color: var.$color-principal-estudio; /* Color del texto */
+  font-weight: 700;
+}
+
+.btn-ingresos:hover {
+  background-color: var.$color-principal-estudio; /* Fondo más oscuro al pasar el cursor */
+  color: white; /* Color del texto al pasar el cursor */
+  border-color: rgb(167, 160, 160);
+}
+
+.btn-gastos {
+  border-color: #40b5a6; /* Rojo para gastos */
+  background-color: black; /* Fondo suave */
+  color: #40b5a6; /* Color del texto */
+  font-weight: 700;
+}
+
+.btn-gastos:hover {
+  background-color: #40b5a6; /* Fondo más oscuro al pasar el cursor */
+  color: white; /* Color del texto al pasar el cursor */
+  border-color: rgb(167, 160, 160);
+}
+
+.btn-icon {
+  margin-right: 10px; /* Espacio entre el icono y el texto */
+  font-size: 1.5rem; /* Tamaño del icono */
+  background-color: transparent; /* Fondo transparente */
+}

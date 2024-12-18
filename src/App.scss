@@ -1,0 +1,7 @@
+@use "./styles/variables" as var;
+
+* {
+  margin: 0px;
+  padding: 0px;
+  background-color: var.$color-fondo-estudio;
+}
