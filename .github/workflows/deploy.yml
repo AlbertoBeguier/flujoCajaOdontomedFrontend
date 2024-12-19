@@ -1,0 +1,35 @@
+name: Deploy to VPS
+
+on:
+    push:
+        branches:
+          - main # Cambia esto al nombre de tu rama principal si es diferente
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@v2
+
+          - name: Setup SSH
+            env:
+                SSH_PRIVATE_KEY: ${{ secrets.VARIABLE_SECRETA_DEPLOY }} # El secreto que contiene tu clave privada
+            run: |
+                mkdir -p ~/.ssh
+                echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+                chmod 600 ~/.ssh/id_rsa
+                ssh-keyscan 91.108.126.42 >> ~/.ssh/known_hosts
+
+          - name: Copy files via SSH
+            run: |
+                rsync -avz --delete --exclude '.git*' . root@91.108.126.42:/var/www/FlujoDeCajaOdontomed
+
+          - name: SSH into server and navigate to /backend directory, install dependencies, and install express
+            run: |
+                ssh root@91.108.126.42 << 'EOF'
+                  cd /var/www/FlujoDeCajaOdontomed/backend  # Cambiado a la carpeta backend
+                  npm install  # Instala todas las dependencias
+                  npm install express  # Instala express
+                EOF
