@@ -1,9 +1,9 @@
 @use "../../../styles/variables" as var;
 
 .listado-ingresos-container {
-  margin: 30px auto;
-  padding: 20px;
-  max-width: 60%;
+  margin: auto;
+  padding: 10px;
+  max-width: 50%;
 }
 
 .listado-titulo {
@@ -111,33 +111,35 @@
 }
 
 .nuevo-ingreso {
-  animation: resaltarNuevo 3s ease;
+  animation: resaltarNuevo 3s ease forwards;
+  color: var.$color-principal-cliente;
 }
 
 @keyframes resaltarNuevo {
   0% {
-    color: #ff0000;
+    color: var.$color-principal-estudio;
   }
   70% {
-    color: #ff0000;
+    color: var.$color-principal-estudio;
   }
   100% {
-    color: white;
+    color: var.$color-principal-cliente;
   }
 }
 
 .nuevo-ingreso td {
-  animation: resaltarNuevo 3s ease;
+  animation: resaltarNuevoTd 3s ease forwards;
+  color: var.$color-principal-cliente;
 }
 
-@keyframes resaltarNuevo {
+@keyframes resaltarNuevoTd {
   0% {
-    color: #ff0000;
+    color: var.$color-principal-cliente;
   }
   70% {
-    color: #ff0000;
+    color: var.$color-principal-estudio;
   }
   100% {
-    color: white;
+    color: var.$color-principal-cliente;
   }
 }
