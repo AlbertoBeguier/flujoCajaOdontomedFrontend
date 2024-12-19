@@ -1,8 +1,9 @@
 @use "../../../styles/variables" as var;
 
 .listado-ingresos-container {
-  margin-top: 30px;
+  margin: 30px auto;
   padding: 20px;
+  max-width: 60%;
 }
 
 .listado-titulo {
@@ -19,25 +20,38 @@
 .tabla-ingresos {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 1rem;
+  margin: 0 auto;
   background-color: transparent;
 
   th,
   td {
-    padding: 12px;
-    vertical-align: top;
-    border-top: 1px solid #dee2e6;
-    text-align: left;
+    padding: 8px 15px;
+    vertical-align: middle;
+    border-top: 1px solid var.$color-principal-cliente;
   }
 
   th {
     color: var.$color-principal-estudio;
-    font-weight: 600;
+    font-weight: 700;
     border-bottom: 2px solid var.$color-principal-cliente;
+
+    &:first-child,
+    &:nth-child(2) {
+      text-align: left;
+    }
+    &:last-child {
+      text-align: center;
+    }
   }
 
   td {
     color: white;
+    font-size: 0.9rem;
+
+    &:first-child,
+    &:nth-child(2) {
+      text-align: left;
+    }
   }
 
   td.importe {
@@ -46,8 +60,43 @@
     color: white;
   }
 
+  th,
+  td {
+    &:first-child {
+      width: 20%;
+    }
+    &:nth-child(2) {
+      width: 35%;
+    }
+    &:nth-child(3) {
+      width: 25%;
+      text-align: right;
+    }
+    &:last-child {
+      width: 20%;
+    }
+  }
+
   tbody tr:hover {
-    background-color: rgba(64, 181, 166, 0.1);
+    background-color: rgba(14, 210, 184, 0.1);
+  }
+
+  .acciones {
+    text-align: center;
+
+    .btn-accion {
+      background: none;
+      border: none;
+      color: var.$color-principal-cliente;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      text-align: center;
+
+      &:hover {
+        color: var.$color-principal-estudio;
+        transform: scale(1.3);
+      }
+    }
   }
 }
 

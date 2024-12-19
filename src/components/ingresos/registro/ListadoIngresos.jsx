@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { getIngresos } from "../../../services/ingresosService";
+import { FaPencilAlt } from "react-icons/fa";
 import "./ListadoIngresos.scss";
 
 export const ListadoIngresos = ({ ultimoIngresoId }) => {
@@ -53,9 +54,10 @@ export const ListadoIngresos = ({ ultimoIngresoId }) => {
         <table className="tabla-ingresos">
           <thead>
             <tr>
-              <th>Fecha</th>
-              <th>Categoría</th>
-              <th>Importe</th>
+              <th>FECHA</th>
+              <th>CATEGORÍA</th>
+              <th>IMPORTE</th>
+              <th>ACCIONES</th>
             </tr>
           </thead>
           <tbody>
@@ -69,6 +71,11 @@ export const ListadoIngresos = ({ ultimoIngresoId }) => {
                 <td>{formatearFecha(ingreso.fecha)}</td>
                 <td>{ingreso.categoria.nombre}</td>
                 <td className="importe">{formatearImporte(ingreso.importe)}</td>
+                <td className="acciones">
+                  <button className="btn-accion">
+                    <FaPencilAlt />
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
