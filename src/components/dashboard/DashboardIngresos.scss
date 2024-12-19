@@ -1,0 +1,77 @@
+@use "../../styles/variables" as var;
+
+.dashboard-container {
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+  padding: 1rem;
+  background-color: var.$color-fondo-estudio;
+}
+
+.graficos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  width: 100%;
+}
+
+.grafico-item {
+  height: 300px;
+  padding: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  background-color: var.$color-fondo-estudio;
+
+  h3 {
+    color: var.$color-principal-cliente;
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+  }
+}
+
+.dashboard-loading {
+  text-align: center;
+  color: white;
+  padding: 2rem;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 1200px) {
+  .graficos-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .graficos-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.grafico-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.periodo-selector {
+  background-color: var.$color-fondo-estudio;
+  color: white;
+  border: 1px solid var.$color-principal-cliente;
+  border-radius: 4px;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+    border-color: var.$color-principal-estudio;
+  }
+
+  option {
+    background-color: var.$color-fondo-estudio;
+    color: white;
+  }
+}
