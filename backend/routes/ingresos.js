@@ -43,4 +43,25 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Agregar ruta PUT para actualizar ingreso
+router.put("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const ingresoActualizado = await Ingreso.findByIdAndUpdate(
+      id,
+      req.body,
+      { new: true } // esto retorna el documento actualizado
+    );
+
+    if (!ingresoActualizado) {
+      return res.status(404).json({ mensaje: "Ingreso no encontrado" });
+    }
+
+    res.json(ingresoActualizado);
+  } catch (error) {
+    console.error("Error al actualizar ingreso:", error);
+    res.status(500).json({ mensaje: "Error al actualizar el ingreso" });
+  }
+});
+
 export default router;

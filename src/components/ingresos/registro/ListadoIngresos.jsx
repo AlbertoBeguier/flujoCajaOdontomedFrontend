@@ -3,10 +3,12 @@ import PropTypes from "prop-types";
 import { getIngresos } from "../../../services/ingresosService";
 import { FaPencilAlt } from "react-icons/fa";
 import "./ListadoIngresos.scss";
+import { IngresosDatosAdicionales } from "./IngresosDatosAdicionales";
 
 export const ListadoIngresos = ({ ultimoIngresoId }) => {
   const [ingresos, setIngresos] = useState([]);
   const [error, setError] = useState("");
+  const [ingresoSeleccionado, setIngresoSeleccionado] = useState(null);
 
   useEffect(() => {
     cargarIngresos();
@@ -43,6 +45,10 @@ export const ListadoIngresos = ({ ultimoIngresoId }) => {
     }).format(importe);
   };
 
+  const handleClickLapiz = (ingreso) => {
+    setIngresoSeleccionado(ingreso);
+  };
+
   if (error) {
     return <div className="error-mensaje">{error}</div>;
   }
@@ -58,6 +64,7 @@ export const ListadoIngresos = ({ ultimoIngresoId }) => {
               <th>CATEGORÍA</th>
               <th>IMPORTE</th>
               <th>ACCIONES</th>
+              <th>OBS</th>
             </tr>
           </thead>
           <tbody>
@@ -71,16 +78,41 @@ export const ListadoIngresos = ({ ultimoIngresoId }) => {
                 <td>{formatearFecha(ingreso.fecha)}</td>
                 <td>{ingreso.categoria.nombre}</td>
                 <td className="importe">{formatearImporte(ingreso.importe)}</td>
+
                 <td className="acciones">
-                  <button className="btn-accion">
+                  <button
+                    className="btn-accion"
+                    onClick={() => handleClickLapiz(ingreso)}
+                  >
                     <FaPencilAlt />
                   </button>
+                </td>
+                <td className="observaciones">
+                  {ingreso.observaciones?.trim() ? (
+                    <span
+                      className="tiene-obs"
+                      title={ingreso.observaciones}
+                      onClick={() => handleClickLapiz(ingreso)}
+                    >
+                      Sí
+                    </span>
+                  ) : (
+                    "No"
+                  )}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      {ingresoSeleccionado && (
+        <IngresosDatosAdicionales
+          ingreso={ingresoSeleccionado}
+          onClose={() => setIngresoSeleccionado(null)}
+          onUpdate={cargarIngresos}
+        />
+      )}
     </div>
   );
 };

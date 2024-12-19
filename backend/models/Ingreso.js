@@ -31,6 +31,10 @@ const ingresoSchema = new mongoose.Schema({
       },
     ],
   },
+  observaciones: {
+    type: String,
+    default: "",
+  },
 });
 
 const Ingreso = mongoose.model("Ingreso", ingresoSchema);
