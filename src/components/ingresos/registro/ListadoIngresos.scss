@@ -111,35 +111,33 @@
 }
 
 .nuevo-ingreso {
-  animation: resaltarNuevo 3s ease forwards;
-  color: var.$color-principal-cliente;
+  animation: resaltarNuevo 3s ease;
 }
 
 @keyframes resaltarNuevo {
   0% {
-    color: var.$color-principal-estudio;
+    color: #ff0000;
   }
   70% {
-    color: var.$color-principal-estudio;
+    color: #ff0000;
   }
   100% {
-    color: var.$color-principal-cliente;
+    color: white;
   }
 }
 
 .nuevo-ingreso td {
-  animation: resaltarNuevoTd 3s ease forwards;
-  color: var.$color-principal-cliente;
+  animation: resaltarNuevo 3s ease;
 }
 
-@keyframes resaltarNuevoTd {
+@keyframes resaltarNuevo {
   0% {
-    color: var.$color-principal-cliente;
+    color: #ff0000;
   }
   70% {
-    color: var.$color-principal-estudio;
+    color: #ff0000;
   }
   100% {
-    color: var.$color-principal-cliente;
+    color: white;
   }
 }
