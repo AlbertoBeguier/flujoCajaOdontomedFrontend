@@ -4,6 +4,7 @@ import { EntradaMonetaria } from "../../comunes/EntradaMonetaria";
 import { EntradaFecha } from "../../comunes/EntradaFecha";
 import { RutaCategoria } from "./RutaCategoria";
 import { BotonesFormulario } from "./BotonesFormulario";
+import { ListadoIngresos } from "./ListadoIngresos";
 import "./FormularioIngreso.scss";
 
 export const FormularioIngreso = ({
@@ -12,9 +13,17 @@ export const FormularioIngreso = ({
   onGuardar,
   onCancelar,
 }) => {
-  const [fecha, setFecha] = useState(new Date().toISOString().split("T")[0]);
+  const [fecha, setFecha] = useState(() => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  });
   const [importe, setImporte] = useState("");
   const [error, setError] = useState("");
+  const [actualizarListado, setActualizarListado] = useState(false);
+  const [ultimoIngresoId, setUltimoIngresoId] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,7 +45,14 @@ export const FormularioIngreso = ({
     };
 
     try {
-      await onGuardar(ingresoData);
+      const nuevoIngreso = await onGuardar(ingresoData);
+      setUltimoIngresoId(nuevoIngreso._id);
+      setActualizarListado((prev) => !prev);
+      setImporte("");
+
+      setTimeout(() => {
+        setUltimoIngresoId(null);
+      }, 3000);
     } catch (error) {
       console.error("Error en el formulario:", error);
       setError(error.message || "Error al guardar el ingreso");
@@ -71,7 +87,11 @@ export const FormularioIngreso = ({
           </div>
           <BotonesFormulario onCancelar={onCancelar} />
         </form>
-      </div>{" "}
+      </div>
+      <ListadoIngresos
+        key={actualizarListado}
+        ultimoIngresoId={ultimoIngresoId}
+      />
     </div>
   );
 };

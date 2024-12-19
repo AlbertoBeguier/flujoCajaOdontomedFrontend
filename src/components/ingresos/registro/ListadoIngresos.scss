@@ -1,0 +1,94 @@
+@use "../../../styles/variables" as var;
+
+.listado-ingresos-container {
+  margin-top: 30px;
+  padding: 20px;
+}
+
+.listado-titulo {
+  color: var.$color-principal-estudio;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.tabla-responsive {
+  overflow-x: auto;
+}
+
+.tabla-ingresos {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  background-color: transparent;
+
+  th,
+  td {
+    padding: 12px;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+    text-align: left;
+  }
+
+  th {
+    color: var.$color-principal-estudio;
+    font-weight: 600;
+    border-bottom: 2px solid var.$color-principal-cliente;
+  }
+
+  td {
+    color: white;
+  }
+
+  td.importe {
+    text-align: right;
+    font-weight: 500;
+    color: white;
+  }
+
+  tbody tr:hover {
+    background-color: rgba(64, 181, 166, 0.1);
+  }
+}
+
+@media (max-width: 768px) {
+  .tabla-ingresos {
+    th,
+    td {
+      padding: 8px;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.nuevo-ingreso {
+  animation: resaltarNuevo 3s ease;
+}
+
+@keyframes resaltarNuevo {
+  0% {
+    color: #ff0000;
+  }
+  70% {
+    color: #ff0000;
+  }
+  100% {
+    color: white;
+  }
+}
+
+.nuevo-ingreso td {
+  animation: resaltarNuevo 3s ease;
+}
+
+@keyframes resaltarNuevo {
+  0% {
+    color: #ff0000;
+  }
+  70% {
+    color: #ff0000;
+  }
+  100% {
+    color: white;
+  }
+}

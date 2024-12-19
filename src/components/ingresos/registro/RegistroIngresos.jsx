@@ -5,6 +5,7 @@ import { createIngreso } from "../../../services/ingresosService";
 import { FormularioIngreso } from "./FormularioIngreso";
 import { useCategorias } from "../../../hooks/useCategorias";
 import "./RegistroIngresos.scss";
+import { ListadoIngresos } from "./ListadoIngresos";
 
 export const RegistroIngresos = () => {
   const {
@@ -15,7 +16,6 @@ export const RegistroIngresos = () => {
     esCategoriaNivelFinal,
     seleccionarCategoria,
     volverAtras,
-    resetearSeleccion,
   } = useCategorias();
 
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
@@ -28,11 +28,11 @@ export const RegistroIngresos = () => {
 
   const handleGuardarIngreso = async (ingresoData) => {
     try {
-      await createIngreso(ingresoData);
-      setMostrarFormulario(false);
-      resetearSeleccion();
+      const nuevoIngreso = await createIngreso(ingresoData);
+      return nuevoIngreso;
     } catch (error) {
       console.error("Error al guardar el ingreso:", error);
+      throw error;
     }
   };
 
@@ -103,6 +103,7 @@ export const RegistroIngresos = () => {
           ))}
         </div>
       </div>
+      <ListadoIngresos />
     </>
   );
 };
