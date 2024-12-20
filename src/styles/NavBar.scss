@@ -1,4 +1,4 @@
-@use "variables" as var;
+@use "./variables" as var;
 
 * {
   padding: 0;
@@ -9,17 +9,44 @@ body {
 }
 
 .navbar {
+  background-color: var.$color-fondo-estudio;
+  padding: 1rem;
   position: fixed;
   top: 0;
-  width: 100%;
-  z-index: 100;
+  left: 0;
+  right: 0;
+  z-index: 1000;
 }
 
-.navbar-brand {
-  position: relative;
-  display: inline-flex;
+.nav-container {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.nav-logo {
+  width: 40px;
+  height: auto;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: var.$color-principal-estudio;
+  }
 }
 
 .nav-item-1 {
@@ -158,4 +185,8 @@ body {
   .telefono {
     font-size: 0.7rem;
   }
+}
+
+main {
+  padding-top: 80px;
 }

@@ -8,3 +8,9 @@
 body {
   background-color: var.$color-fondo-estudio;
 }
+
+.app-container {
+  padding-top: 80px;
+  min-height: 100vh;
+  background-color: black;
+}

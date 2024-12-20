@@ -6,6 +6,10 @@ import { PaginaInicial } from "./components/PaginaInicial";
 import { Ingresos } from "./components/ingresos/Ingresos";
 import { GestionCategorias } from "./components/ingresos/categorias/GestionCategorias";
 import { RegistroIngresos } from "./components/ingresos/registro/RegistroIngresos";
+import { Egresos } from "./components/egresos/Egresos";
+import { GestionCategoriasEgresos } from "./components/egresos/categorias/GestionCategoriasEgresos";
+import { RegistroEgresos } from "./components/egresos/registro/RegistroEgresos";
+
 function App() {
   return (
     <Router>
@@ -20,6 +24,11 @@ function App() {
         <Route path="/agregar-ingresos" element={<GestionCategorias />} />
         {/* Ruta para el componente para registar ingresos */}
         <Route path="/registar-ingresos" element={<RegistroIngresos />} />
+
+        {/* Nuevas rutas para egresos */}
+        <Route path="/egresos" element={<Egresos />} />
+        <Route path="/agregar-egresos" element={<GestionCategoriasEgresos />} />
+        <Route path="/registrar-egresos" element={<RegistroEgresos />} />
       </Routes>
       <Footer />
     </Router>

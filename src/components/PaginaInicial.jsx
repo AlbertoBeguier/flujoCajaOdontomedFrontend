@@ -20,10 +20,12 @@ export const PaginaInicial = () => {
             Ingresos
           </button>
         </Link>
-        <button className="btn-gastos">
-          <FaMoneyBillWave className="btn-icon" />
-          Gastos
-        </button>
+        <Link to="/egresos">
+          <button className="btn-gastos">
+            <FaMoneyBillWave className="btn-icon" />
+            Gastos
+          </button>
+        </Link>
       </div>
 
       <DashboardIngresos />

@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import ingresosCategoriasRoutes from "./routes/ingresosCategorias.js";
 import ingresosRoutes from "./routes/ingresos.js";
+import egresosCategoriasRoutes from "./routes/egresosCategorias.js";
+import egresosRoutes from "./routes/egresos.js";
 
 dotenv.config();
 
@@ -68,7 +70,9 @@ mongoose
 
 // Rutas de tu aplicación
 app.use("/api/categorias-ingresos", ingresosCategoriasRoutes);
+app.use("/api/categorias-egresos", egresosCategoriasRoutes);
 app.use("/api/ingresos", ingresosRoutes);
+app.use("/api/egresos", egresosRoutes);
 
 // Ruta de prueba
 app.get("/test", (req, res) => {

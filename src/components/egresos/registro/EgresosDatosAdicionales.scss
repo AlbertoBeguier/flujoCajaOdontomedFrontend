@@ -1,0 +1,114 @@
+@use "../../../styles/variables" as var;
+
+.datos-adicionales-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var.$color-fondo-estudio;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.datos-adicionales-container {
+  background-color: var.$color-fondo-estudio;
+  padding: 1rem;
+  border: 1px solid var.$color-principal-cliente;
+  border-radius: 8px;
+  min-width: 600px;
+  max-width: 800px;
+  box-shadow: 0 1px 10px rgba(175, 173, 173, 0.561);
+
+  p {
+    margin-bottom: 1.2rem;
+    text-align: center;
+    color: var.$color-principal-cliente;
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+}
+
+.datos-content {
+  .dato-grupo {
+    margin-bottom: 0.5rem;
+
+    label {
+      font-weight: bold;
+      margin-right: 0.5rem;
+      color: var.$color-principal-estudio;
+    }
+
+    span {
+      color: white;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.botones-container {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.btn-cancelar {
+  padding: 0.5rem 1rem;
+  background-color: #abb1b6;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 120px;
+
+  &:hover {
+    background-color: #292a2b;
+    color: white;
+  }
+}
+
+.btn-guardar {
+  padding: 0.5rem 1rem;
+  background-color: var.$color-principal-cliente;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 120px;
+
+  &:hover {
+    background-color: var.$color-principal-estudio;
+  }
+}
+
+.observaciones-input {
+  width: 100%;
+  min-height: 36px;
+  max-height: 150px;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border: 1px solid var.$color-principal-cliente;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  resize: none;
+  overflow-y: hidden;
+  line-height: 1.5;
+
+  &:focus {
+    outline: none;
+    border-color: var.$color-principal-estudio;
+  }
+}
+
+.tiene-obs {
+  color: var.$color-principal-cliente;
+  cursor: help;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
