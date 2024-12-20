@@ -74,19 +74,24 @@ export const procesarIngresosTotal = (ingresos = [], periodo = "mensual") => {
         fechaInicio.setMonth(fechaInicio.getMonth() - 1);
     }
 
-    // Filtrar ingresos por fecha y agrupar por día
+    // Filtrar y agrupar ingresos por día
     const ingresosPorDia = ingresos
       .filter((ingreso) => new Date(ingreso.fecha) >= fechaInicio)
       .reduce((acc, ingreso) => {
         const fecha = new Date(ingreso.fecha).toLocaleDateString("es-AR");
-        acc[fecha] = (acc[fecha] || 0) + ingreso.importe;
+        if (ingreso.importe > 0) {
+          // Solo incluir días con ingresos positivos
+          acc[fecha] = (acc[fecha] || 0) + ingreso.importe;
+        }
         return acc;
       }, {});
 
-    // Convertir a array y ordenar por fecha
-    const fechasOrdenadas = Object.keys(ingresosPorDia).sort(
-      (a, b) => new Date(a) - new Date(b)
-    );
+    // Convertir a array y ordenar por fecha (ascendente)
+    const fechasOrdenadas = Object.keys(ingresosPorDia).sort((a, b) => {
+      const fechaA = a.split("/").reverse().join("");
+      const fechaB = b.split("/").reverse().join("");
+      return fechaA.localeCompare(fechaB);
+    });
 
     // Calcular el acumulado
     let acumulado = 0;
