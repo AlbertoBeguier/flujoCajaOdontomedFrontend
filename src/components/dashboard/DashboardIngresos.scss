@@ -51,9 +51,14 @@
 
 .grafico-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  gap: 1rem;
   margin-bottom: 1rem;
+
+  h3 {
+    margin: 0;
+  }
 }
 
 .periodo-selector {

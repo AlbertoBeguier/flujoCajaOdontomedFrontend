@@ -62,16 +62,19 @@ export const DashboardIngresos = () => {
   }, [periodoSeleccionado]);
 
   const procesarIngresosPorDia = (ingresos) => {
-    const ingresosPorDia = ingresos.reduce((acc, ingreso) => {
+    const ingresosOrdenados = [...ingresos].sort(
+      (a, b) => new Date(a.fecha) - new Date(b.fecha)
+    );
+
+    const ultimos7Dias = ingresosOrdenados.slice(-7);
+
+    const ingresosPorDia = ultimos7Dias.reduce((acc, ingreso) => {
       const fecha = new Date(ingreso.fecha).toLocaleDateString("es-AR");
       acc[fecha] = (acc[fecha] || 0) + ingreso.importe;
       return acc;
     }, {});
 
-    const fechas = Object.keys(ingresosPorDia)
-      .sort((a, b) => new Date(b) - new Date(a))
-      .slice(0, 7)
-      .reverse();
+    const fechas = Object.keys(ingresosPorDia);
 
     return {
       labels: fechas,
