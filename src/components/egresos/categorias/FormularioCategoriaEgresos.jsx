@@ -5,7 +5,7 @@ import { FormFields } from "./FormFields";
 import { createCategoriaEgreso } from "../../../services/categoriaEgresosService";
 import { INITIAL_FORM_STATE } from "../../../config/constants";
 import { FaSave } from "react-icons/fa";
-import "./FormularioCategoriaEgresos.scss";
+import "./FormularioCategoriaEgreso.scss";
 
 export const FormularioCategoriaEgresos = ({
   onCategoriaCreada,
@@ -60,7 +60,7 @@ export const FormularioCategoriaEgresos = ({
         <FormFields
           formData={formData}
           handleChange={handleChange}
-          categorias={categorias || []}
+          categoriasEgresos={categorias}
         />
       </div>
     </Box>

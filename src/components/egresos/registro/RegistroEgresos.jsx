@@ -59,7 +59,6 @@ export const RegistroEgresos = () => {
           onGuardar={handleGuardarEgreso}
           onCancelar={handleCancelarEgreso}
         />
-        <ListadoEgresos ultimoEgresoId={ultimoEgresoId} />
       </>
     );
   }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Box, Paper, Alert, Snackbar } from "@mui/material";
 import { FormularioCategoriaEgresos } from "./FormularioCategoriaEgresos";
-import { ListaCategoriasEgresos } from "./ListaCategoriasEgresos";
+import { ListaCategorias } from "./ListaCategorias";
 import logo from "../../../assets/odontomed512_512.png";
 import logo1 from "../../../assets/odontomedBigLogo.png";
 import "./GestionCategoriasEgresos.scss";
@@ -63,7 +63,7 @@ export const GestionCategoriasEgresos = () => {
         </Paper>
 
         <Paper className="tabla-categorias">
-          <ListaCategoriasEgresos categorias={categorias} />
+          <ListaCategorias categorias={categorias} />
         </Paper>
 
         <Snackbar

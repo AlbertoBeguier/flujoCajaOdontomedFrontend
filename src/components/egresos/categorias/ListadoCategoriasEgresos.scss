@@ -1,0 +1,73 @@
+@use "../../../styles/variables" as var;
+
+.listado-categorias-container {
+  margin: 1px auto;
+  max-width: 70%;
+}
+
+.titulo-categorias-egresos {
+  color: var.$color-principal-estudio;
+  font-size: 0.8rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.tabla-categorias {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0px;
+  background-color: transparent;
+
+  th,
+  td {
+    padding: 4px 15px;
+    vertical-align: middle;
+  }
+
+  th {
+    color: var.$color-principal-estudio;
+    font-weight: 700;
+    border-bottom: 2px solid var.$color-principal-cliente;
+
+    &:first-child,
+    &:nth-child(2) {
+      text-align: left;
+    }
+    &:last-child {
+      text-align: center;
+    }
+  }
+
+  td {
+    color: white;
+    font-size: 0.9rem;
+
+    &:first-child,
+    &:nth-child(2) {
+      text-align: left;
+    }
+  }
+
+  tbody {
+    tr {
+      background-color: var.$color-fondo-estudio;
+      border-bottom: 1px solid var.$color-principal-cliente;
+      transition: background-color 0.2s ease;
+      height: 32px;
+
+      &:last-child {
+        border-bottom: 1px solid var.$color-principal-cliente;
+      }
+
+      &:hover {
+        background-color: rgba(5, 55, 89, 0.231) !important;
+      }
+
+      td {
+        background-color: inherit;
+        padding: 0.25rem 0.75rem;
+        color: white;
+      }
+    }
+  }
+}

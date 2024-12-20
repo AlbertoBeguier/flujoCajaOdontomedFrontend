@@ -1,5 +1,14 @@
 @use "../../../styles/variables" as var;
 
+.formulario-categoria-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid var.$color-principal-cliente;
+  border-radius: 8px;
+  background-color: var.$color-fondo-estudio;
+}
+
 .formulario-categoria {
   padding: 20px;
   background-color: transparent !important;
@@ -31,6 +40,21 @@
 
 .input-container {
   width: 100%;
+
+  input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var.$color-principal-cliente;
+    border-radius: 4px;
+    background-color: white !important;
+    color: black !important;
+    font-size: 1rem;
+
+    &:focus {
+      outline: none;
+      border-color: var.$color-principal-estudio;
+    }
+  }
 }
 
 .alerta-error {

@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useState, useEffect, useCallback } from "react";
 import "./FormFields.scss";
 
-export const FormFields = ({ formData, handleChange, categorias }) => {
+export const FormFields = ({ formData, handleChange, categoriasEgresos }) => {
   const [siguienteCodigo, setSiguienteCodigo] = useState("");
   const [categoriasNivel, setCategoriasNivel] = useState([]);
   const [rutaNavegacion, setRutaNavegacion] = useState([]);
@@ -26,13 +26,13 @@ export const FormFields = ({ formData, handleChange, categorias }) => {
     // Actualizar ruta de navegación
     if (formData.categoriaPadre) {
       const ruta = [];
-      let categoriaActual = categorias.find(
+      let categoriaActual = categoriasEgresos.find(
         (c) => c.codigo === formData.categoriaPadre
       );
 
       while (categoriaActual) {
         ruta.unshift(categoriaActual);
-        categoriaActual = categorias.find(
+        categoriaActual = categoriasEgresos.find(
           (c) => c.codigo === categoriaActual.categoriaPadre
         );
       }
@@ -44,11 +44,11 @@ export const FormFields = ({ formData, handleChange, categorias }) => {
 
     // Generar siguiente código
     if (formData.categoriaPadre) {
-      const categoriaPadre = categorias.find(
+      const categoriaPadre = categoriasEgresos.find(
         (c) => c.codigo === formData.categoriaPadre
       );
       if (categoriaPadre) {
-        const subcategorias = categorias.filter(
+        const subcategorias = categoriasEgresos.filter(
           (c) => c.categoriaPadre === formData.categoriaPadre
         );
         const ultimoNumero =
@@ -61,7 +61,9 @@ export const FormFields = ({ formData, handleChange, categorias }) => {
         actualizarCodigo(nuevoCodigo);
       }
     } else {
-      const categoriasNivel1 = categorias.filter((c) => !c.categoriaPadre);
+      const categoriasNivel1 = categoriasEgresos.filter(
+        (c) => !c.categoriaPadre
+      );
       const ultimoNumero =
         categoriasNivel1.length > 0
           ? Math.max(...categoriasNivel1.map((c) => parseInt(c.codigo)))
@@ -71,13 +73,13 @@ export const FormFields = ({ formData, handleChange, categorias }) => {
     }
 
     // Actualizar lista de categorías del nivel actual
-    const categoriasDelNivel = categorias.filter((c) =>
+    const categoriasDelNivel = categoriasEgresos.filter((c) =>
       formData.categoriaPadre
         ? c.categoriaPadre === formData.categoriaPadre
         : !c.categoriaPadre
     );
     setCategoriasNivel(categoriasDelNivel);
-  }, [formData.categoriaPadre, categorias, actualizarCodigo]);
+  }, [formData.categoriaPadre, categoriasEgresos, actualizarCodigo]);
 
   const handleAgregarSubcategoria = (categoria) => {
     handleChange({
@@ -95,6 +97,42 @@ export const FormFields = ({ formData, handleChange, categorias }) => {
         value: categoria.codigo,
       },
     });
+  };
+
+  const mostrarSubcategorias = (categoria) => {
+    const subcategorias = categoriasEgresos.filter(
+      (c) => c.categoriaPadre === categoria.codigo
+    );
+    return (
+      subcategorias.length > 0 && (
+        <ul className="lista-subcategorias">
+          {subcategorias.map((subcat) => (
+            <li key={subcat._id} className="subcategoria-item">
+              <div className="categoria-info">
+                <span className="categoria-codigo">{subcat.codigo}</span>
+                <span className="categoria-nombre">{subcat.nombre}</span>
+              </div>
+              <div className="categoria-acciones">
+                <button
+                  type="button"
+                  onClick={() => handleNavegar(subcat)}
+                  className="btn-navegar"
+                >
+                  Ver subcategorías
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleAgregarSubcategoria(subcat)}
+                  className="btn-agregar-subcategoria"
+                >
+                  + Agregar Subcategoría
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )
+    );
   };
 
   return (
@@ -158,6 +196,7 @@ export const FormFields = ({ formData, handleChange, categorias }) => {
                     + Agregar Subcategoría
                   </button>
                 </div>
+                {mostrarSubcategorias(categoria)}
               </li>
             ))}
           </ul>
@@ -175,7 +214,7 @@ FormFields.propTypes = {
     categoriaPadre: PropTypes.string,
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
-  categorias: PropTypes.arrayOf(
+  categoriasEgresos: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
       codigo: PropTypes.string.isRequired,
