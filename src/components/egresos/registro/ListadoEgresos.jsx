@@ -4,11 +4,13 @@ import { getEgresos } from "../../../services/egresosService";
 import { FaPencilAlt } from "react-icons/fa";
 import "./ListadoEgresos.scss";
 import { EgresosDatosAdicionales } from "./EgresosDatosAdicionales";
+import { useSubcategoriasEgresos } from "../../../hooks/useSubcategoriasEgresos";
 
 export const ListadoEgresos = ({ ultimoEgresoId }) => {
   const [egresos, setEgresos] = useState([]);
   const [error, setError] = useState("");
   const [egresoSeleccionado, setEgresoSeleccionado] = useState(null);
+  const { subcategorias } = useSubcategoriasEgresos();
 
   useEffect(() => {
     cargarEgresos();
@@ -61,6 +63,7 @@ export const ListadoEgresos = ({ ultimoEgresoId }) => {
             <tr>
               <th>FECHA</th>
               <th>CATEGORÍA</th>
+              <th>SUBCATEGORÍA</th>
               <th>IMPORTE</th>
               <th>ACCIONES</th>
               <th>OBS</th>
@@ -74,6 +77,42 @@ export const ListadoEgresos = ({ ultimoEgresoId }) => {
               >
                 <td>{formatearFecha(egreso.fecha)}</td>
                 <td>{egreso.categoria.nombre}</td>
+                <td>
+                  {egreso.subcategoria ? (
+                    <div className="subcategoria-container">
+                      <span className="subcategoria-cell">
+                        {egreso.subcategoria.nombre}
+                      </span>
+                      <div className="subcategoria-tooltip">
+                        <div className="tooltip-content">
+                          {(() => {
+                            const rutaCategoria = egreso.categoria.rutaCategoria
+                              .map((cat) => cat.nombre)
+                              .join(" → ");
+
+                            const rutaSubcategoria = [];
+                            let actual = subcategorias.find(
+                              (s) => s.codigo === egreso.subcategoria.codigo
+                            );
+
+                            while (actual) {
+                              rutaSubcategoria.unshift(actual.nombre);
+                              actual = subcategorias.find(
+                                (s) => s.codigo === actual.categoriaPadre
+                              );
+                            }
+
+                            return `${rutaCategoria} → ${rutaSubcategoria.join(
+                              " → "
+                            )}`;
+                          })()}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    "-"
+                  )}
+                </td>
                 <td className="importe">{formatearImporte(egreso.importe)}</td>
                 <td className="acciones">
                   <button

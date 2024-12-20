@@ -3,7 +3,7 @@ import { ListadoEgresos } from "./registro/ListadoEgresos";
 import { ListaCategorias } from "./categorias/ListaCategorias";
 import logo from "../../assets/odontomed512_512.png";
 import logo1 from "../../assets/odontomedBigLogo.png";
-import { FaRegPlusSquare, FaRegListAlt } from "react-icons/fa";
+import { FaRegPlusSquare, FaRegListAlt, FaSitemap } from "react-icons/fa";
 import "./Egresos.scss";
 
 export const Egresos = () => {
@@ -26,6 +26,12 @@ export const Egresos = () => {
           <button className="btn-agregar-egresos">
             <FaRegPlusSquare className="btn-egresos-icon" />
             Agregar Categorías
+          </button>
+        </Link>
+        <Link to="/agregar-subcategorias-egresos">
+          <button className="btn-subcategorias-egresos">
+            <FaSitemap className="btn-egresos-icon" />
+            Agregar Subcategorías
           </button>
         </Link>
       </div>

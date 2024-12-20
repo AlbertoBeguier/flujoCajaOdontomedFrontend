@@ -8,6 +8,7 @@ import { GestionCategorias } from "./components/ingresos/categorias/GestionCateg
 import { RegistroIngresos } from "./components/ingresos/registro/RegistroIngresos";
 import { Egresos } from "./components/egresos/Egresos";
 import { GestionCategoriasEgresos } from "./components/egresos/categorias/GestionCategoriasEgresos";
+import { GestionSubcategoriasEgresos } from "./components/egresos/subcategorias/GestionSubcategoriasEgresos";
 import { RegistroEgresos } from "./components/egresos/registro/RegistroEgresos";
 
 function App() {
@@ -28,6 +29,10 @@ function App() {
         {/* Nuevas rutas para egresos */}
         <Route path="/egresos" element={<Egresos />} />
         <Route path="/agregar-egresos" element={<GestionCategoriasEgresos />} />
+        <Route
+          path="/agregar-subcategorias-egresos"
+          element={<GestionSubcategoriasEgresos />}
+        />
         <Route path="/registrar-egresos" element={<RegistroEgresos />} />
       </Routes>
       <Footer />

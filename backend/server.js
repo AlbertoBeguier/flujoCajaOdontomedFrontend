@@ -6,6 +6,7 @@ import ingresosCategoriasRoutes from "./routes/ingresosCategorias.js";
 import ingresosRoutes from "./routes/ingresos.js";
 import egresosCategoriasRoutes from "./routes/egresosCategorias.js";
 import egresosRoutes from "./routes/egresos.js";
+import subcategoriasEgresosRoutes from "./routes/subcategoriasEgresos.js";
 
 dotenv.config();
 
@@ -73,6 +74,7 @@ app.use("/api/categorias-ingresos", ingresosCategoriasRoutes);
 app.use("/api/categorias-egresos", egresosCategoriasRoutes);
 app.use("/api/ingresos", ingresosRoutes);
 app.use("/api/egresos", egresosRoutes);
+app.use("/api/subcategorias-egresos", subcategoriasEgresosRoutes);
 
 // Ruta de prueba
 app.get("/test", (req, res) => {

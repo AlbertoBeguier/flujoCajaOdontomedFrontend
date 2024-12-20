@@ -91,3 +91,28 @@ a {
   margin-right: 10px;
   font-size: 1.2rem;
 }
+
+.btn-subcategorias-egresos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  color: #a0a0a0;
+  border: 2px solid #a0a0a0;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  min-width: 200px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #a0a0a0;
+    color: white;
+    border-color: rgb(167, 160, 160);
+  }
+}
