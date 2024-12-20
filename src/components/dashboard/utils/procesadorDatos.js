@@ -53,6 +53,7 @@ export const procesarIngresosTotal = (ingresos = [], periodo = "mensual") => {
   try {
     let fechaInicio = new Date();
 
+    // Establecer la fecha de inicio según el período
     switch (periodo) {
       case "mensual":
         fechaInicio.setMonth(fechaInicio.getMonth() - 1);
@@ -73,25 +74,36 @@ export const procesarIngresosTotal = (ingresos = [], periodo = "mensual") => {
         fechaInicio.setMonth(fechaInicio.getMonth() - 1);
     }
 
-    const ingresosFiltrados = ingresos
+    // Filtrar ingresos por fecha y agrupar por día
+    const ingresosPorDia = ingresos
       .filter((ingreso) => new Date(ingreso.fecha) >= fechaInicio)
-      .sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+      .reduce((acc, ingreso) => {
+        const fecha = new Date(ingreso.fecha).toLocaleDateString("es-AR");
+        acc[fecha] = (acc[fecha] || 0) + ingreso.importe;
+        return acc;
+      }, {});
 
-    let total = 0;
-    const totalesPorDia = ingresosFiltrados.map((ingreso) => {
-      total += ingreso.importe;
+    // Convertir a array y ordenar por fecha
+    const fechasOrdenadas = Object.keys(ingresosPorDia).sort(
+      (a, b) => new Date(a) - new Date(b)
+    );
+
+    // Calcular el acumulado
+    let acumulado = 0;
+    const datosAcumulados = fechasOrdenadas.map((fecha) => {
+      acumulado += ingresosPorDia[fecha];
       return {
-        fecha: new Date(ingreso.fecha).toLocaleDateString("es-AR"),
-        total,
+        fecha,
+        total: acumulado,
       };
     });
 
     return {
-      labels: totalesPorDia.map((item) => item.fecha),
+      labels: datosAcumulados.map((item) => item.fecha),
       datasets: [
         {
           label: "Total Acumulado",
-          data: totalesPorDia.map((item) => item.total),
+          data: datosAcumulados.map((item) => item.total),
           borderColor: "rgba(0, 123, 255, 0.45)",
           backgroundColor: "rgba(0, 123, 255, 0.2)",
           tension: 0.4,

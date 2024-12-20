@@ -88,7 +88,7 @@ export const DashboardIngresos = () => {
       <div className="dashboard-header">
         <div className="header-line">
           <div className="line-left"></div>
-          <h2 className="dashboard-title">Dashboard Ingresos</h2>
+          <h2 className="dashboard-title">Ingresos</h2>
           <div className="line-right"></div>
         </div>
       </div>
