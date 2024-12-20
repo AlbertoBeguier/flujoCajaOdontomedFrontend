@@ -11,7 +11,7 @@ export const PaginaInicial = () => {
       <div className="pagina-inicial-container">
         <img src={logo} alt="Logo" className="pagina-inicial-logo" />
         <img src={logo1} alt="Logo1" className="pagina-inicial-logo-1" />
-        <p className="pag-ini-titulo">Flujo de Fondos</p>
+        <p className="pag-ini-titulo">Cash Flow</p>
       </div>
       <div className="pagina-inicial-container">
         <Link to="/ingresos">
