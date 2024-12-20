@@ -119,13 +119,15 @@ export const EgresosDatosAdicionales = ({ egreso, onClose, onUpdate }) => {
               <div className="subcategorias-navegacion">
                 {subcategoriaSeleccionada && (
                   <div className="ruta-actual">
-                    <button
-                      className="btn-reset"
-                      onClick={handleResetear}
-                      title="Volver al inicio"
-                    >
-                      <FaUndo />
-                    </button>
+                    {subcategoriaSeleccionada.rutaSubcategoria.length > 1 && (
+                      <button
+                        className="btn-reset"
+                        onClick={handleResetear}
+                        title="Volver al inicio"
+                      >
+                        <FaUndo />
+                      </button>
+                    )}
                     {subcategoriaSeleccionada.rutaSubcategoria.map(
                       (sub, index) => (
                         <span key={sub.codigo}>
@@ -155,14 +157,15 @@ export const EgresosDatosAdicionales = ({ egreso, onClose, onUpdate }) => {
                   ))}
                 </div>
 
-                {subcategoriaSeleccionada && (
-                  <div className="subcategoria-seleccionada">
-                    <span>✓ {subcategoriaSeleccionada.nombre}</span>
-                    <small>
-                      Subcategoría seleccionada - Puede guardar los cambios
-                    </small>
-                  </div>
-                )}
+                {subcategoriaSeleccionada &&
+                  subcategoriaSeleccionada.rutaSubcategoria.length > 1 && (
+                    <div className="subcategoria-seleccionada">
+                      <span>✓ {subcategoriaSeleccionada.nombre}</span>
+                      <small>
+                        Subcategoría seleccionada - Puede guardar los cambios
+                      </small>
+                    </div>
+                  )}
               </div>
             )}
           </div>
