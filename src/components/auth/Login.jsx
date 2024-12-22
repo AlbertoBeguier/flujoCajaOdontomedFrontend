@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../services/authService";
-import logo from "../../assets/odontomed512_512.png";
-import logo1 from "../../assets/odontomedBigLogo.png";
+import logo3 from "../../assets/odontomed512_512.png";
+import logo4 from "../../assets/odontomedBigLogo.png";
+import logo from "../../assets/logoEstudio.png";
+import logo1 from "../../assets/logoEstudio1.png";
 import "./Login.scss";
 
 export const Login = () => {
@@ -11,7 +13,15 @@ export const Login = () => {
     password: "",
   });
   const [error, setError] = useState("");
+  const [showLogo1, setShowLogo1] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const logoTimer = setInterval(() => {
+      setShowLogo1((prevShowLogo1) => !prevShowLogo1);
+    }, 20000); // Cambia el logo cada 20 segundos
+    return () => clearInterval(logoTimer);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,8 +39,30 @@ export const Login = () => {
     <div className="login-container">
       <div className="login-box">
         <div className="login-header">
-          <img src={logo} alt="Logo" className="login-logo" />
-          <img src={logo1} alt="Logo1" className="login-logo-1" />
+          <div className="estudio-logos">
+            <img
+              src={logo}
+              className={`login-logo-estudio ${showLogo1 ? "show" : ""}`}
+              alt="Logo Estudio"
+            />
+            <img
+              src={logo1}
+              className={`login-logo-estudio ${showLogo1 ? "" : "show"}`}
+              alt="Logo Estudio 1"
+            />
+          </div>
+          <div className="cliente-logos">
+            <img
+              src={logo3}
+              alt="Logo Cliente"
+              className="login-logo-cliente"
+            />
+            <img
+              src={logo4}
+              alt="Logo Cliente 1"
+              className="login-logo-cliente-1"
+            />
+          </div>
         </div>
         <h2>Iniciar Sesión</h2>
         {error && <div className="error-message">{error}</div>}

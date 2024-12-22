@@ -5,54 +5,85 @@
   align-items: center;
   justify-content: center;
   background-color: var.$color-fondo-estudio;
-  margin-top: 60px;
+  margin-top: 32px;
 }
 
 .login-box {
-  margin-top: 20px;
+  margin-top: 45px;
   background-color: var.$color-fondo-estudio;
-  padding: 2rem;
+  padding: 1.6rem;
   border-radius: 10px;
   border: 1px solid var.$color-principal-estudio;
   width: 100%;
-  max-width: 400px;
+  max-width: 320px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
 .login-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
 }
 
-.login-logo {
-  width: 60px;
-  margin-right: 10px;
+.estudio-logos {
+  position: relative;
+  width: 268px;
+  height: 56px;
 }
 
-.login-logo-1 {
-  width: 200px;
-  margin-left: 10px;
+.login-logo-estudio {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 20s ease-in-out;
+  border-radius: 10px;
+
+  &.show {
+    opacity: 1;
+  }
+}
+
+.cliente-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.login-logo-cliente {
+  width: 48px;
+}
+
+.login-logo-cliente-1 {
+  width: 160px;
   margin-top: 7px;
 }
 
 h2 {
   color: var.$color-principal-cliente;
   text-align: center;
-  margin-bottom: 2rem;
-  font-size: 1.8rem;
+  margin-bottom: 1.6rem;
+  font-size: 1.5rem;
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
 
   input {
     width: 100%;
-    padding: 0.8rem;
+    padding: 0.65rem;
     border: 1px solid var.$color-principal-cliente;
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.1);
     color: white;
-    font-size: 1rem;
+    font-size: 0.95rem;
 
     &::placeholder {
       color: rgba(255, 255, 255, 0.5);
@@ -67,17 +98,24 @@ h2 {
 
 .login-button {
   width: 100%;
-  padding: 0.8rem;
+  padding: 0.65rem;
   background-color: var.$color-principal-cliente;
   color: white;
   border: none;
   border-radius: 5px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 700;
 
   &:hover {
     background-color: var.$color-principal-estudio;
+  }
+}
+
+@media (max-width: 994px) {
+  .estudio-logos {
+    width: 200px;
+    height: 44px;
   }
 }
