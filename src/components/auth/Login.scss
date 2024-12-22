@@ -1,0 +1,83 @@
+@use "../../styles/variables" as var;
+
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var.$color-fondo-estudio;
+  margin-top: 60px;
+}
+
+.login-box {
+  margin-top: 20px;
+  background-color: var.$color-fondo-estudio;
+  padding: 2rem;
+  border-radius: 10px;
+  border: 1px solid var.$color-principal-estudio;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-logo {
+  width: 60px;
+  margin-right: 10px;
+}
+
+.login-logo-1 {
+  width: 200px;
+  margin-left: 10px;
+  margin-top: 7px;
+}
+
+h2 {
+  color: var.$color-principal-cliente;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+
+  input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var.$color-principal-cliente;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var.$color-principal-estudio;
+    }
+  }
+}
+
+.login-button {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: var.$color-principal-cliente;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 700;
+
+  &:hover {
+    background-color: var.$color-principal-estudio;
+  }
+}

@@ -1,5 +1,9 @@
 @use "../../styles/variables" as var;
 
+body {
+  background-color: var.$color-fondo-estudio;
+}
+
 .dashboard-container {
   margin-bottom: 3rem;
   padding: 1rem;
@@ -107,6 +111,7 @@
 .dashboard-header {
   margin-bottom: 1rem;
   text-align: center;
+  background-color: var.$color-fondo-estudio;
 }
 
 .header-line {
@@ -115,6 +120,7 @@
   justify-content: center;
   gap: 1rem;
   width: 100%;
+  background-color: var.$color-fondo-estudio;
 }
 
 .line-left,
@@ -130,4 +136,7 @@
   font-weight: 400;
   margin: 0;
   white-space: nowrap;
+}
+.separator-line {
+  background-color: var.$color-fondo-estudio;
 }

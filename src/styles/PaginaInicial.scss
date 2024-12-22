@@ -1,5 +1,8 @@
 @use "variables" as var;
 
+body {
+  background-color: var.$color-fondo-estudio;
+}
 /* Elimina el subrayado de todos los enlaces */
 a {
   text-decoration: none; /* Elimina el subrayado */
@@ -12,6 +15,7 @@ a {
   flex-wrap: wrap; /* Permite que los elementos se ajusten en caso de falta de espacio */
   text-align: center;
   margin: 20px 0; /* Espaciado vertical */
+  background-color: var.$color-fondo-estudio;
 }
 
 .pagina-inicial-logo {

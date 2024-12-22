@@ -185,3 +185,16 @@ graph LR
 **© 2024 Estudio Beguier y Consultorio Odontomed**
 
 > Todos los derechos reservados
+
+## Usuarios del Sistema
+
+### Administrador
+
+- Usuario: alberto
+- Puede crear nuevos usuarios
+- Acceso total al sistema
+
+### Usuario Normal
+
+- Usuario: odontomed
+- Acceso a operaciones regulares

@@ -1,5 +1,9 @@
 @use "../../styles/variables" as var;
 
+body {
+  background-color: var.$color-fondo-estudio;
+}
+
 /* Elimina el subrayado de todos los enlaces */
 a {
   text-decoration: none;

@@ -1,5 +1,10 @@
 import "./App.scss";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { NavBar } from "./components/NavBar";
 import { Footer } from "./components/Footer";
 import { PaginaInicial } from "./components/PaginaInicial";
@@ -10,32 +15,57 @@ import { Egresos } from "./components/egresos/Egresos";
 import { GestionCategoriasEgresos } from "./components/egresos/categorias/GestionCategoriasEgresos";
 import { GestionSubcategoriasEgresos } from "./components/egresos/subcategorias/GestionSubcategoriasEgresos";
 import { RegistroEgresos } from "./components/egresos/registro/RegistroEgresos";
+import { Login } from "./components/auth/Login";
+import { ProtectedRoute } from "./components/auth/ProtectedRoute";
+import { Register } from "./components/auth/Register";
 
 function App() {
   return (
     <Router>
-      <NavBar />
       <Routes>
-        {/* Ruta para el componente página inicial */}
-        <Route path="/" element={<PaginaInicial />} />
+        {/* Rutas sin protección - sin NavBar */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<Login />} />
 
-        {/* Ruta para el componente Ingresos */}
-        <Route path="/ingresos" element={<Ingresos />} />
-        {/* Ruta para el componente Agregar catagorias de ingresos  */}
-        <Route path="/agregar-ingresos" element={<GestionCategorias />} />
-        {/* Ruta para el componente para registar ingresos */}
-        <Route path="/registar-ingresos" element={<RegistroIngresos />} />
-
-        {/* Nuevas rutas para egresos */}
-        <Route path="/egresos" element={<Egresos />} />
-        <Route path="/agregar-egresos" element={<GestionCategoriasEgresos />} />
+        {/* Rutas protegidas - con NavBar */}
         <Route
-          path="/agregar-subcategorias-egresos"
-          element={<GestionSubcategoriasEgresos />}
+          path="/*"
+          element={
+            <ProtectedRoute>
+              <div className="app-container">
+                <NavBar />
+                <Routes>
+                  <Route path="/home" element={<PaginaInicial />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/ingresos" element={<Ingresos />} />
+                  <Route
+                    path="/agregar-ingresos"
+                    element={<GestionCategorias />}
+                  />
+                  <Route
+                    path="/registar-ingresos"
+                    element={<RegistroIngresos />}
+                  />
+                  <Route path="/egresos" element={<Egresos />} />
+                  <Route
+                    path="/agregar-egresos"
+                    element={<GestionCategoriasEgresos />}
+                  />
+                  <Route
+                    path="/agregar-subcategorias-egresos"
+                    element={<GestionSubcategoriasEgresos />}
+                  />
+                  <Route
+                    path="/registrar-egresos"
+                    element={<RegistroEgresos />}
+                  />
+                </Routes>
+                <Footer />
+              </div>
+            </ProtectedRoute>
+          }
         />
-        <Route path="/registrar-egresos" element={<RegistroEgresos />} />
       </Routes>
-      <Footer />
     </Router>
   );
 }

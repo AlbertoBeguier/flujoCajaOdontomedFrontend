@@ -4,12 +4,7 @@
   padding: 0;
 }
 
-body {
-  margin-top: 90px;
-}
-
 .navbar {
-  background-color: var.$color-fondo-estudio;
   padding: 1rem;
   position: fixed;
   top: 0;
@@ -159,6 +154,10 @@ body {
   .fecha-actual {
     display: none; /* Oculta la fecha en pantallas menores de 768px */
   }
+
+  .nombre-usuario {
+    font-size: 0.9rem;
+  }
 }
 
 @media (max-width: 990px) {
@@ -187,6 +186,31 @@ body {
   }
 }
 
+@media (max-width: 768px) {
+  .fecha-actual {
+    display: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .nombre-usuario {
+    display: none;
+  }
+}
+
 main {
   padding-top: 80px;
+}
+
+.usuario-logueado {
+  display: flex;
+  align-items: center;
+}
+
+.nombre-usuario {
+  color: var.$color-principal-cliente;
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0 10px;
+  text-transform: uppercase;
 }

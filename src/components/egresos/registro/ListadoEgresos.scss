@@ -21,12 +21,30 @@
   width: 100%;
   border-collapse: collapse;
   margin: 0 auto;
-  background-color: transparent;
 
   th,
   td {
     padding: 4px 15px;
     vertical-align: middle;
+  }
+
+  tr {
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.4);
+
+      td {
+        background-color: rgba(0, 0, 0, 0.4);
+
+        .subcategoria-container,
+        .subcategoria-cell,
+        .btn-accion {
+          background-color: rgba(0, 0, 0, 0.4);
+        }
+      }
+    }
   }
 
   th {
@@ -97,7 +115,14 @@
       }
 
       &:hover {
-        background-color: rgba(5, 55, 89, 0.231) !important;
+        background-color: rgba(0, 0, 0, 0.4);
+
+        .subcategoria-container,
+        .subcategoria-cell,
+        .btn-accion,
+        .btn-accion svg {
+          background-color: inherit;
+        }
       }
 
       td {
@@ -203,10 +228,6 @@
   cursor: help;
   text-align: center;
   display: inline-block;
-
-  &:hover {
-    text-decoration: underline dotted;
-  }
 }
 
 .subcategoria-tooltip {
@@ -231,6 +252,7 @@
     white-space: nowrap;
     display: block;
     width: 100%;
+    background-color: var.$color-principal-estudio;
   }
 
   &::after {

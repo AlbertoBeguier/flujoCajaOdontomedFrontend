@@ -5,7 +5,8 @@ import whatsappIcon from "/whatsapp.png";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/NavBar.scss";
 import { obtenerFechaActual } from "../utils/fechaActual";
-import { Undo2, PhoneCall } from "lucide-react";
+import { Undo2, PhoneCall, LogOut, UserPlus } from "lucide-react";
+import { logout, isAuthenticated, getUser } from "../services/authService";
 
 export const NavBar = () => {
   const [showContact, setShowContact] = useState(true);
@@ -45,12 +46,21 @@ export const NavBar = () => {
     }
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
+  // Función para verificar si el usuario es alberto
+  const isAlbertoUser = () => {
+    return localStorage.getItem("auth_user") === "alberto";
+  };
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg justify-content-center">
         <span className="navbar-brand logo-container">
-          {/* Logo que utiliza Link para redirigir siempre a la página principal */}
-          <Link to="/">
+          <Link to="/home">
             <img
               src={logo}
               className={`d-inline-block align-top logo-img ${
@@ -90,9 +100,34 @@ export const NavBar = () => {
               <Undo2 size={30} />
             </button>
           </li>
+
+          {/* Usuario logueado */}
+          {isAuthenticated() && (
+            <li className="nav-item-1 usuario-logueado">
+              <span className="nombre-usuario">{getUser().toUpperCase()}</span>
+            </li>
+          )}
+
+          {/* Botón de logout */}
+          {isAuthenticated() && (
+            <li className="nav-item-1">
+              <button onClick={handleLogout} className="button-volver">
+                <LogOut size={30} />
+              </button>
+            </li>
+          )}
+
+          {/* Botón de registro solo para alberto */}
+          {isAlbertoUser() && (
+            <li className="nav-item-1">
+              <Link to="/register" className="button-volver">
+                <UserPlus size={30} />
+              </Link>
+            </li>
+          )}
         </ul>
         {showDate && (
-          <span className="fecha-actual"> {obtenerFechaActual()}</span>
+          <span className="fecha-actual">{obtenerFechaActual()}</span>
         )}
       </nav>
     </div>
