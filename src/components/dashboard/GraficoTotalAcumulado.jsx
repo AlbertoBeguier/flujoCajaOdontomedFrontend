@@ -11,7 +11,7 @@ export const GraficoTotalAcumulado = ({
   return (
     <div className="grafico-item">
       <div className="grafico-header">
-        <h3>Total Acumulado</h3>
+        <h3> Acumulados</h3>
         <select
           value={periodoSeleccionado}
           onChange={(e) => setPeriodoSeleccionado(e.target.value)}
