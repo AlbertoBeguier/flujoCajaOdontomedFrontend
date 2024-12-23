@@ -84,3 +84,43 @@ a {
   font-size: 1.5rem; /* Tamaño del icono */
   background-color: transparent; /* Fondo transparente */
 }
+
+.pagina-inicial {
+  .dashboard-container {
+    margin-top: 2px;
+    padding: 0;
+
+    &:not(:last-child) {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Separador entre dashboards
+.separator-line {
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin: 2px 0;
+  width: 100%;
+}
+
+// Ajuste para el dashboard comparativo
+.dashboard-container:last-child {
+  .graficos-grid {
+    margin-top: 2px;
+  }
+
+  .grafico-item {
+    min-height: 400px;
+  }
+}
+
+// Ajustar el espacio interno de los gráficos
+.graficos-grid {
+  gap: 2px;
+  margin-bottom: 2px;
+}
+
+.grafico-header {
+  padding: 2px 1rem;
+}

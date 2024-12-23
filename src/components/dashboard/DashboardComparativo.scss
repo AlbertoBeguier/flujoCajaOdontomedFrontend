@@ -1,0 +1,73 @@
+@use "../../styles/variables" as var;
+
+.dashboard-container {
+  margin-bottom: 3rem;
+  padding: 1rem;
+  background-color: var.$color-fondo-estudio;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.graficos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.grafico-item {
+  height: 85%;
+  width: 98%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  background-color: var.$color-fondo-estudio;
+
+  h3 {
+    color: var.$color-principal-cliente;
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+  }
+}
+
+.grafico-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: var.$color-fondo-estudio;
+
+  h3 {
+    margin: 0;
+  }
+
+  select {
+    min-width: 100px;
+    background-color: transparent;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    padding: 0.25rem;
+    font-size: 0.9rem;
+
+    option {
+      background-color: var.$color-fondo-estudio;
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .graficos-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .graficos-grid {
+    grid-template-columns: 1fr;
+  }
+}

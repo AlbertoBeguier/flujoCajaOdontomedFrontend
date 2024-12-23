@@ -2,8 +2,10 @@ import logo from "../assets/odontomed512_512.png";
 import logo1 from "../assets/odontomedBigLogo.png";
 import "../styles/PaginaInicial.scss";
 import { FaDollarSign, FaMoneyBillWave } from "react-icons/fa";
-import { Link } from "react-router-dom"; // Importa Link de react-router-dom
+import { Link } from "react-router-dom";
 import { DashboardIngresos } from "./dashboard/DashboardIngresos";
+import { DashboardEgresos } from "./dashboard/DashboardEgresos";
+import { DashboardComparativo } from "./dashboard/DashboardComparativo";
 
 export const PaginaInicial = () => {
   return (
@@ -29,6 +31,8 @@ export const PaginaInicial = () => {
       </div>
 
       <DashboardIngresos />
+      <DashboardEgresos />
+      <DashboardComparativo />
     </div>
   );
 };
