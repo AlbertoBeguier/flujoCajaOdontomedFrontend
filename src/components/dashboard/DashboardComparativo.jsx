@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { getIngresos } from "../../services/ingresosService";
 import { getEgresos } from "../../services/egresosService";
 import { GraficoComparativoDiario } from "./GraficoComparativoDiario";
@@ -20,11 +20,6 @@ export const DashboardComparativo = () => {
   const [periodoAcumulados, setPeriodoAcumulados] = useState("mensual");
   const [periodoBalance, setPeriodoBalance] = useState("mensual");
 
-  // Referencias para los gráficos
-  const graficoComparativoRef = useRef(null);
-  const graficoAcumuladoRef = useRef(null);
-  const graficoBalanceRef = useRef(null);
-
   const periodos = [
     { valor: "mensual", texto: "Mensual" },
     { valor: "trimestral", texto: "Trimestral" },
@@ -34,22 +29,8 @@ export const DashboardComparativo = () => {
   ];
 
   useEffect(() => {
-    // Limpiar gráficos anteriores
-    const limpiarGraficos = () => {
-      if (graficoComparativoRef.current) {
-        graficoComparativoRef.current.destroy();
-      }
-      if (graficoAcumuladoRef.current) {
-        graficoAcumuladoRef.current.destroy();
-      }
-      if (graficoBalanceRef.current) {
-        graficoBalanceRef.current.destroy();
-      }
-    };
-
     const cargarDatos = async () => {
       try {
-        limpiarGraficos();
         const [ingresos, egresos] = await Promise.all([
           getIngresos(),
           getEgresos(),
@@ -70,11 +51,6 @@ export const DashboardComparativo = () => {
     };
 
     cargarDatos();
-
-    // Cleanup al desmontar
-    return () => {
-      limpiarGraficos();
-    };
   }, [diasSeleccionados, periodoAcumulados, periodoBalance]);
 
   if (isLoading) {
@@ -97,7 +73,6 @@ export const DashboardComparativo = () => {
           opciones={opcionesComparativas}
           diasSeleccionados={diasSeleccionados}
           setDiasSeleccionados={setDiasSeleccionados}
-          ref={graficoComparativoRef}
         />
         <GraficoComparativoAcumulado
           datos={datosGraficos.acumulados}
@@ -105,7 +80,6 @@ export const DashboardComparativo = () => {
           periodoSeleccionado={periodoAcumulados}
           setPeriodoSeleccionado={setPeriodoAcumulados}
           periodos={periodos}
-          ref={graficoAcumuladoRef}
         />
         <GraficoBalanceNeto
           datos={datosGraficos.balanceNeto}
@@ -113,7 +87,6 @@ export const DashboardComparativo = () => {
           periodoSeleccionado={periodoBalance}
           setPeriodoSeleccionado={setPeriodoBalance}
           periodos={periodos}
-          ref={graficoBalanceRef}
         />
       </div>
     </div>

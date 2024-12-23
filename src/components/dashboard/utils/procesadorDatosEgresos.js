@@ -173,23 +173,20 @@ export const procesarEgresosPorTipo = (egresos = [], periodo = "mensual") => {
 export const opcionesBase = {
   responsive: true,
   maintainAspectRatio: false,
+  animation: {
+    duration: 2000,
+    easing: "easeInOutQuart",
+    delay: (context) => context.dataIndex * 100,
+  },
   plugins: {
     legend: {
-      display: false,
+      display: true,
+      labels: { color: "white" },
     },
   },
   scales: {
     y: {
-      beginAtZero: true,
-      ticks: {
-        color: "white",
-        callback: (value) =>
-          new Intl.NumberFormat("es-AR", {
-            style: "currency",
-            currency: "ARS",
-            maximumFractionDigits: 0,
-          }).format(value),
-      },
+      ticks: { color: "white" },
       grid: { color: "rgba(255, 255, 255, 0.1)" },
     },
     x: {
