@@ -13,30 +13,46 @@ export const FormularioEgreso = ({
   onGuardar,
   onCancelar,
 }) => {
-  const [fecha, setFecha] = useState(() => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
+  const [formData, setFormData] = useState({
+    fecha: new Date().toISOString().split("T")[0],
+    importe: "",
+    metodoPago: "",
   });
-  const [importe, setImporte] = useState("");
   const [error, setError] = useState("");
   const [actualizarListado, setActualizarListado] = useState(false);
   const [ultimoEgresoId, setUltimoEgresoId] = useState(null);
+
+  const metodosValidos = [
+    { id: "efectivo", nombre: "Efectivo" },
+    { id: "electronico", nombre: "Electrónico" },
+  ];
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    if (!importe || parseFloat(importe) <= 0) {
+    if (!formData.importe || parseFloat(formData.importe) <= 0) {
       setError("El importe debe ser mayor a 0");
       return;
     }
 
+    if (!formData.metodoPago) {
+      setError("Debe seleccionar un método de pago");
+      return;
+    }
+
     const egresoData = {
-      fecha,
-      importe: parseFloat(importe),
+      fecha: formData.fecha,
+      importe: parseFloat(formData.importe),
+      metodoPago: formData.metodoPago,
       categoria: {
         codigo: categoriaSeleccionada.codigo,
         nombre: categoriaSeleccionada.nombre,
@@ -48,7 +64,11 @@ export const FormularioEgreso = ({
       const nuevoEgreso = await onGuardar(egresoData);
       setUltimoEgresoId(nuevoEgreso._id);
       setActualizarListado((prev) => !prev);
-      setImporte("");
+      setFormData((prev) => ({
+        ...prev,
+        importe: "",
+        metodoPago: "",
+      }));
 
       setTimeout(() => {
         setUltimoEgresoId(null);
@@ -71,19 +91,39 @@ export const FormularioEgreso = ({
               <label htmlFor="fecha">Fecha:</label>
               <EntradaFecha
                 id="fecha"
-                valor={fecha}
-                alCambiar={setFecha}
+                valor={formData.fecha}
+                alCambiar={setFormData}
+                name="fecha"
                 requerido
               />
             </div>
             <div className="campo-formulario">
               <label htmlFor="importe">Importe:</label>
               <EntradaMonetaria
-                valor={importe}
-                alCambiar={setImporte}
+                valor={formData.importe}
+                alCambiar={setFormData}
+                name="importe"
                 placeholder="0,00"
               />
             </div>
+          </div>
+          <div className="campo-formulario">
+            <label htmlFor="metodoPago">Método de Pago:</label>
+            <select
+              id="metodoPago"
+              name="metodoPago"
+              value={formData.metodoPago}
+              onChange={handleInputChange}
+              required
+              className="selector-metodo-pago"
+            >
+              <option value="">Seleccione método de pago</option>
+              {metodosValidos.map((metodo) => (
+                <option key={metodo.id} value={metodo.id}>
+                  {metodo.nombre}
+                </option>
+              ))}
+            </select>
           </div>
           <BotonesFormulario onCancelar={onCancelar} />
         </form>

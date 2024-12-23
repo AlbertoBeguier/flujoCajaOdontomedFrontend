@@ -32,8 +32,8 @@ export const procesarEgresosPorDia = (egresos = [], dias = 7) => {
         {
           label: "Gastos Diarios",
           data: Object.values(datosCompletos),
-          borderColor: "rgba(220, 53, 69, 0.45)", // Color rojo para gastos
-          backgroundColor: "rgba(220, 53, 69, 0.2)",
+          borderColor: "rgba(128, 128, 128, 0.45)", // Gris para gastos
+          backgroundColor: "rgba(128, 128, 128, 0.2)",
           tension: 0.4,
           fill: true,
         },
@@ -88,8 +88,8 @@ export const procesarEgresosTotal = (egresos = [], periodo = "mensual") => {
         {
           label: "Total Acumulado",
           data: datosAcumulados.map((dato) => dato.total),
-          borderColor: "rgba(220, 53, 69, 0.45)", // Color rojo para gastos
-          backgroundColor: "rgba(220, 53, 69, 0.2)",
+          borderColor: "rgba(128, 128, 128, 0.45)", // Gris para gastos
+          backgroundColor: "rgba(128, 128, 128, 0.2)",
           tension: 0.4,
           fill: true,
         },
@@ -147,15 +147,15 @@ export const procesarEgresosPorTipo = (egresos = [], periodo = "mensual") => {
           label: "Gastos por Tipo",
           data: tiposOrdenados.map(([, monto]) => monto),
           backgroundColor: [
-            "rgba(220, 53, 69, 0.45)",
-            "rgba(255, 193, 7, 0.45)",
+            "rgba(128, 128, 128, 0.45)",
+            "rgba(169, 169, 169, 0.45)",
             "rgba(23, 162, 184, 0.45)",
             "rgba(40, 167, 69, 0.45)",
             "rgba(111, 66, 193, 0.45)",
           ],
           borderColor: [
-            "rgb(220, 53, 69)",
-            "rgb(255, 193, 7)",
+            "rgb(128, 128, 128)",
+            "rgb(169, 169, 169)",
             "rgb(23, 162, 184)",
             "rgb(40, 167, 69)",
             "rgb(111, 66, 193)",
@@ -206,8 +206,8 @@ export const datosInicialesEgresos = {
       {
         label: "Gastos Diarios",
         data: [],
-        borderColor: "rgba(220, 53, 69, 0.45)",
-        backgroundColor: "rgba(220, 53, 69, 0.2)",
+        borderColor: "rgba(128, 128, 128, 0.45)",
+        backgroundColor: "rgba(128, 128, 128, 0.2)",
         tension: 0.4,
         fill: true,
       },
@@ -219,8 +219,8 @@ export const datosInicialesEgresos = {
       {
         label: "Total Acumulado",
         data: [],
-        borderColor: "rgba(220, 53, 69, 0.45)",
-        backgroundColor: "rgba(220, 53, 69, 0.2)",
+        borderColor: "rgba(128, 128, 128, 0.45)",
+        backgroundColor: "rgba(128, 128, 128, 0.2)",
         tension: 0.4,
         fill: true,
       },
@@ -233,15 +233,15 @@ export const datosInicialesEgresos = {
         label: "Gastos por Tipo",
         data: [],
         backgroundColor: [
-          "rgba(220, 53, 69, 0.45)",
-          "rgba(255, 193, 7, 0.45)",
+          "rgba(128, 128, 128, 0.45)",
+          "rgba(169, 169, 169, 0.45)",
           "rgba(23, 162, 184, 0.45)",
           "rgba(40, 167, 69, 0.45)",
           "rgba(111, 66, 193, 0.45)",
         ],
         borderColor: [
-          "rgb(220, 53, 69)",
-          "rgb(255, 193, 7)",
+          "rgb(128, 128, 128)",
+          "rgb(169, 169, 169)",
           "rgb(23, 162, 184)",
           "rgb(40, 167, 69)",
           "rgb(111, 66, 193)",
@@ -250,4 +250,66 @@ export const datosInicialesEgresos = {
       },
     ],
   },
+};
+
+export const procesarDatosEgresos = (egresos = [], periodo = "mensual") => {
+  try {
+    let fechaInicio = new Date();
+
+    switch (periodo) {
+      case "mensual":
+        fechaInicio.setMonth(fechaInicio.getMonth() - 1);
+        break;
+      case "trimestral":
+        fechaInicio.setMonth(fechaInicio.getMonth() - 3);
+        break;
+      case "semestral":
+        fechaInicio.setMonth(fechaInicio.getMonth() - 6);
+        break;
+      case "anual":
+        fechaInicio.setFullYear(fechaInicio.getFullYear() - 1);
+        break;
+      case "historico":
+        fechaInicio = new Date(0);
+        break;
+      default:
+        fechaInicio.setMonth(fechaInicio.getMonth() - 1);
+    }
+
+    const egresosFiltrados = egresos.filter(
+      (egreso) => new Date(egreso.fecha) >= fechaInicio
+    );
+
+    const mediosPago = egresosFiltrados.reduce(
+      (acc, egreso) => {
+        const metodoPago = egreso.categoria.nombre.toLowerCase();
+        if (metodoPago === "efectivo") {
+          acc.efectivo += egreso.importe;
+        } else {
+          acc.electronico += egreso.importe;
+        }
+        return acc;
+      },
+      { efectivo: 0, electronico: 0 }
+    );
+
+    return {
+      labels: ["Efectivo", "Electrónico"],
+      datasets: [
+        {
+          label: "Gastos por Medio de Pago",
+          data: [mediosPago.efectivo, mediosPago.electronico],
+          backgroundColor: [
+            "rgba(128, 128, 128, 0.3)", // Gris para Efectivo, más transparente
+            "rgba(169, 169, 169, 0.3)", // Gris más claro para Electrónico, más transparente
+          ],
+          borderColor: ["rgb(128, 128, 128)", "rgb(169, 169, 169)"],
+          borderWidth: 1,
+        },
+      ],
+    };
+  } catch (error) {
+    console.error("Error en procesarDatosEgresos:", error);
+    return datosInicialesEgresos.tiposGasto;
+  }
 };

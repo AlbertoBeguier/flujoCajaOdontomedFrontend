@@ -6,7 +6,7 @@ import { GraficoTiposGasto } from "./GraficoTiposGasto";
 import {
   procesarEgresosPorDia,
   procesarEgresosTotal,
-  procesarEgresosPorTipo,
+  procesarDatosEgresos,
   opcionesBase,
   datosInicialesEgresos,
 } from "./utils/procesadorDatosEgresos";
@@ -58,7 +58,7 @@ export const DashboardEgresos = () => {
         setDatosGraficos({
           diario: procesarEgresosPorDia(egresos, diasSeleccionados),
           total: procesarEgresosTotal(egresos, periodoSeleccionado),
-          tiposGasto: procesarEgresosPorTipo(egresos, periodoTiposGasto),
+          tiposGasto: procesarDatosEgresos(egresos, periodoTiposGasto),
         });
       } catch (error) {
         console.error("Error al cargar datos:", error);

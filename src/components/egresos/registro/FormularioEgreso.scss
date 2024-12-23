@@ -103,3 +103,17 @@
 .boton-guardar:hover {
   background-color: var.$color-principal-estudio;
 }
+
+.selector-metodo-pago {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  margin-top: 4px;
+
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+}

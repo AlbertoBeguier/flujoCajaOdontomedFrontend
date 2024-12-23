@@ -76,53 +76,82 @@ const generarDatosComparativos = (datos, fechas) => ({
       label: "Ingresos",
       data: fechas.map((fecha) => datos.ingresos[fecha]),
       borderColor: "rgba(40, 167, 69, 0.8)",
-      backgroundColor: "rgba(40, 167, 69, 0.1)",
+      backgroundColor: (context) => {
+        const ingresos = context.dataset.data[context.dataIndex] || 0;
+        const gastos =
+          context.chart.data.datasets[1].data[context.dataIndex] || 0;
+        return ingresos > gastos
+          ? "rgba(0, 123, 255, 0.1)"
+          : "rgba(40, 167, 69, 0.1)";
+      },
       tension: 0.4,
       fill: true,
     },
     {
       label: "Gastos",
       data: fechas.map((fecha) => datos.egresos[fecha]),
-      borderColor: "rgba(220, 53, 69, 0.8)",
-      backgroundColor: "rgba(220, 53, 69, 0.1)",
+      borderColor: "rgba(128, 128, 128, 0.8)",
+      backgroundColor: (context) => {
+        const gastos = context.dataset.data[context.dataIndex] || 0;
+        const ingresos =
+          context.chart.data.datasets[0].data[context.dataIndex] || 0;
+        return gastos > ingresos
+          ? "rgba(220, 53, 69, 0.1)"
+          : "rgba(128, 128, 128, 0.1)";
+      },
       tension: 0.4,
       fill: true,
     },
   ],
 });
 
-const generarDatosAcumulados = (datos, fechas) => {
-  let acumuladoIngresos = 0;
-  let acumuladoEgresos = 0;
-
-  return {
-    labels: fechas,
-    datasets: [
-      {
-        label: "Ingresos Acumulados",
-        data: fechas.map((fecha) => {
-          acumuladoIngresos += datos.ingresos[fecha];
-          return acumuladoIngresos;
-        }),
-        borderColor: "rgba(40, 167, 69, 0.8)",
-        backgroundColor: "rgba(40, 167, 69, 0.1)",
-        tension: 0.4,
-        fill: true,
+const generarDatosAcumulados = (datos, fechas) => ({
+  labels: fechas,
+  datasets: [
+    {
+      label: "Ingresos Acumulados",
+      data: fechas.map((fecha, index) => {
+        let acumuladoIngresos = 0;
+        for (let i = 0; i <= index; i++) {
+          acumuladoIngresos += datos.ingresos[fechas[i]] || 0;
+        }
+        return acumuladoIngresos;
+      }),
+      borderColor: "rgba(40, 167, 69, 0.8)",
+      backgroundColor: (context) => {
+        const ingresos = context.dataset.data[context.dataIndex] || 0;
+        const gastos =
+          context.chart.data.datasets[1].data[context.dataIndex] || 0;
+        return ingresos > gastos
+          ? "rgba(0, 123, 255, 0.1)"
+          : "rgba(40, 167, 69, 0.1)";
       },
-      {
-        label: "Gastos Acumulados",
-        data: fechas.map((fecha) => {
-          acumuladoEgresos += datos.egresos[fecha];
-          return acumuladoEgresos;
-        }),
-        borderColor: "rgba(220, 53, 69, 0.8)",
-        backgroundColor: "rgba(220, 53, 69, 0.1)",
-        tension: 0.4,
-        fill: true,
+      tension: 0.4,
+      fill: true,
+    },
+    {
+      label: "Gastos Acumulados",
+      data: fechas.map((fecha, index) => {
+        let acumuladoEgresos = 0;
+        for (let i = 0; i <= index; i++) {
+          acumuladoEgresos += datos.egresos[fechas[i]] || 0;
+        }
+        return acumuladoEgresos;
+      }),
+      borderColor: "rgba(128, 128, 128, 0.8)",
+      backgroundColor: (context) => {
+        const gastos = context.dataset.data[context.dataIndex] || 0;
+        const ingresos =
+          context.chart.data.datasets[0].data[context.dataIndex] || 0;
+        return gastos > ingresos
+          ? "rgba(220, 53, 69, 0.1)"
+          : "rgba(128, 128, 128, 0.1)";
       },
-    ],
-  };
-};
+      tension: 0.4,
+      fill: true,
+    },
+  ],
+});
 
 const generarDatosBalance = (datos, fechas) => ({
   labels: fechas,
@@ -138,7 +167,7 @@ const generarDatosBalance = (datos, fechas) => ({
           value: 0,
         },
         above: "rgba(0, 123, 255, 0.1)",
-        below: "rgba(220, 53, 69, 0.1)",
+        below: "rgba(128, 128, 128, 0.1)",
       },
     },
   ],
@@ -217,8 +246,8 @@ export const datosInicialesComparativos = {
       {
         label: "Gastos",
         data: [],
-        borderColor: "rgba(220, 53, 69, 0.8)",
-        backgroundColor: "rgba(220, 53, 69, 0.1)",
+        borderColor: "rgba(128, 128, 128, 0.8)",
+        backgroundColor: "rgba(128, 128, 128, 0.1)",
         tension: 0.4,
         fill: true,
       },
@@ -238,8 +267,8 @@ export const datosInicialesComparativos = {
       {
         label: "Gastos Acumulados",
         data: [],
-        borderColor: "rgba(220, 53, 69, 0.8)",
-        backgroundColor: "rgba(220, 53, 69, 0.1)",
+        borderColor: "rgba(128, 128, 128, 0.8)",
+        backgroundColor: "rgba(128, 128, 128, 0.1)",
         tension: 0.4,
         fill: true,
       },
