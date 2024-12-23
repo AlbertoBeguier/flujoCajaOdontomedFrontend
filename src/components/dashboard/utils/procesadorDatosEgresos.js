@@ -181,7 +181,13 @@ export const opcionesBase = {
   plugins: {
     legend: {
       display: true,
-      labels: { color: "white" },
+      labels: {
+        color: "white",
+        usePointStyle: true,
+        pointStyle: "rect",
+        boxWidth: 10,
+        boxHeight: 10,
+      },
     },
   },
   scales: {
