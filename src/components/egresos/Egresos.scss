@@ -71,10 +71,20 @@ a {
   color: white;
   font-weight: 700;
 
+  .btn-egresos-icon {
+    color: white;
+    transition: all 0.3s ease;
+    background-color: transparent !important;
+  }
+
   &:hover {
     background-color: white;
     color: black;
     border-color: rgb(167, 160, 160);
+
+    .btn-egresos-icon {
+      color: black;
+    }
   }
 }
 
@@ -84,10 +94,20 @@ a {
   color: var.$color-principal-cliente;
   font-weight: 700;
 
+  .btn-egresos-icon {
+    color: var.$color-principal-cliente;
+    transition: all 0.3s ease;
+    background-color: transparent !important;
+  }
+
   &:hover {
     background-color: var.$color-principal-cliente;
     color: white;
     border-color: rgb(167, 160, 160);
+
+    .btn-egresos-icon {
+      color: white;
+    }
   }
 }
 
@@ -107,16 +127,24 @@ a {
   padding: 10px 20px;
   font-size: 1rem;
   cursor: pointer;
-  display: flex;
-  align-items: center;
   gap: 8px;
   font-weight: 700;
   min-width: 200px;
   transition: all 0.3s ease;
 
+  .btn-egresos-icon {
+    color: #a0a0a0;
+    transition: all 0.3s ease;
+  }
+
   &:hover {
-    background-color: #a0a0a0;
+    background-color: #403f3f;
     color: white;
     border-color: rgb(167, 160, 160);
+
+    .btn-egresos-icon {
+      color: white;
+      background-color: transparent !important;
+    }
   }
 }
