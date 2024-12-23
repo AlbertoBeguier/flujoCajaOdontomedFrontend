@@ -1,12 +1,109 @@
+export const datosIniciales = {
+  diario: {
+    labels: [],
+    datasets: [
+      {
+        label: "Ingresos Diarios",
+        data: [],
+        borderColor: "rgba(40, 167, 69, 0.8)",
+        backgroundColor: "rgba(40, 167, 69, 0.1)",
+        tension: 0.4,
+        fill: true,
+      },
+    ],
+  },
+  total: {
+    labels: [],
+    datasets: [
+      {
+        label: "Total Acumulado",
+        data: [],
+        borderColor: "rgba(40, 167, 69, 0.8)",
+        backgroundColor: "rgba(40, 167, 69, 0.1)",
+        tension: 0.4,
+        fill: true,
+      },
+    ],
+  },
+  mediosPago: {
+    labels: [],
+    datasets: [
+      {
+        label: "Ingresos por Medio de Pago",
+        data: [],
+        backgroundColor: ["rgba(40, 167, 69, 0.3)", "rgba(0, 123, 255, 0.3)"],
+        borderColor: ["rgb(40, 167, 69)", "rgb(0, 123, 255)"],
+        borderWidth: 1,
+      },
+    ],
+  },
+};
+
+export const opcionesBase = {
+  responsive: true,
+  maintainAspectRatio: false,
+  interaction: {
+    mode: "index",
+    intersect: false,
+  },
+  plugins: {
+    legend: {
+      display: true,
+      position: "top",
+      align: "center",
+      labels: {
+        color: "white",
+        padding: 15,
+        font: {
+          size: 12,
+        },
+        boxWidth: 12,
+        boxHeight: 12,
+        usePointStyle: true,
+        pointStyle: "rect",
+      },
+    },
+    tooltip: {
+      callbacks: {
+        label: (context) => {
+          const value = context.raw;
+          return `${context.dataset.label}: ${new Intl.NumberFormat("es-AR", {
+            style: "currency",
+            currency: "ARS",
+            maximumFractionDigits: 0,
+          }).format(value)}`;
+        },
+      },
+    },
+  },
+  scales: {
+    y: {
+      beginAtZero: true,
+      ticks: {
+        color: "white",
+        callback: (value) =>
+          new Intl.NumberFormat("es-AR", {
+            style: "currency",
+            currency: "ARS",
+            maximumFractionDigits: 0,
+          }).format(value),
+      },
+      grid: { color: "rgba(255, 255, 255, 0.1)" },
+    },
+    x: {
+      ticks: { color: "white" },
+      grid: { color: "rgba(255, 255, 255, 0.1)" },
+    },
+  },
+};
+
 export const procesarIngresosPorDia = (ingresos = [], dias = 7) => {
   try {
-    // Obtener fecha actual y fecha límite
     const fechaActual = new Date();
     const fechaLimite = new Date();
     fechaLimite.setDate(fechaLimite.getDate() - (dias - 1));
     fechaLimite.setHours(0, 0, 0, 0);
 
-    // Generar array de todas las fechas en el rango
     const todasLasFechas = [];
     for (let d = 0; d < dias; d++) {
       const fecha = new Date(fechaActual);
@@ -14,7 +111,6 @@ export const procesarIngresosPorDia = (ingresos = [], dias = 7) => {
       todasLasFechas.unshift(fecha.toLocaleDateString("es-AR"));
     }
 
-    // Procesar ingresos dentro del rango
     const ingresosPorDia = ingresos.reduce((acc, ingreso) => {
       const fechaIngreso = new Date(ingreso.fecha);
       if (fechaIngreso >= fechaLimite && fechaIngreso <= fechaActual) {
@@ -24,7 +120,6 @@ export const procesarIngresosPorDia = (ingresos = [], dias = 7) => {
       return acc;
     }, {});
 
-    // Asegurar que todas las fechas estén presentes
     const datosCompletos = todasLasFechas.reduce((acc, fecha) => {
       acc[fecha] = ingresosPorDia[fecha] || 0;
       return acc;
@@ -36,8 +131,8 @@ export const procesarIngresosPorDia = (ingresos = [], dias = 7) => {
         {
           label: "Ingresos Diarios",
           data: Object.values(datosCompletos),
-          borderColor: "rgba(40, 167, 69, 0.45)",
-          backgroundColor: "rgba(40, 167, 69, 0.2)",
+          borderColor: "rgba(40, 167, 69, 0.8)",
+          backgroundColor: "rgba(40, 167, 69, 0.1)",
           tension: 0.4,
           fill: true,
         },
@@ -53,7 +148,6 @@ export const procesarIngresosTotal = (ingresos = [], periodo = "mensual") => {
   try {
     let fechaInicio = new Date();
 
-    // Establecer la fecha de inicio según el período
     switch (periodo) {
       case "mensual":
         fechaInicio.setMonth(fechaInicio.getMonth() - 1);
@@ -74,43 +168,27 @@ export const procesarIngresosTotal = (ingresos = [], periodo = "mensual") => {
         fechaInicio.setMonth(fechaInicio.getMonth() - 1);
     }
 
-    // Filtrar y agrupar ingresos por día
-    const ingresosPorDia = ingresos
+    const ingresosFiltrados = ingresos
       .filter((ingreso) => new Date(ingreso.fecha) >= fechaInicio)
-      .reduce((acc, ingreso) => {
-        const fecha = new Date(ingreso.fecha).toLocaleDateString("es-AR");
-        if (ingreso.importe > 0) {
-          // Solo incluir días con ingresos positivos
-          acc[fecha] = (acc[fecha] || 0) + ingreso.importe;
-        }
-        return acc;
-      }, {});
+      .sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
-    // Convertir a array y ordenar por fecha (ascendente)
-    const fechasOrdenadas = Object.keys(ingresosPorDia).sort((a, b) => {
-      const fechaA = a.split("/").reverse().join("");
-      const fechaB = b.split("/").reverse().join("");
-      return fechaA.localeCompare(fechaB);
-    });
-
-    // Calcular el acumulado
     let acumulado = 0;
-    const datosAcumulados = fechasOrdenadas.map((fecha) => {
-      acumulado += ingresosPorDia[fecha];
+    const datosAcumulados = ingresosFiltrados.map((ingreso) => {
+      acumulado += ingreso.importe;
       return {
-        fecha,
+        fecha: new Date(ingreso.fecha).toLocaleDateString("es-AR"),
         total: acumulado,
       };
     });
 
     return {
-      labels: datosAcumulados.map((item) => item.fecha),
+      labels: datosAcumulados.map((dato) => dato.fecha),
       datasets: [
         {
           label: "Total Acumulado",
-          data: datosAcumulados.map((item) => item.total),
-          borderColor: "rgba(0, 123, 255, 0.45)",
-          backgroundColor: "rgba(0, 123, 255, 0.2)",
+          data: datosAcumulados.map((dato) => dato.total),
+          borderColor: "rgba(40, 167, 69, 0.8)",
+          backgroundColor: "rgba(40, 167, 69, 0.1)",
           tension: 0.4,
           fill: true,
         },
@@ -155,7 +233,7 @@ export const procesarIngresosPorMedio = (
 
     const mediosPago = ingresosFiltrados.reduce(
       (acc, ingreso) => {
-        if (ingreso.categoria.nombre === "EFECTIVO") {
+        if (ingreso.categoria?.nombre?.toLowerCase() === "efectivo") {
           acc.efectivo += ingreso.importe;
         } else {
           acc.electronico += ingreso.importe;
@@ -171,85 +249,14 @@ export const procesarIngresosPorMedio = (
         {
           label: "Ingresos por Medio de Pago",
           data: [mediosPago.efectivo, mediosPago.electronico],
-          backgroundColor: [
-            "rgba(40, 167, 69, 0.45)",
-            "rgba(0, 123, 255, 0.45)",
-          ],
-          borderColor: ["#28a745", "#007bff"],
+          backgroundColor: ["rgba(40, 167, 69, 0.3)", "rgba(0, 123, 255, 0.3)"],
+          borderColor: ["rgb(40, 167, 69)", "rgb(0, 123, 255)"],
           borderWidth: 1,
         },
       ],
     };
   } catch (error) {
-    console.error("Error en procesarIngresosPorMedio:", error);
+    console.error("Error en procesarDatosIngresos:", error);
     return datosIniciales.mediosPago;
   }
-};
-
-export const opcionesGraficos = {
-  responsive: true,
-  maintainAspectRatio: false,
-  animation: {
-    duration: 2000,
-    easing: "easeInOutQuart",
-    delay: (context) => context.dataIndex * 100,
-  },
-  plugins: {
-    legend: {
-      display: true,
-      labels: { color: "white" },
-    },
-  },
-  scales: {
-    y: {
-      ticks: { color: "white" },
-      grid: { color: "rgba(255, 255, 255, 0.1)" },
-    },
-    x: {
-      ticks: { color: "white" },
-      grid: { color: "rgba(255, 255, 255, 0.1)" },
-    },
-  },
-};
-
-// Datos iniciales para los gráficos
-export const datosIniciales = {
-  diario: {
-    labels: [],
-    datasets: [
-      {
-        label: "Ingresos Diarios",
-        data: [],
-        borderColor: "rgba(40, 167, 69, 0.45)",
-        backgroundColor: "rgba(40, 167, 69, 0.2)",
-        tension: 0.4,
-        fill: true,
-      },
-    ],
-  },
-  total: {
-    labels: [],
-    datasets: [
-      {
-        label: "Total Acumulado",
-        data: [],
-        borderColor: "rgba(0, 123, 255, 0.45)",
-        backgroundColor: "rgba(0, 123, 255, 0.2)",
-        tension: 0.4,
-        fill: true,
-      },
-    ],
-  },
-  mediosPago: {
-    labels: ["Efectivo", "Electrónico"],
-    datasets: [
-      {
-        label: "Ingresos por Medio de Pago",
-        data: [0, 0],
-        backgroundColor: ["rgba(40, 167, 69, 0.45)", "rgba(0, 123, 255, 0.45)"],
-        borderColor: ["#28a745", "#007bff"],
-        borderWidth: 1,
-      },
-    ],
-  },
 };

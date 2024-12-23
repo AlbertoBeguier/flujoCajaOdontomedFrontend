@@ -15,15 +15,10 @@ export const Ingresos = () => {
   useEffect(() => {
     const fetchCategorias = async () => {
       try {
-        console.log(
-          "Intentando conectar a:",
-          `${API_BASE_URL}/api/categorias-ingresos`
-        );
         const response = await fetch(`${API_BASE_URL}/api/categorias-ingresos`);
-        console.log("Estado de la respuesta:", response.status);
+
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({}));
-          console.error("Datos del error:", errorData);
           throw new Error(
             `Error al cargar las categorías: ${
               errorData.mensaje || response.statusText
@@ -31,10 +26,8 @@ export const Ingresos = () => {
           );
         }
         const data = await response.json();
-        console.log("Datos recibidos:", data);
         setCategorias(data);
       } catch (err) {
-        console.error("Error completo:", err);
         setError(err.message);
       }
     };
