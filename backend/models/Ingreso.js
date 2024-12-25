@@ -31,6 +31,20 @@ const ingresoSchema = new mongoose.Schema({
       },
     ],
   },
+  subcategoria: {
+    codigo: {
+      type: String,
+    },
+    nombre: {
+      type: String,
+    },
+    rutaSubcategoria: [
+      {
+        codigo: String,
+        nombre: String,
+      },
+    ],
+  },
   observaciones: {
     type: String,
     default: "",

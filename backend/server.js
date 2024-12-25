@@ -8,6 +8,7 @@ import egresosCategoriasRoutes from "./routes/egresosCategorias.js";
 import egresosRoutes from "./routes/egresos.js";
 import subcategoriasEgresosRoutes from "./routes/subcategoriasEgresos.js";
 import authRoutes from "./routes/auth.js";
+import subcategoriasIngresosRoutes from "./routes/subcategoriasIngresos.js";
 
 dotenv.config();
 
@@ -85,6 +86,7 @@ app.use("/api/ingresos", ingresosRoutes);
 app.use("/api/egresos", egresosRoutes);
 app.use("/api/subcategorias-egresos", subcategoriasEgresosRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/subcategorias-ingresos", subcategoriasIngresosRoutes);
 
 // Ruta de prueba
 app.get("/test", (req, res) => {

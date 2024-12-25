@@ -230,3 +230,36 @@ a {
   font-size: 1.1em;
   font-weight: 500;
 }
+
+.btn-subcategorias-ingresos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  color: #a0a0a0;
+  border: 2px solid #a0a0a0;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  gap: 8px;
+  font-weight: 700;
+  min-width: 200px;
+  transition: all 0.3s ease;
+
+  .btn-ingresos-icon {
+    color: #a0a0a0;
+    transition: all 0.3s ease;
+  }
+
+  &:hover {
+    background-color: #403f3f;
+    color: white;
+    border-color: rgb(167, 160, 160);
+
+    .btn-ingresos-icon {
+      color: white;
+      background-color: transparent !important;
+    }
+  }
+}

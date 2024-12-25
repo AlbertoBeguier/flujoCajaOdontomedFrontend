@@ -4,11 +4,13 @@ import { getIngresos } from "../../../services/ingresosService";
 import { FaPencilAlt } from "react-icons/fa";
 import "./ListadoIngresos.scss";
 import { IngresosDatosAdicionales } from "./IngresosDatosAdicionales";
+import { useSubcategoriasIngresos } from "../../../hooks/useSubcategoriasIngresos";
 
 export const ListadoIngresos = ({ ultimoIngresoId }) => {
   const [ingresos, setIngresos] = useState([]);
   const [error, setError] = useState("");
   const [ingresoSeleccionado, setIngresoSeleccionado] = useState(null);
+  const { subcategorias } = useSubcategoriasIngresos();
 
   useEffect(() => {
     cargarIngresos();
@@ -28,7 +30,6 @@ export const ListadoIngresos = ({ ultimoIngresoId }) => {
 
   const formatearFecha = (fecha) => {
     const date = new Date(fecha);
-    // Ajustar a zona horaria de Argentina
     const options = {
       timeZone: "America/Argentina/Buenos_Aires",
       year: "numeric",
@@ -62,6 +63,7 @@ export const ListadoIngresos = ({ ultimoIngresoId }) => {
             <tr>
               <th>FECHA</th>
               <th>CATEGORÍA</th>
+              <th>SUBCATEGORÍA</th>
               <th>IMPORTE</th>
               <th>ACCIONES</th>
               <th>OBS</th>
@@ -77,8 +79,44 @@ export const ListadoIngresos = ({ ultimoIngresoId }) => {
               >
                 <td>{formatearFecha(ingreso.fecha)}</td>
                 <td>{ingreso.categoria.nombre}</td>
-                <td className="importe">{formatearImporte(ingreso.importe)}</td>
+                <td>
+                  {ingreso.subcategoria ? (
+                    <div className="subcategoria-container">
+                      <span className="subcategoria-cell">
+                        {ingreso.subcategoria.nombre}
+                      </span>
+                      <div className="subcategoria-tooltip">
+                        <div className="tooltip-content">
+                          {(() => {
+                            const rutaCategoria =
+                              ingreso.categoria.rutaCategoria
+                                .map((cat) => cat.nombre)
+                                .join(" → ");
 
+                            const rutaSubcategoria = [];
+                            let actual = subcategorias.find(
+                              (s) => s.codigo === ingreso.subcategoria.codigo
+                            );
+
+                            while (actual) {
+                              rutaSubcategoria.unshift(actual.nombre);
+                              actual = subcategorias.find(
+                                (s) => s.codigo === actual.categoriaPadre
+                              );
+                            }
+
+                            return `${rutaCategoria} → ${rutaSubcategoria.join(
+                              " → "
+                            )}`;
+                          })()}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    "-"
+                  )}
+                </td>
+                <td className="importe">{formatearImporte(ingreso.importe)}</td>
                 <td className="acciones">
                   <button
                     className="btn-accion"

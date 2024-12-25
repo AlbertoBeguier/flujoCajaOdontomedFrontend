@@ -18,6 +18,7 @@ import { RegistroEgresos } from "./components/egresos/registro/RegistroEgresos";
 import { Login } from "./components/auth/Login";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { Register } from "./components/auth/Register";
+import { GestionSubcategoriasIngresos } from "./components/ingresos/subcategorias/GestionSubcategoriasIngresos";
 
 function App() {
   return (
@@ -58,6 +59,10 @@ function App() {
                   <Route
                     path="/registrar-egresos"
                     element={<RegistroEgresos />}
+                  />
+                  <Route
+                    path="/agregar-subcategorias-ingresos"
+                    element={<GestionSubcategoriasIngresos />}
                   />
                 </Routes>
                 <Footer />

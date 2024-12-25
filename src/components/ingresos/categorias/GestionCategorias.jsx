@@ -17,9 +17,7 @@ export const GestionCategorias = () => {
 
   const fetchCategorias = async () => {
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/api/categorias-ingresos`
-      );
+      const response = await fetch(`${API_BASE_URL}/api/categorias-ingresos`);
       const data = await response.json();
       setCategorias(data);
     } catch (error) {
@@ -54,7 +52,7 @@ export const GestionCategorias = () => {
       <div className="pagina-ingresos-container-1">
         <img src={logo} alt="Logo" className="ingresos-logo" />
         <img src={logo1} alt="Logo1" className="ingresos-logo-1" />
-        <p className="ingresos-titulo">Registro de categorías</p>
+        <p className="ingresos-titulo">Registro de categorías de ingresos</p>
       </div>
       <Box className="categorias-container">
         <Paper className="formulario-categoria">

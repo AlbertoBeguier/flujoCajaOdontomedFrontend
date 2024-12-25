@@ -6,7 +6,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var.$color-fondo-estudio;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,101 +14,148 @@
 }
 
 .datos-adicionales-container {
-  background-color: var.$color-fondo-estudio;
-  padding: 1rem;
-  border: 1px solid var.$color-principal-cliente;
-  border-radius: 8px;
-  min-width: 600px;
-  max-width: 800px;
-  box-shadow: 0 1px 10px rgba(175, 173, 173, 0.561);
-
-  p {
-    margin-bottom: 1.2rem;
-    text-align: center;
-    color: var.$color-principal-cliente;
-    font-size: 1.5rem;
-    font-weight: 400;
-  }
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .datos-content {
-  .dato-grupo {
-    margin-bottom: 0.5rem;
+  margin-bottom: 20px;
+}
 
-    label {
-      font-weight: bold;
-      margin-right: 0.5rem;
-      color: var.$color-principal-estudio;
-    }
+.dato-grupo {
+  margin-bottom: 15px;
 
-    span {
-      color: white;
-      font-size: 0.9rem;
-    }
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
   }
-}
 
-.botones-container {
-  margin-top: 1.5rem;
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-}
-
-.btn-cancelar {
-  padding: 0.5rem 1rem;
-  background-color: #abb1b6;
-  color: black;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 120px;
-
-  &:hover {
-    background-color: #292a2b; // Gris más oscuro
-    color: white;
-  }
-}
-
-.btn-guardar {
-  padding: 0.5rem 1rem;
-  background-color: var.$color-principal-cliente;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 120px;
-
-  &:hover {
-    background-color: var.$color-principal-estudio;
+  span {
+    display: block;
   }
 }
 
 .observaciones-input {
   width: 100%;
-  min-height: 36px;
-  max-height: 150px;
-  padding: 0.5rem;
-  margin-top: 0.5rem;
-  border: 1px solid var.$color-principal-cliente;
+  min-height: 100px;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  background-color: rgba(255, 255, 255, 0.1);
-  color: white;
-  resize: none;
-  overflow-y: hidden;
-  line-height: 1.5;
+  resize: vertical;
+}
 
-  &:focus {
-    outline: none;
-    border-color: var.$color-principal-estudio;
+.botones-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+
+  button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  }
+
+  .btn-cancelar {
+    background-color: #f0f0f0;
+  }
+
+  .btn-guardar {
+    background-color: #4caf50;
+    color: white;
   }
 }
 
-.tiene-obs {
-  color: var.$color-principal-cliente;
-  cursor: help;
+.subcategorias-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
 
-  &:hover {
-    text-decoration: underline;
+  .btn-subcategoria {
+    background: none;
+    border: 1px solid var.$color-principal-cliente;
+    color: white;
+    cursor: pointer;
+    padding: 4px 12px;
+    font-size: 0.85rem;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: rgba(var.$color-principal-cliente, 0.2);
+    }
+
+    &.seleccionada {
+      background-color: var.$color-principal-cliente;
+      color: white;
+    }
   }
+}
+
+.ruta-actual {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+
+  .btn-reset {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var.$color-principal-cliente;
+    padding: 4px;
+    margin-right: 4px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: var.$color-principal-estudio;
+      transform: scale(1.1);
+    }
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-size: 0.9rem;
+  }
+}
+
+.subcategoria-seleccionada {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2px;
+  gap: 8px;
+
+  span {
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  small {
+    color: var.$color-principal-estudio;
+    font-size: 0.85rem;
+  }
+}
+
+.error {
+  color: red;
+  margin-top: 5px;
 }

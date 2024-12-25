@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import logo from "../../assets/odontomed512_512.png";
 import logo1 from "../../assets/odontomedBigLogo.png";
 import "./Ingresos.scss";
-import { FaPlusCircle, FaCashRegister } from "react-icons/fa";
+import { FaPlusCircle, FaCashRegister, FaSitemap } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ListaCategorias } from "./categorias/ListaCategorias";
 import { API_BASE_URL } from "../../config/constants";
@@ -40,7 +40,7 @@ export const Ingresos = () => {
       <div className="pagina-ingresos-container">
         <img src={logo} alt="Logo" className="ingresos-logo" />
         <img src={logo1} alt="Logo1" className="ingresos-logo-1" />
-        <p className="ingresos-titulo">Registro de Ingresos</p>
+        <p className="ingresos-titulo">Gestión de Ingresos</p>
       </div>
 
       <div className="pagina-ingresos-container">
@@ -54,6 +54,12 @@ export const Ingresos = () => {
           <button className="btn-agregar-ingresos">
             <FaPlusCircle className="btn-ingresos-icon" />
             Agregar Categorías
+          </button>
+        </Link>
+        <Link to="/agregar-subcategorias-ingresos">
+          <button className="btn-subcategorias-ingresos">
+            <FaSitemap className="btn-ingresos-icon" />
+            Agregar Subcategorías
           </button>
         </Link>
       </div>

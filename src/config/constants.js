@@ -19,4 +19,5 @@ export const INITIAL_SUBCATEGORIA_FORM_STATE = {
 export const ENDPOINTS = {
   CATEGORIAS_EGRESOS: "/api/categorias-egresos",
   SUBCATEGORIAS_EGRESOS: "/api/subcategorias-egresos",
+  SUBCATEGORIAS_INGRESOS: "/api/subcategorias-ingresos",
 };
