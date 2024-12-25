@@ -64,8 +64,8 @@ export const Login = () => {
             />
           </div>
         </div>
-        <h2>Iniciar Sesión</h2>
-        {error && <div className="error-message">{error}</div>}
+        <p className="login-titulo">Iniciar Sesión</p>
+        {error && <div className="error-login">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <input

@@ -5,7 +5,7 @@ import whatsappIcon from "/whatsapp.png";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/NavBar.scss";
 import { obtenerFechaActual } from "../utils/fechaActual";
-import { Undo2, PhoneCall, LogOut, UserPlus } from "lucide-react";
+import { Undo2, PhoneCall, LogOut, UserPlus, User } from "lucide-react";
 import { logout, isAuthenticated, getUser } from "../services/authService";
 
 export const NavBar = () => {
@@ -104,6 +104,7 @@ export const NavBar = () => {
           {/* Usuario logueado */}
           {isAuthenticated() && (
             <li className="nav-item-1 usuario-logueado">
+              <User size={30} className="icono-usuario" />
               <span className="nombre-usuario">{getUser().toUpperCase()}</span>
             </li>
           )}

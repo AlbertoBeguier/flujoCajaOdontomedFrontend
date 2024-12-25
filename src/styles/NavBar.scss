@@ -205,12 +205,17 @@ main {
 .usuario-logueado {
   display: flex;
   align-items: center;
+
+  .icono-usuario {
+    color: var.$color-principal-cliente;
+    margin-right: 1px;
+  }
 }
 
 .nombre-usuario {
   color: var.$color-principal-cliente;
   font-weight: 600;
   font-size: 1rem;
-  margin: 0 10px;
+  margin: 0 3px;
   text-transform: uppercase;
 }

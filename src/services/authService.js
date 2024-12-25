@@ -31,6 +31,14 @@ export const login = async (credentials) => {
 };
 
 export const logout = () => {
+  // Limpiar el timer de inactividad
+  const timer = localStorage.getItem("inactivityTimer");
+  if (timer) {
+    clearTimeout(parseInt(timer));
+    localStorage.removeItem("inactivityTimer");
+  }
+
+  // Limpiar datos de autenticación
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(USER_KEY);
 };
