@@ -11,7 +11,7 @@ export const GraficoTiposGasto = ({
   return (
     <div className="grafico-item">
       <div className="grafico-header">
-        <h3>Por Tipo de Gasto</h3>
+        <h3>Por Tipo de Egreso</h3>
         <select
           value={periodoTiposGasto}
           onChange={(e) => setPeriodoTiposGasto(e.target.value)}

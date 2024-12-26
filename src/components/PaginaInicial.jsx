@@ -25,7 +25,7 @@ export const PaginaInicial = () => {
         <Link to="/egresos">
           <button className="btn-gastos">
             <FaMoneyBillWave className="btn-icon" />
-            Gastos
+            Egresos
           </button>
         </Link>
       </div>

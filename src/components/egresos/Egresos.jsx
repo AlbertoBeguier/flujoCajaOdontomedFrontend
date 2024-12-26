@@ -12,14 +12,14 @@ export const Egresos = () => {
       <div className="pagina-egresos-container">
         <img src={logo} alt="Logo" className="egresos-logo" />
         <img src={logo1} alt="Logo1" className="egresos-logo-1" />
-        <p className="egresos-titulo">Gestión de Gastos</p>
+        <p className="egresos-titulo">Gestión de Egresos</p>
       </div>
 
       <div className="egresos-container">
         <Link to="/registrar-egresos">
           <button className="btn-reg-egresos">
             <FaRegListAlt className="btn-egresos-icon" />
-            Registrar Gastos
+            Registrar Egresos
           </button>
         </Link>
         <Link to="/agregar-egresos">

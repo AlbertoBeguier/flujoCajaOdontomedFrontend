@@ -6,9 +6,7 @@ export const ListadoCategoriasEgresos = () => {
 
   return (
     <div className="listado-categorias-container">
-      <p className="titulo-categorias-egresos">
-        Categorías de Gastos Existentes
-      </p>
+      <p className="titulo-categorias-egresos">Categorías Egresos Existentes</p>
       <table className="tabla-categorias">
         <thead>
           <tr>

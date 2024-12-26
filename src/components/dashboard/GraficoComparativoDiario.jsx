@@ -17,7 +17,7 @@ export const GraficoComparativoDiario = ({
   return (
     <div className="grafico-item">
       <div className="grafico-header">
-        <h3>Ingresos vs Gastos Diarios</h3>
+        <h3>Ingresos vs Egresos Diarios</h3>
         <select
           value={diasSeleccionados}
           onChange={(e) => setDiasSeleccionados(Number(e.target.value))}

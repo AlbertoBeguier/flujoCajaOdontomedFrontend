@@ -87,7 +87,7 @@ export const DashboardEgresos = () => {
       <div className="dashboard-header">
         <div className="header-line">
           <div className="line-left"></div>
-          <h2 className="dashboard-title">Gastos</h2>
+          <h2 className="dashboard-title">Egresos</h2>
           <div className="line-right"></div>
         </div>
       </div>

@@ -72,7 +72,7 @@ export const RegistroEgresos = () => {
       <div className="pagina-egresos-container-2">
         <img src={logo} alt="Logo" className="egresos-logo" />
         <img src={logo1} alt="Logo1" className="egresos-logo-1" />
-        <p className="egresos-registro-titulo">Registro de Gastos</p>
+        <p className="egresos-registro-titulo">Registro de Egresos</p>
       </div>
       <div className="seleccion-categorias-container">
         {rutaSeleccion.length > 0 && (

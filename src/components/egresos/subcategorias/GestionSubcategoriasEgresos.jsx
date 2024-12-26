@@ -55,7 +55,7 @@ export const GestionSubcategoriasEgresos = () => {
       <div className="pagina-egresos-container-1">
         <img src={logo} alt="Logo" className="egresos-logo" />
         <img src={logo1} alt="Logo1" className="egresos-logo-1" />
-        <p className="egresos-titulo">Registro de subcategorías de gastos</p>
+        <p className="egresos-titulo">Registro de subcategorías de egresos</p>
       </div>
       <Box className="subcategorias-container">
         <Paper className="formulario-subcategoria">

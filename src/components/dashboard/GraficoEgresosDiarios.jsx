@@ -10,7 +10,7 @@ export const GraficoEgresosDiarios = ({
   return (
     <div className="grafico-item">
       <div className="grafico-header">
-        <h3>Gastos Diarios</h3>
+        <h3>Egresos Diarios</h3>
         <select
           value={diasSeleccionados}
           onChange={(e) => setDiasSeleccionados(Number(e.target.value))}

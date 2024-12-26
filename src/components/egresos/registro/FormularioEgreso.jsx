@@ -61,7 +61,7 @@ export const FormularioEgreso = ({
   return (
     <div className="container-general">
       <div className="formulario-egreso-container">
-        <h2 className="formulario-titulo">Registrar Gasto</h2>
+        <h2 className="formulario-titulo">Registrar Egreso</h2>
         <RutaCategoria rutaCompleta={rutaCompleta} />
         {error && <div className="error-mensaje">{error}</div>}
         <form onSubmit={handleSubmit} className="formulario-egreso">

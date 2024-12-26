@@ -88,7 +88,7 @@ const generarDatosComparativos = (datos, fechas) => ({
       fill: true,
     },
     {
-      label: "Gastos",
+      label: "Egresos",
       data: fechas.map((fecha) => datos.egresos[fecha]),
       borderColor: "rgba(128, 128, 128, 0.8)",
       backgroundColor: (context) => {
@@ -130,7 +130,7 @@ const generarDatosAcumulados = (datos, fechas) => ({
       fill: true,
     },
     {
-      label: "Gastos Acumulados",
+      label: "Egresos Acumulados",
       data: fechas.map((fecha, index) => {
         let acumuladoEgresos = 0;
         for (let i = 0; i <= index; i++) {

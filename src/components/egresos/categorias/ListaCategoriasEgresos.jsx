@@ -33,7 +33,7 @@ export const ListaCategoriasEgresos = ({ categorias }) => {
   return (
     <>
       <Typography variant="h6" gutterBottom className="lista-categorias-titulo">
-        Categorías de Gastos Existentes
+        Categorías Egresos Existentes
       </Typography>
 
       <TableContainer component={Paper} className="tabla-categorias">

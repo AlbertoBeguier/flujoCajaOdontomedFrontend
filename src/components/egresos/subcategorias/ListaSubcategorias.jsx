@@ -7,7 +7,7 @@ export const ListaSubcategorias = () => {
   return (
     <div className="lista-subcategorias-wrapper">
       <h2 className="lista-subcategorias-titulo">
-        Subcategorías de Gastos Existentes
+        Subcategorías de Egresos Existentes
       </h2>
       <table className="tabla-subcategorias">
         <thead>

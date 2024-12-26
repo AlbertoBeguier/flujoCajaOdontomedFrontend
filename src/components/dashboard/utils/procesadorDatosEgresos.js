@@ -30,7 +30,7 @@ export const procesarEgresosPorDia = (egresos = [], dias = 7) => {
       labels: Object.keys(datosCompletos),
       datasets: [
         {
-          label: "Gastos Diarios",
+          label: "Egresos Diarios",
           data: Object.values(datosCompletos),
           borderColor: "rgba(128, 128, 128, 0.45)", // Gris para gastos
           backgroundColor: "rgba(128, 128, 128, 0.2)",
@@ -144,7 +144,7 @@ export const procesarEgresosPorTipo = (egresos = [], periodo = "mensual") => {
       labels: tiposOrdenados.map(([tipo]) => tipo),
       datasets: [
         {
-          label: "Gastos por Tipo",
+          label: "Egresos por Tipo",
           data: tiposOrdenados.map(([, monto]) => monto),
           backgroundColor: [
             "rgba(128, 128, 128, 0.45)",
@@ -207,7 +207,7 @@ export const datosInicialesEgresos = {
     labels: [],
     datasets: [
       {
-        label: "Gastos Diarios",
+        label: "Egresos Diarios",
         data: [],
         borderColor: "rgba(128, 128, 128, 0.45)",
         backgroundColor: "rgba(128, 128, 128, 0.2)",
@@ -233,7 +233,7 @@ export const datosInicialesEgresos = {
     labels: [],
     datasets: [
       {
-        label: "Gastos por Tipo",
+        label: "Egresos por Tipo",
         data: [],
         backgroundColor: [
           "rgba(128, 128, 128, 0.45)",
@@ -300,7 +300,7 @@ export const procesarDatosEgresos = (egresos = [], periodo = "mensual") => {
       labels: ["Efectivo", "Electrónico"],
       datasets: [
         {
-          label: "Gastos por Medio de Pago",
+          label: "Egresos por Medio de Pago",
           data: [mediosPago.efectivo, mediosPago.electronico],
           backgroundColor: [
             "rgba(128, 128, 128, 0.3)", // Gris para Efectivo, más transparente

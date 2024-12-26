@@ -52,7 +52,7 @@ export const GestionCategoriasEgresos = () => {
       <div className="pagina-egresos-container-1">
         <img src={logo} alt="Logo" className="egresos-logo" />
         <img src={logo1} alt="Logo1" className="egresos-logo-1" />
-        <p className="egresos-titulo">Registro de categorías de gastos</p>
+        <p className="egresos-titulo">Registro de categorías de egresos</p>
       </div>
       <Box className="categorias-container">
         <Paper className="formulario-categoria">
