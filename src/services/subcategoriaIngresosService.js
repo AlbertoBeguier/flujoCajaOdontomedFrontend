@@ -1,4 +1,5 @@
 import { API_BASE_URL, ENDPOINTS } from "../config/constants";
+import { getToken } from "./authService";
 
 export const getSubcategoriasIngresos = async () => {
   const response = await fetch(
@@ -21,20 +22,48 @@ export const getSubcategoriasIngresos = async () => {
 };
 
 export const createSubcategoriaIngreso = async (subcategoriaData) => {
+  try {
+    console.log("Enviando datos al servidor:", subcategoriaData);
+
+    const response = await fetch(
+      `${API_BASE_URL}${ENDPOINTS.SUBCATEGORIAS_INGRESOS}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(subcategoriaData),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.mensaje || "Error al crear la subcategoría");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error detallado:", error);
+    throw error;
+  }
+};
+
+export const guardarListaSubcategoria = async (subcategoriaId, lista) => {
   const response = await fetch(
-    `${API_BASE_URL}${ENDPOINTS.SUBCATEGORIAS_INGRESOS}`,
+    `${API_BASE_URL}${ENDPOINTS.SUBCATEGORIAS_INGRESOS}/${subcategoriaId}/lista`,
     {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
       },
-      body: JSON.stringify(subcategoriaData),
+      body: JSON.stringify({ lista }),
     }
   );
 
   if (!response.ok) {
-    const data = await response.json();
-    throw new Error(data.mensaje || "Error al crear la subcategoría");
+    const error = await response.json();
+    throw new Error(error.mensaje || "Error al guardar la lista");
   }
 
   return response.json();

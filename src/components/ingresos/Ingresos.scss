@@ -263,3 +263,37 @@ a {
     }
   }
 }
+
+.btn-datos-ingresos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  color: #4a90e2; // Un azul suave
+  border: 2px solid #4a90e2;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  gap: 8px;
+  font-weight: 700;
+  min-width: 200px;
+  transition: all 0.3s ease;
+  margin-left: 10px;
+
+  .btn-ingresos-icon {
+    color: #4a90e2;
+    transition: all 0.3s ease;
+  }
+
+  &:hover {
+    background-color: #4a90e2;
+    color: white;
+    border-color: rgb(167, 160, 160);
+
+    .btn-ingresos-icon {
+      color: white;
+      background-color: transparent !important;
+    }
+  }
+}

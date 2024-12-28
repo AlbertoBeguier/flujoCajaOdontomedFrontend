@@ -14,16 +14,30 @@ const subcategoriaIngresoSchema = new mongoose.Schema(
     nivel: {
       type: Number,
       required: true,
-      default: 2,
     },
     categoriaPadre: {
       type: String,
-      default: "",
+      default: null,
     },
-    categoriaBase: {
-      type: String,
-      default: "",
+    lista: {
+      nombre: String,
+      items: [
+        {
+          codigo: String,
+          numero: Number,
+          nombre: String,
+          activo: {
+            type: Boolean,
+            default: true,
+          },
+        },
+      ],
     },
+    esLista: {
+      type: Boolean,
+      default: false,
+    },
+    codigoBase: String,
   },
   {
     timestamps: true,

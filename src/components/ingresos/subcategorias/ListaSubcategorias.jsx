@@ -10,8 +10,27 @@ import {
   Paper,
 } from "@mui/material";
 import "./ListaSubcategorias.scss";
+import { Fragment } from "react";
 
 export const ListaSubcategorias = ({ subcategorias }) => {
+  // Verificar estructura
+  const subcategoriasOrdenadas = [...subcategorias].sort((a, b) =>
+    a.codigo.localeCompare(b.codigo)
+  );
+
+  const renderItems = (subcategoria) => {
+    if (subcategoria.esLista && subcategoria.lista?.items?.length > 0) {
+      return subcategoria.lista.items.map((item, index) => (
+        <TableRow key={item._id || index} className="item-lista">
+          <TableCell>{item.codigo}</TableCell>
+          <TableCell>{item.nombre}</TableCell>
+          <TableCell>{subcategoria.codigo}</TableCell>
+        </TableRow>
+      ));
+    }
+    return null;
+  };
+
   return (
     <div className="lista-subcategorias-container">
       <Typography variant="h6" className="lista-subcategorias-titulo">
@@ -28,14 +47,17 @@ export const ListaSubcategorias = ({ subcategorias }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {subcategorias.map((subcategoria) => (
-              <TableRow key={subcategoria._id}>
-                <TableCell>{subcategoria.codigo}</TableCell>
-                <TableCell>{subcategoria.nombre}</TableCell>
-                <TableCell>
-                  {subcategoria.categoriaPadre || "Categoría Principal"}
-                </TableCell>
-              </TableRow>
+            {subcategoriasOrdenadas.map((subcategoria) => (
+              <Fragment key={subcategoria._id}>
+                <TableRow>
+                  <TableCell>{subcategoria.codigo}</TableCell>
+                  <TableCell>{subcategoria.nombre}</TableCell>
+                  <TableCell>
+                    {subcategoria.categoriaPadre || "Categoría Principal"}
+                  </TableCell>
+                </TableRow>
+                {renderItems(subcategoria)}
+              </Fragment>
             ))}
           </TableBody>
         </Table>

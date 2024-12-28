@@ -9,11 +9,16 @@ export const INITIAL_FORM_STATE = {
 };
 
 export const INITIAL_SUBCATEGORIA_FORM_STATE = {
-  codigo: "",
+  codigo: "3",
   nombre: "",
-  nivel: 2,
+  nivel: 1,
   categoriaPadre: "",
   categoriaBase: "",
+  esLista: false,
+  lista: {
+    nombre: "",
+    items: [],
+  },
 };
 
 export const ENDPOINTS = {

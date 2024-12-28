@@ -64,3 +64,22 @@
   border-radius: 4px;
   color: var.$color-principal-cliente;
 }
+
+.lista-badge {
+  margin-left: 20px;
+  padding: 2px 6px;
+  font-size: 0.8em;
+  color: #dd6b20;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid #dd6b20;
+  cursor: pointer;
+}
+
+.categoria-acciones {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}

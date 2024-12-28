@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Box, Paper, Alert, Snackbar } from "@mui/material";
 import { FormularioSubcategoriaIngresos } from "./FormularioSubcategoriaIngresos";
 import { ListaSubcategorias } from "./ListaSubcategorias";
+import { GestionLista } from "./GestionLista";
 import logo from "../../../assets/odontomed512_512.png";
 import logo1 from "../../../assets/odontomedBigLogo.png";
 import "./GestionSubcategoriasIngresos.scss";
@@ -9,7 +10,11 @@ import { getSubcategoriasIngresos } from "../../../services/subcategoriaIngresos
 
 export const GestionSubcategoriasIngresos = () => {
   const [subcategorias, setSubcategorias] = useState([]);
+  const [rutaActual, setRutaActual] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [mostrarModalLista, setMostrarModalLista] = useState(false);
+  const [subcategoriaSeleccionada, setSubcategoriaSeleccionada] =
+    useState(null);
   const [notification, setNotification] = useState({
     open: false,
     message: "",
@@ -50,6 +55,34 @@ export const GestionSubcategoriasIngresos = () => {
     setNotification({ ...notification, open: false });
   };
 
+  const handleVerSubcategorias = (subcategoria) => {
+    setRutaActual([...rutaActual, subcategoria]);
+  };
+
+  const handleGuardarLista = async (lista) => {
+    try {
+      await guardarListaSubcategoria(subcategoriaSeleccionada._id, lista);
+      setMostrarModalLista(false);
+      setSubcategoriaSeleccionada(null);
+      await fetchSubcategorias();
+      setNotification({
+        open: true,
+        message: "Lista guardada exitosamente",
+        severity: "success",
+      });
+    } catch (error) {
+      setNotification({
+        open: true,
+        message: "Error al guardar la lista: " + error.message,
+        severity: "error",
+      });
+    }
+  };
+
+  const handleRutaChange = (nuevaRuta) => {
+    setRutaActual(nuevaRuta);
+  };
+
   return (
     <>
       <div className="pagina-ingresos-container-1">
@@ -58,10 +91,38 @@ export const GestionSubcategoriasIngresos = () => {
         <p className="ingresos-titulo">Registro de subcategorías de ingresos</p>
       </div>
       <Box className="subcategorias-container">
+        {rutaActual.length > 0 && (
+          <div className="ruta-navegacion">
+            <button
+              className="btn-navegacion"
+              onClick={() => setRutaActual([])}
+            >
+              Inicio
+            </button>
+            {rutaActual.map((cat) => (
+              <span key={cat._id}>
+                <span className="separador-ruta">›</span>
+                <button
+                  className="btn-navegacion"
+                  onClick={() =>
+                    setRutaActual(
+                      rutaActual.slice(0, rutaActual.indexOf(cat) + 1)
+                    )
+                  }
+                >
+                  {cat.nombre}
+                </button>
+              </span>
+            ))}
+          </div>
+        )}
+
         <Paper className="formulario-subcategoria">
           <FormularioSubcategoriaIngresos
             onSubcategoriaCreada={handleSubcategoriaCreada}
             subcategorias={subcategorias}
+            rutaActual={rutaActual}
+            onRutaChange={handleRutaChange}
           />
         </Paper>
 
@@ -71,9 +132,20 @@ export const GestionSubcategoriasIngresos = () => {
           ) : subcategorias.length === 0 ? (
             <p className="mensaje-vacio">No hay subcategorías registradas</p>
           ) : (
-            <ListaSubcategorias subcategorias={subcategorias} />
+            <ListaSubcategorias
+              subcategorias={subcategorias}
+              onVerSubcategorias={handleVerSubcategorias}
+            />
           )}
         </Paper>
+
+        {mostrarModalLista && subcategoriaSeleccionada && (
+          <GestionLista
+            subcategoria={subcategoriaSeleccionada}
+            onCerrar={() => setMostrarModalLista(false)}
+            onGuardar={handleGuardarLista}
+          />
+        )}
 
         <Snackbar
           open={notification.open}
