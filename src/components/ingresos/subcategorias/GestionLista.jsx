@@ -17,22 +17,24 @@ export const GestionLista = ({ subcategoria, onGuardar, onCerrar }) => {
   useEffect(() => {
     const inicializarModal = async () => {
       try {
-        if (subcategoria.origenModal === "botonLista") {
-          // Si viene del botón de lista, construir la ruta automáticamente
-          const response = await getSubcategoriasIngresos();
-          const rutaCompleta = construirRuta(subcategoria.codigo, response);
-          setRutaActual(rutaCompleta);
+        const response = await getSubcategoriasIngresos();
 
-          // Si la subcategoría ya tiene lista, cargarla
-          if (subcategoria.lista?.items?.length > 0) {
-            setLista({
-              nombre: subcategoria.lista.nombre || subcategoria.nombre,
-              items: subcategoria.lista.items,
-            });
-          }
+        // Siempre construir la ruta completa
+        const rutaCompleta = construirRuta(subcategoria.codigo, response);
+        setRutaActual(rutaCompleta);
+
+        // Si la categoría actual tiene lista, mostrarla
+        const categoriaActual = response.find(
+          (cat) => cat.codigo === subcategoria.codigo
+        );
+        if (categoriaActual?.lista?.items?.length > 0) {
+          setLista({
+            nombre: categoriaActual.lista.nombre || categoriaActual.nombre,
+            items: categoriaActual.lista.items,
+          });
+          setCategorias(categoriaActual.lista.items);
         } else {
-          // Si viene del botón principal, cargar categorías raíz
-          const response = await getSubcategoriasIngresos();
+          // Si no tiene lista, mostrar categorías raíz
           const categoriasRaiz = response.filter((cat) => !cat.categoriaPadre);
           setCategorias(categoriasRaiz);
         }
@@ -65,7 +67,8 @@ export const GestionLista = ({ subcategoria, onGuardar, onCerrar }) => {
   };
 
   const handleSeleccionCategoria = async (categoria) => {
-    const nivelActual = categoria.codigo.split(".").length;
+    const nivelActual =
+      categoria.codigo?.split(".").length || rutaActual.length + 1;
     const yaExisteNivel = rutaActual.some(
       (cat) => cat.codigo.split(".").length === nivelActual
     );
@@ -74,23 +77,46 @@ export const GestionLista = ({ subcategoria, onGuardar, onCerrar }) => {
       !yaExisteNivel &&
       !rutaActual.find((cat) => cat.codigo === categoria.codigo)
     ) {
-      setRutaActual([...rutaActual, categoria]);
+      const categoriaActualizada = {
+        ...categoria,
+        codigo:
+          categoria.codigo ||
+          `${rutaActual[rutaActual.length - 1].codigo}.${
+            lista.items.indexOf(categoria) + 1
+          }`,
+        nivel: nivelActual,
+        esLista: categoria.esLista || false,
+      };
 
-      // Si la categoría es una lista y tiene items, mostrarlos
-      if (categoria.esLista && categoria.lista?.items?.length > 0) {
-        setLista({
-          nombre: categoria.lista.nombre || categoria.nombre,
-          items: categoria.lista.items,
-        });
+      setRutaActual([...rutaActual, categoriaActualizada]);
+
+      if (categoria.esLista) {
+        // Si es una lista, mostrar sus items
+        if (categoria.lista?.items?.length > 0) {
+          setCategorias(categoria.lista.items);
+          setLista({
+            nombre: categoria.nombre,
+            items: categoria.lista.items,
+          });
+        } else {
+          // Si es lista pero no tiene items, mostrar lista vacía
+          setCategorias([]);
+          setLista({
+            nombre: categoria.nombre,
+            items: [],
+          });
+        }
       } else {
-        // Si no es lista, buscar subcategorías
+        // Si es una categoría normal, mostrar sus subcategorías
         const subCategorias = await getSubcategoriasIngresos();
         const hijos = subCategorias.filter(
           (sub) => sub.categoriaPadre === categoria.codigo
         );
-        if (hijos.length > 0) {
-          setCategorias(hijos);
-        }
+        setCategorias(hijos);
+        setLista({
+          nombre: categoria.nombre,
+          items: [],
+        });
       }
     }
   };
@@ -184,6 +210,22 @@ export const GestionLista = ({ subcategoria, onGuardar, onCerrar }) => {
     }
   };
 
+  const handleItemClick = (item) => {
+    if (item.esLista) {
+      handleSeleccionCategoria({
+        codigo:
+          item.codigo ||
+          `${rutaActual[rutaActual.length - 1].codigo}.${
+            lista.items.indexOf(item) + 1
+          }`,
+        nombre: item.nombre,
+        nivel: rutaActual.length + 1,
+        esLista: true,
+        lista: item.lista,
+      });
+    }
+  };
+
   return (
     <div className="datos-adicionales-overlay">
       <div className="datos-adicionales-container">
@@ -238,7 +280,11 @@ export const GestionLista = ({ subcategoria, onGuardar, onCerrar }) => {
           <div className="lista-items">
             {lista.items.map((item, index) => (
               <div key={index} className="item">
-                <div className="item-info">
+                <div
+                  className="item-info"
+                  onClick={() => handleItemClick(item)}
+                  style={{ cursor: "pointer" }}
+                >
                   <span className="numero">{index + 1}</span>
                   <span className="nombre">{item.nombre}</span>
                 </div>

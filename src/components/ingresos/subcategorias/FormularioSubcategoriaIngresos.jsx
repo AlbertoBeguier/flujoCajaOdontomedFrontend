@@ -33,12 +33,30 @@ export const FormularioSubcategoriaIngresos = ({
   }, []);
 
   const handleAbrirModalLista = useCallback(() => {
+    // Si no hay código en formData, no podemos abrir el modal
+    if (!formData.codigo) {
+      setError("Debe ingresar un código de subcategoría primero");
+      return;
+    }
+
+    // Buscar la subcategoría completa
+    const subcategoriaActual = subcategorias.find(
+      (sub) => sub.codigo === formData.codigo
+    ) || {
+      // Si no existe, crear una nueva con los datos mínimos requeridos
+      _id: formData.codigo,
+      codigo: formData.codigo,
+      nombre: formData.nombre,
+      nivel: formData.nivel || 1,
+      esLista: true,
+    };
+
     setSubcategoriaSeleccionada({
-      ...formData,
-      origenModal: "botonPrincipal",
+      ...subcategoriaActual,
+      origenModal: "botonLista",
     });
     setMostrarModalLista(true);
-  }, [formData]);
+  }, [formData, subcategorias]);
 
   useEffect(() => {
     if (rutaActual?.length > 0) {

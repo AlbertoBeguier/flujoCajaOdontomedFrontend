@@ -1,5 +1,21 @@
 import mongoose from "mongoose";
 
+// Definimos el esquema de item de forma recursiva
+const itemSchema = new mongoose.Schema({
+  codigo: String,
+  nombre: String,
+  numero: Number,
+  activo: { type: Boolean, default: true },
+  esLista: { type: Boolean, default: false },
+  lista: {
+    nombre: String,
+    items: [], // Esto permitirá items anidados infinitamente
+  },
+});
+
+// Referencia circular para permitir anidación infinita
+itemSchema.add({ "lista.items": [itemSchema] });
+
 const subcategoriaIngresoSchema = new mongoose.Schema(
   {
     codigo: {
@@ -19,25 +35,14 @@ const subcategoriaIngresoSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
-    lista: {
-      nombre: String,
-      items: [
-        {
-          codigo: String,
-          numero: Number,
-          nombre: String,
-          activo: {
-            type: Boolean,
-            default: true,
-          },
-        },
-      ],
-    },
     esLista: {
       type: Boolean,
       default: false,
     },
-    codigoBase: String,
+    lista: {
+      nombre: String,
+      items: [itemSchema],
+    },
   },
   {
     timestamps: true,
