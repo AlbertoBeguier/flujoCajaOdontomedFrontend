@@ -7,12 +7,14 @@ import {
   guardarItems,
 } from "../../../services/subcategoriaIngresosService";
 import { ModalItems } from "./ModalItems";
+import { Modal } from "./Modal";
 
 export const FormFields = ({
   formData,
   handleChange,
   subcategoriasIngresos,
   onRutaChange,
+  clearError,
 }) => {
   const [siguienteCodigo, setSiguienteCodigo] = useState("");
   const [subcategoriasNivel, setSubcategoriasNivel] = useState([]);
@@ -21,6 +23,8 @@ export const FormFields = ({
   const [mostrarModalItems, setMostrarModalItems] = useState(false);
   const [subcategoriaSeleccionada, setSubcategoriaSeleccionada] =
     useState(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [subcategoriaAConvertir, setSubcategoriaAConvertir] = useState(null);
 
   const actualizarCodigo = useCallback(
     (nuevoCodigo) => {
@@ -325,13 +329,21 @@ export const FormFields = ({
   };
 
   const handleConvertirEnLista = async (subcategoria) => {
+    clearError();
+    setSubcategoriaAConvertir(subcategoria);
+    setShowConfirmModal(true);
+  };
+
+  const handleConfirmarConversion = async () => {
     try {
       await convertirEnLista({
-        codigo: subcategoria.codigo,
-        nombre: subcategoria.nombre,
-        nivel: subcategoria.nivel,
-        categoriaPadre: subcategoria.categoriaPadre,
+        codigo: subcategoriaAConvertir.codigo,
+        nombre: subcategoriaAConvertir.nombre,
+        nivel: subcategoriaAConvertir.nivel,
+        categoriaPadre: subcategoriaAConvertir.categoriaPadre,
       });
+      setShowConfirmModal(false);
+      clearError();
       window.location.reload();
     } catch (error) {
       console.error("Error al convertir en lista:", error);
@@ -351,6 +363,33 @@ export const FormFields = ({
     } catch (error) {
       console.error("Error al guardar items:", error);
     }
+  };
+
+  const construirArbolEstructura = (subcategoria) => {
+    let estructura = `${subcategoria.nombre}\n`;
+
+    // Función recursiva para construir el árbol completo
+    const construirRamas = (subcat, prefijo = "") => {
+      const hijos = subcategoriasIngresos.filter(
+        (sub) => sub.categoriaPadre === subcat.codigo
+      );
+
+      hijos.forEach((hijo, index) => {
+        const esUltimo = index === hijos.length - 1;
+        const prefijoActual = esUltimo ? "└── " : "├── ";
+        const prefijoSiguiente = esUltimo ? "    " : "│   ";
+
+        estructura += `${prefijo}${prefijoActual}${hijo.nombre}\n`;
+
+        // Llamada recursiva para los hijos de este hijo
+        construirRamas(hijo, prefijo + prefijoSiguiente);
+      });
+    };
+
+    // Iniciar la construcción recursiva
+    construirRamas(subcategoria);
+
+    return estructura;
   };
 
   return (
@@ -391,7 +430,8 @@ export const FormFields = ({
           onChange={handleChange}
           className="form-input"
           placeholder="Nombre de la subcategoría"
-          required
+          required={!showConfirmModal}
+          noValidate
         />
         <div className="codigo-sugerido">Código: {siguienteCodigo}</div>
       </div>
@@ -413,6 +453,27 @@ export const FormFields = ({
           onCerrar={() => setMostrarModalItems(false)}
           subcategoriasIngresos={subcategoriasIngresos}
         />
+      )}
+
+      {showConfirmModal && (
+        <Modal
+          onClose={() => setShowConfirmModal(false)}
+          onConfirm={handleConfirmarConversion}
+        >
+          <h3 className="titulo-modal">
+            ¿Está seguro que desea convertir en lista?
+          </h3>
+          <p>
+            Va a convertir &ldquo;{subcategoriaAConvertir?.nombre}&rdquo; en una
+            lista,
+          </p>
+          <p className="advertencia">
+            esta acción afectará a todas las subcategorías similares
+          </p>
+          <pre className="arbol-estructura">
+            {construirArbolEstructura(subcategoriaAConvertir)}
+          </pre>
+        </Modal>
       )}
     </div>
   );
@@ -436,4 +497,5 @@ FormFields.propTypes = {
     })
   ).isRequired,
   onRutaChange: PropTypes.func.isRequired,
+  clearError: PropTypes.func.isRequired,
 };

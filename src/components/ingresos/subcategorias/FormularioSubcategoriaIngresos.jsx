@@ -15,6 +15,8 @@ export const FormularioSubcategoriaIngresos = ({
   const [formData, setFormData] = useState(INITIAL_SUBCATEGORIA_FORM_STATE);
   const [error, setError] = useState("");
 
+  const clearError = () => setError("");
+
   const handleChange = (e) => {
     const value =
       e.target.name === "nivel" ? Number(e.target.value) : e.target.value;
@@ -26,6 +28,11 @@ export const FormularioSubcategoriaIngresos = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (document.body.classList.contains("modal-open")) {
+      return;
+    }
+
     setError("");
 
     try {
@@ -54,6 +61,7 @@ export const FormularioSubcategoriaIngresos = ({
       component="form"
       onSubmit={handleSubmit}
       className="formulario-subcategoria"
+      noValidate
     >
       {error && (
         <Alert severity="error" className="alerta-error">
@@ -78,6 +86,7 @@ export const FormularioSubcategoriaIngresos = ({
           handleChange={handleChange}
           subcategoriasIngresos={subcategorias}
           onRutaChange={onRutaChange}
+          clearError={clearError}
         />
       </div>
     </Box>

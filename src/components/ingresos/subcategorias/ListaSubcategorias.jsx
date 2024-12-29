@@ -1,3 +1,4 @@
+import { useState } from "react";
 import PropTypes from "prop-types";
 import {
   Table,
@@ -6,17 +7,47 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
   Paper,
 } from "@mui/material";
 import "./ListaSubcategorias.scss";
 import { Fragment } from "react";
 
 export const ListaSubcategorias = ({ subcategorias }) => {
-  // Verificar estructura
+  const [showTree, setShowTree] = useState(true);
+
+  // Ordenar subcategorías para la tabla
   const subcategoriasOrdenadas = [...subcategorias].sort((a, b) =>
     a.codigo.localeCompare(b.codigo)
   );
+
+  const construirArbolCompleto = () => {
+    const categoriasRaiz = subcategorias.filter((sub) => !sub.categoriaPadre);
+    let estructura = "";
+
+    const construirRamas = (subcat, prefijo = "") => {
+      const hijos = subcategorias.filter(
+        (sub) => sub.categoriaPadre === subcat.codigo
+      );
+
+      hijos.forEach((hijo, index) => {
+        const esUltimo = index === hijos.length - 1;
+        const prefijoActual = esUltimo ? "└── " : "├── ";
+        const prefijoSiguiente = esUltimo ? "    " : "│   ";
+
+        estructura += `${prefijo}${prefijoActual}${hijo.nombre} (${hijo.codigo})\n`;
+        construirRamas(hijo, prefijo + prefijoSiguiente);
+      });
+    };
+
+    categoriasRaiz.forEach((raiz, index) => {
+      const esUltimo = index === categoriasRaiz.length - 1;
+      const prefijoActual = esUltimo ? "└── " : "├── ";
+      estructura += `${prefijoActual}${raiz.nombre} (${raiz.codigo})\n`;
+      construirRamas(raiz, esUltimo ? "    " : "│   ");
+    });
+
+    return estructura;
+  };
 
   const renderItems = (subcategoria) => {
     if (subcategoria.esLista && subcategoria.lista?.items?.length > 0) {
@@ -33,35 +64,48 @@ export const ListaSubcategorias = ({ subcategorias }) => {
 
   return (
     <div className="lista-subcategorias-container">
-      <Typography variant="h6" className="lista-subcategorias-titulo">
-        Subcategorías de Ingresos Existentes
-      </Typography>
+      <div className="header-container">
+        <h2>Subcategorías de Ingresos Existentes</h2>
+        <button
+          className="btn-toggle-view"
+          onClick={() => setShowTree(!showTree)}
+        >
+          {showTree ? "Ver tabla" : "Ver árbol"}
+        </button>
+      </div>
 
-      <TableContainer component={Paper} className="tabla-subcategorias">
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Código</TableCell>
-              <TableCell>Nombre</TableCell>
-              <TableCell>Categoría Padre</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {subcategoriasOrdenadas.map((subcategoria) => (
-              <Fragment key={subcategoria._id}>
-                <TableRow>
-                  <TableCell>{subcategoria.codigo}</TableCell>
-                  <TableCell>{subcategoria.nombre}</TableCell>
-                  <TableCell>
-                    {subcategoria.categoriaPadre || "Categoría Principal"}
-                  </TableCell>
-                </TableRow>
-                {renderItems(subcategoria)}
-              </Fragment>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {showTree ? (
+        <pre
+          className="arbol-estructura-completo"
+          dangerouslySetInnerHTML={{ __html: construirArbolCompleto() }}
+        />
+      ) : (
+        <TableContainer component={Paper} className="tabla-subcategorias">
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Código</TableCell>
+                <TableCell>Nombre</TableCell>
+                <TableCell>Categoría Padre</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {subcategoriasOrdenadas.map((subcategoria) => (
+                <Fragment key={subcategoria._id}>
+                  <TableRow>
+                    <TableCell>{subcategoria.codigo}</TableCell>
+                    <TableCell>{subcategoria.nombre}</TableCell>
+                    <TableCell>
+                      {subcategoria.categoriaPadre || "Categoría Principal"}
+                    </TableCell>
+                  </TableRow>
+                  {renderItems(subcategoria)}
+                </Fragment>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </div>
   );
 };
