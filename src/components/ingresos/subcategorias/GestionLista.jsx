@@ -147,19 +147,39 @@ export const GestionLista = ({ subcategoria, onGuardar, onCerrar }) => {
   const handleGuardar = async () => {
     try {
       setIsLoading(true);
+
+      // Obtener el código base correcto
       const codigoBase =
         rutaActual.length > 0
           ? rutaActual[rutaActual.length - 1].codigo
           : subcategoria.codigo;
 
-      if (!codigoBase) {
-        throw new Error("No se pudo determinar el código base para la lista");
+      // Buscar la subcategoría padre que contiene la lista
+      const response = await getSubcategoriasIngresos();
+      const subcategoriaPadre =
+        response.find((sub) => {
+          // Buscar en los items de la lista
+          return sub.lista?.items?.some((item) => item.codigo === codigoBase);
+        }) || response.find((sub) => sub.codigo === codigoBase);
+
+      if (!subcategoriaPadre) {
+        throw new Error("Subcategoría no encontrada");
       }
 
+      // Preparar la lista con la estructura correcta
       await onGuardar({
-        ...lista,
-        codigoBase,
+        codigoBase: subcategoriaPadre.codigo,
         nombre: lista.nombre || subcategoria.nombre,
+        items: lista.items.map((item, index) => ({
+          ...item,
+          codigo: item.codigo || `${codigoBase}.${index + 1}`,
+          numero: index + 1,
+          activo: true,
+          esLista: false,
+          lista: {
+            items: [],
+          },
+        })),
       });
     } catch (error) {
       console.error("Error al guardar la lista:", error);
