@@ -23,7 +23,7 @@ export const getSubcategoriasIngresos = async () => {
 
 export const createSubcategoriaIngreso = async (subcategoriaData) => {
   try {
-    console.log("Enviando datos al servidor:", subcategoriaData);
+    console.log("Datos enviados al servidor:", subcategoriaData);
 
     const response = await fetch(
       `${API_BASE_URL}${ENDPOINTS.SUBCATEGORIAS_INGRESOS}`,
@@ -38,6 +38,7 @@ export const createSubcategoriaIngreso = async (subcategoriaData) => {
 
     if (!response.ok) {
       const errorData = await response.json();
+      console.log("Error del servidor:", errorData);
       throw new Error(errorData.mensaje || "Error al crear la subcategoría");
     }
 
@@ -48,23 +49,131 @@ export const createSubcategoriaIngreso = async (subcategoriaData) => {
   }
 };
 
-export const guardarListaSubcategoria = async (subcategoriaId, lista) => {
+export const agregarSubcategoria = async (
+  categoriaPadreId,
+  subcategoriaData
+) => {
   const response = await fetch(
-    `${API_BASE_URL}${ENDPOINTS.SUBCATEGORIAS_INGRESOS}/${subcategoriaId}/lista`,
+    `${API_BASE_URL}${ENDPOINTS.SUBCATEGORIAS_INGRESOS}`,
     {
-      method: "PUT",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${getToken()}`,
       },
-      body: JSON.stringify({ lista }),
+      body: JSON.stringify({
+        ...subcategoriaData,
+        categoriaPadre: categoriaPadreId,
+      }),
     }
   );
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.mensaje || "Error al guardar la lista");
+    throw new Error(error.mensaje || "Error al agregar la subcategoría");
   }
 
   return response.json();
+};
+
+export const updateSubcategoriaIngreso = async (subcategoriaData) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}${ENDPOINTS.SUBCATEGORIAS_INGRESOS}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(subcategoriaData),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.mensaje || "Error al actualizar la subcategoría"
+      );
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error detallado:", error);
+    throw error;
+  }
+};
+
+export const convertirEnLista = async (subcategoriaData) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}${ENDPOINTS.SUBCATEGORIAS_INGRESOS}/convertir-lista`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(subcategoriaData),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.mensaje || "Error al convertir en lista");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error detallado:", error);
+    throw error;
+  }
+};
+
+export const guardarItems = async (codigo, items) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/subcategorias-ingresos/${codigo}/items`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ items }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.mensaje || "Error al guardar items");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error detallado:", error);
+    throw error;
+  }
+};
+
+export const actualizarItem = async (itemCodigo, nombre) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/subcategorias-ingresos/${itemCodigo}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ nombre }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.mensaje || "Error al actualizar item");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error detallado:", error);
+    throw error;
+  }
 };

@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Box, Paper, Alert, Snackbar } from "@mui/material";
 import { FormularioSubcategoriaIngresos } from "./FormularioSubcategoriaIngresos";
 import { ListaSubcategorias } from "./ListaSubcategorias";
-import { GestionLista } from "./GestionLista";
 import logo from "../../../assets/odontomed512_512.png";
 import logo1 from "../../../assets/odontomedBigLogo.png";
 import "./GestionSubcategoriasIngresos.scss";
@@ -12,9 +11,6 @@ export const GestionSubcategoriasIngresos = () => {
   const [subcategorias, setSubcategorias] = useState([]);
   const [rutaActual, setRutaActual] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [mostrarModalLista, setMostrarModalLista] = useState(false);
-  const [subcategoriaSeleccionada, setSubcategoriaSeleccionada] =
-    useState(null);
   const [notification, setNotification] = useState({
     open: false,
     message: "",
@@ -57,26 +53,6 @@ export const GestionSubcategoriasIngresos = () => {
 
   const handleVerSubcategorias = (subcategoria) => {
     setRutaActual([...rutaActual, subcategoria]);
-  };
-
-  const handleGuardarLista = async (lista) => {
-    try {
-      await guardarListaSubcategoria(subcategoriaSeleccionada._id, lista);
-      setMostrarModalLista(false);
-      setSubcategoriaSeleccionada(null);
-      await fetchSubcategorias();
-      setNotification({
-        open: true,
-        message: "Lista guardada exitosamente",
-        severity: "success",
-      });
-    } catch (error) {
-      setNotification({
-        open: true,
-        message: "Error al guardar la lista: " + error.message,
-        severity: "error",
-      });
-    }
   };
 
   const handleRutaChange = (nuevaRuta) => {
@@ -138,14 +114,6 @@ export const GestionSubcategoriasIngresos = () => {
             />
           )}
         </Paper>
-
-        {mostrarModalLista && subcategoriaSeleccionada && (
-          <GestionLista
-            subcategoria={subcategoriaSeleccionada}
-            onCerrar={() => setMostrarModalLista(false)}
-            onGuardar={handleGuardarLista}
-          />
-        )}
 
         <Snackbar
           open={notification.open}

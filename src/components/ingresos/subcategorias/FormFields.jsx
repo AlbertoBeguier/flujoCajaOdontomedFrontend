@@ -1,18 +1,26 @@
 import PropTypes from "prop-types";
 import { useState, useEffect, useCallback } from "react";
 import "./FormFields.scss";
+import { FaList } from "react-icons/fa";
+import {
+  convertirEnLista,
+  guardarItems,
+} from "../../../services/subcategoriaIngresosService";
+import { ModalItems } from "./ModalItems";
 
 export const FormFields = ({
   formData,
   handleChange,
   subcategoriasIngresos,
   onRutaChange,
-  onAbrirModalLista,
 }) => {
   const [siguienteCodigo, setSiguienteCodigo] = useState("");
   const [subcategoriasNivel, setSubcategoriasNivel] = useState([]);
   const [rutaNavegacion, setRutaNavegacion] = useState([]);
   const [expandedCategories, setExpandedCategories] = useState(new Set());
+  const [mostrarModalItems, setMostrarModalItems] = useState(false);
+  const [subcategoriaSeleccionada, setSubcategoriaSeleccionada] =
+    useState(null);
 
   const actualizarCodigo = useCallback(
     (nuevoCodigo) => {
@@ -240,25 +248,47 @@ export const FormFields = ({
   };
 
   const mostrarSubcategorias = (subcategoria) => {
-    // Obtener subcategorías, ya sean de una lista o normales
-    let subItems = [];
-
-    if (subcategoria.esLista && subcategoria.lista?.items?.length > 0) {
-      // Si es una lista, usar sus items
-      subItems = subcategoria.lista.items;
-    } else {
-      // Si no es lista, buscar subcategorías normales
-      subItems = subcategoriasIngresos.filter(
-        (c) => c.categoriaPadre === subcategoria.codigo
-      );
-    }
+    // Obtener subcategorías hijas
+    const subItems = subcategoriasIngresos.filter(
+      (c) => c.categoriaPadre === subcategoria.codigo
+    );
 
     const isExpanded = expandedCategories.has(subcategoria.codigo);
 
     return (
       <>
+        <div className="categoria-info">
+          <span className="categoria-codigo">{subcategoria.codigo}</span>
+          <span className="categoria-nombre">
+            {subcategoria.nombre}
+            {/* Mostrar botón convertir en lista si no es lista */}
+            {!subcategoria.esLista && (
+              <button
+                type="button"
+                className="btn-convertir-lista"
+                title="Convertir en Lista"
+                onClick={() => handleConvertirEnLista(subcategoria)}
+              >
+                <FaList />
+              </button>
+            )}
+            {/* Mostrar badge Lista si es lista */}
+            {subcategoria.esLista && (
+              <span
+                className="lista-badge"
+                onClick={() => handleAbrirModalItems(subcategoria)}
+                style={{ cursor: "pointer" }}
+                role="button"
+                tabIndex={0}
+              >
+                Lista
+              </span>
+            )}
+          </span>
+        </div>
+
         <div className="categoria-acciones">
-          {/* Estos botones deben aparecer SIEMPRE */}
+          {/* Mostrar botón Ver/Ocultar si tiene subcategorías */}
           {subItems.length > 0 && (
             <button
               type="button"
@@ -268,15 +298,8 @@ export const FormFields = ({
               {isExpanded ? "Ocultar subcategorías" : "Ver subcategorías"}
             </button>
           )}
-          {subcategoria.esLista ? (
-            <button
-              type="button"
-              onClick={() => handleAbrirModalLista(subcategoria)}
-              className="btn-agregar-subcategoria"
-            >
-              + Agregar a Lista
-            </button>
-          ) : (
+          {/* Mostrar botón Agregar Subcategoría si no es lista */}
+          {!subcategoria.esLista && (
             <button
               type="button"
               onClick={() => handleAgregarSubcategoria(subcategoria)}
@@ -287,28 +310,12 @@ export const FormFields = ({
           )}
         </div>
 
+        {/* Mostrar subcategorías si está expandido */}
         {isExpanded && subItems.length > 0 && (
           <ul className="lista-subcategorias">
             {subItems.map((item) => (
               <li key={item._id} className="subcategoria-item">
-                <div className="categoria-info">
-                  <span className="categoria-codigo">{item.codigo}</span>
-                  <span className="categoria-nombre">
-                    {item.nombre}
-                    {item.esLista && (
-                      <span
-                        className="lista-badge"
-                        onClick={() => handleAbrirModalLista(item)}
-                        role="button"
-                        tabIndex={0}
-                      >
-                        Lista
-                      </span>
-                    )}
-                  </span>
-                </div>
-                {mostrarSubcategorias(item)}{" "}
-                {/* Recursión para mostrar más niveles */}
+                {mostrarSubcategorias(item)}
               </li>
             ))}
           </ul>
@@ -317,8 +324,33 @@ export const FormFields = ({
     );
   };
 
-  const handleAbrirModalLista = (subcategoria) => {
-    onAbrirModalLista(subcategoria);
+  const handleConvertirEnLista = async (subcategoria) => {
+    try {
+      await convertirEnLista({
+        codigo: subcategoria.codigo,
+        nombre: subcategoria.nombre,
+        nivel: subcategoria.nivel,
+        categoriaPadre: subcategoria.categoriaPadre,
+      });
+      window.location.reload();
+    } catch (error) {
+      console.error("Error al convertir en lista:", error);
+    }
+  };
+
+  const handleAbrirModalItems = (subcategoria) => {
+    setSubcategoriaSeleccionada(subcategoria);
+    setMostrarModalItems(true);
+  };
+
+  const handleGuardarItems = async (items) => {
+    try {
+      await guardarItems(subcategoriaSeleccionada.codigo, items);
+      setMostrarModalItems(false);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error al guardar items:", error);
+    }
   };
 
   return (
@@ -364,39 +396,23 @@ export const FormFields = ({
         <div className="codigo-sugerido">Código: {siguienteCodigo}</div>
       </div>
 
-      {subcategoriasNivel.length > 0 && (
-        <div className="subcategorias-nivel">
-          <ul className="lista-subcategorias">
-            {subcategoriasNivel.map((subcategoria) => (
-              <li key={subcategoria._id} className="subcategoria-item">
-                <div className="categoria-info">
-                  <span className="categoria-codigo">
-                    {subcategoria.codigo}
-                  </span>
-                  <span className="categoria-nombre">
-                    {subcategoria.nombre}
-                    {subcategoria.esLista && (
-                      <span
-                        className="lista-badge"
-                        onClick={() => handleAbrirModalLista(subcategoria)}
-                        role="button"
-                        tabIndex={0}
-                        onKeyPress={(e) => {
-                          if (e.key === "Enter") {
-                            handleAbrirModalLista(subcategoria);
-                          }
-                        }}
-                      >
-                        Lista
-                      </span>
-                    )}
-                  </span>
-                </div>
-                {mostrarSubcategorias(subcategoria)}
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="subcategorias-nivel">
+        <ul className="lista-subcategorias">
+          {subcategoriasNivel.map((subcategoria) => (
+            <li key={subcategoria._id} className="subcategoria-item">
+              {mostrarSubcategorias(subcategoria)}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {mostrarModalItems && subcategoriaSeleccionada && (
+        <ModalItems
+          subcategoria={subcategoriaSeleccionada}
+          onGuardar={handleGuardarItems}
+          onCerrar={() => setMostrarModalItems(false)}
+          subcategoriasIngresos={subcategoriasIngresos}
+        />
       )}
     </div>
   );
@@ -420,5 +436,4 @@ FormFields.propTypes = {
     })
   ).isRequired,
   onRutaChange: PropTypes.func.isRequired,
-  onAbrirModalLista: PropTypes.func.isRequired,
 };

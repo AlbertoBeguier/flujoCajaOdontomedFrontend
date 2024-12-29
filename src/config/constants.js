@@ -14,15 +14,11 @@ export const INITIAL_SUBCATEGORIA_FORM_STATE = {
   nivel: 1,
   categoriaPadre: "",
   categoriaBase: "",
-  esLista: false,
-  lista: {
-    nombre: "",
-    items: [],
-  },
 };
 
 export const ENDPOINTS = {
   CATEGORIAS_EGRESOS: "/api/categorias-egresos",
   SUBCATEGORIAS_EGRESOS: "/api/subcategorias-egresos",
   SUBCATEGORIAS_INGRESOS: "/api/subcategorias-ingresos",
+  CONVERTIR_LISTA: "/api/subcategorias-ingresos/convertir-lista",
 };
