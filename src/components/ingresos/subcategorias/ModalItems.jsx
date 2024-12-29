@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { FaPlus, FaPencilAlt } from "react-icons/fa";
+import { FaPlus, FaPencilAlt, FaSave, FaTimes } from "react-icons/fa";
 import "./ModalItems.scss";
 import { actualizarItem } from "../../../services/subcategoriaIngresosService";
 
@@ -90,11 +90,14 @@ export const ModalItems = ({
   return (
     <div className="modal-overlay">
       <div className="modal-container">
-        <h2>Items de {subcategoria.nombre}</h2>
+        <button className="btn-close" onClick={onCerrar}>
+          <FaTimes />
+        </button>
+        <p>Items de {subcategoria.nombre}</p>
 
         {/* Mostrar items existentes */}
         <div className="items-existentes">
-          <h3>Items Actuales:</h3>
+          <p className="agregar-nuevo-item">Items Actuales:</p>
           <div className="items-list">
             {items.map((item, index) => (
               <div key={item.codigo || index} className="item existing">
@@ -108,8 +111,11 @@ export const ModalItems = ({
                         if (e.key === "Enter") handleGuardarEdicion(index);
                       }}
                     />
-                    <button onClick={() => handleGuardarEdicion(index)}>
-                      Guardar
+                    <button
+                      className="btn-save-icon"
+                      onClick={() => handleGuardarEdicion(index)}
+                    >
+                      <FaSave />
                     </button>
                   </div>
                 ) : (
@@ -128,7 +134,7 @@ export const ModalItems = ({
         <div className="separador"></div>
 
         {/* Formulario para agregar nuevos items */}
-        <h3>Agregar Nuevo Item:</h3>
+        <p className="agregar-nuevo-item">Agregar Nuevo Item:</p>
         <div className="input-container">
           <input
             type="text"
@@ -136,20 +142,29 @@ export const ModalItems = ({
             onChange={(e) => setNuevoItem(e.target.value)}
             placeholder="Nombre del nuevo item"
           />
-          <button onClick={handleAgregarItem}>
-            <FaPlus /> Agregar
+          <button
+            className="btn-icon"
+            onClick={handleAgregarItem}
+            title="Agregar"
+          >
+            <FaPlus />
           </button>
         </div>
 
         <div className="buttons-container">
-          <button className="btn-cancelar" onClick={onCerrar}>
-            Cancelar
+          <button
+            className="btn-icon cancel"
+            onClick={onCerrar}
+            title="Cancelar"
+          >
+            <FaTimes />
           </button>
           <button
-            className="btn-guardar"
+            className="btn-save-icon main-save"
             onClick={() => onGuardar(items.filter((item) => !item.codigo))}
+            title="Guardar Nuevos Items"
           >
-            Guardar Nuevos Items
+            <FaSave />
           </button>
         </div>
       </div>
