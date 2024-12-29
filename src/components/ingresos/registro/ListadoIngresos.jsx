@@ -78,7 +78,20 @@ export const ListadoIngresos = ({ ultimoIngresoId }) => {
                 }
               >
                 <td>{formatearFecha(ingreso.fecha)}</td>
-                <td>{ingreso.categoria.nombre}</td>
+                <td>
+                  <div className="categoria-container">
+                    <span className="categoria-cell">
+                      {ingreso.categoria.nombre}
+                    </span>
+                    <div className="categoria-tooltip">
+                      <div className="tooltip-content">
+                        {ingreso.categoria.rutaCategoria
+                          .map((cat) => cat.nombre)
+                          .join(" → ")}
+                      </div>
+                    </div>
+                  </div>
+                </td>
                 <td>
                   {ingreso.subcategoria ? (
                     <div className="subcategoria-container">
@@ -88,26 +101,24 @@ export const ListadoIngresos = ({ ultimoIngresoId }) => {
                       <div className="subcategoria-tooltip">
                         <div className="tooltip-content">
                           {(() => {
-                            const rutaCategoria =
-                              ingreso.categoria.rutaCategoria
-                                .map((cat) => cat.nombre)
-                                .join(" → ");
-
                             const rutaSubcategoria = [];
                             let actual = subcategorias.find(
                               (s) => s.codigo === ingreso.subcategoria.codigo
                             );
 
-                            while (actual) {
+                            while (
+                              actual &&
+                              !ingreso.categoria.rutaCategoria.find(
+                                (cat) => cat.nombre === actual.nombre
+                              )
+                            ) {
                               rutaSubcategoria.unshift(actual.nombre);
                               actual = subcategorias.find(
                                 (s) => s.codigo === actual.categoriaPadre
                               );
                             }
 
-                            return `${rutaCategoria} → ${rutaSubcategoria.join(
-                              " → "
-                            )}`;
+                            return rutaSubcategoria.join(" → ");
                           })()}
                         </div>
                       </div>
