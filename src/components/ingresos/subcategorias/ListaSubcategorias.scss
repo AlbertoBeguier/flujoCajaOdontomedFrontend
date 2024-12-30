@@ -8,6 +8,14 @@
   padding-bottom: 10px;
 }
 
+.titulo-lista {
+  color: var.$color-principal-cliente;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
 .tabla-subcategorias {
   margin: 20px;
   background-color: transparent !important;
@@ -15,7 +23,7 @@
   .MuiTableCell-root {
     color: var.$color-principal-cliente;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 16px;
+    padding: 6px;
 
     .btn-lista {
       background: none;
@@ -72,13 +80,16 @@
 .lista-subcategorias-container {
   .header-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    gap: 1rem;
     margin-bottom: 0.5rem;
 
-    h2 {
+    .titulo-lista {
       margin: 0;
+      font-size: 1.2rem;
       color: var.$color-principal-cliente;
+      font-weight: 600;
     }
 
     .btn-toggle-view {
@@ -89,7 +100,6 @@
       border-radius: 4px;
       cursor: pointer;
       font-size: 0.9rem;
-      margin: auto 0;
 
       &:hover {
         opacity: 0.9;
@@ -98,44 +108,32 @@
   }
 
   .arbol-estructura-completo {
-    padding: 0.5rem 1.5rem;
-    color: white;
+    padding-left: 5.5rem;
+    padding-top: 1rem;
     font-family: "Courier New", monospace;
     white-space: pre;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     line-height: 1.4;
     width: 100%;
+    border-radius: 8px;
 
-    .categoria-nivel-0 {
-      color: var.$color-principal-cliente;
-    }
-
-    .categoria-nivel-1 {
-      color: #ff9b5e;
-    }
-
-    .categoria-nivel-2 {
-      color: #4a57b3;
-    }
-
-    .categoria-nivel-3 {
-      color: #4cd4c3;
-    }
-
-    .categoria-nivel-4 {
-      color: #6674d2;
-    }
-
-    .codigo {
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    .rama-vertical {
-      color: rgba(255, 255, 255, 0.3);
-    }
-
-    .rama-horizontal {
-      color: rgba(255, 255, 255, 0.3);
+    @for $i from 0 through 10 {
+      .categoria-nivel-#{$i} {
+        $ciclo: $i % 3; // Ciclo de 3 niveles
+        @if $ciclo == 0 {
+          color: #8290e6; // Nuevo azul más claro para nivel 0
+          font-weight: 400;
+        } @else if $ciclo == 1 {
+          color: #6674d2; // El que era claro ahora es medio
+          font-weight: 500;
+        } @else {
+          color: #4a57b3; // El que era medio ahora es oscuro
+          font-weight: 600;
+        }
+        background: transparent;
+        border-radius: 3px;
+        padding: 0 4px;
+      }
     }
   }
 }

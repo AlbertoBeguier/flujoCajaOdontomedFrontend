@@ -5,7 +5,11 @@ import { ListaSubcategorias } from "./ListaSubcategorias";
 import logo from "../../../assets/odontomed512_512.png";
 import logo1 from "../../../assets/odontomedBigLogo.png";
 import "./GestionSubcategoriasIngresos.scss";
-import { getSubcategoriasIngresos } from "../../../services/subcategoriaIngresosService";
+import {
+  getSubcategoriasIngresos,
+  analizarEstructuraSubcategorias,
+  sincronizarTodasLasSubcategorias,
+} from "../../../services/subcategoriaIngresosService";
 
 export const GestionSubcategoriasIngresos = () => {
   const [subcategorias, setSubcategorias] = useState([]);
@@ -59,12 +63,49 @@ export const GestionSubcategoriasIngresos = () => {
     setRutaActual(nuevaRuta);
   };
 
+  const handleSincronizar = async () => {
+    try {
+      setIsLoading(true);
+
+      // Primero analizamos
+      await analizarEstructuraSubcategorias();
+
+      // Luego sincronizamos
+      await sincronizarTodasLasSubcategorias();
+
+      // Actualizamos la vista
+      await fetchSubcategorias();
+
+      setNotification({
+        open: true,
+        message: "Sincronización completada correctamente",
+        severity: "success",
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      setNotification({
+        open: true,
+        message: "Error en la sincronización",
+        severity: "error",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <div className="pagina-ingresos-container-1">
         <img src={logo} alt="Logo" className="ingresos-logo" />
         <img src={logo1} alt="Logo1" className="ingresos-logo-1" />
         <p className="ingresos-titulo">Registro de subcategorías de ingresos</p>
+        <button
+          className="btn-sincronizar"
+          onClick={handleSincronizar}
+          disabled={isLoading}
+        >
+          {isLoading ? "Sincronizando..." : "Sincronizar Todo"}
+        </button>
       </div>
       <Box className="subcategorias-container">
         {rutaActual.length > 0 && (

@@ -47,7 +47,40 @@ export const FormularioSubcategoriaIngresos = ({
         categoriaBase: formData.categoriaBase || "",
       };
 
-      await createSubcategoriaIngreso(dataToSend);
+      // Si es una lista, replicar para todos los profesionales
+      if (formData.esLista) {
+        // Obtener el patrón base (por ejemplo, para 1.1.1 sería 1)
+        const partesCodigo = formData.codigo.split(".");
+        const codigoBase = partesCodigo[0]; // Obtiene el código base (1 para profesionales)
+
+        // Encontrar todos los profesionales (1.1, 1.2, etc.)
+        const profesionales = subcategorias.filter((sub) => {
+          const partes = sub.codigo.split(".");
+          return partes.length === 2 && partes[0] === codigoBase;
+        });
+
+        // Crear la subcategoría para cada profesional
+        await Promise.all([
+          createSubcategoriaIngreso(dataToSend),
+          ...profesionales
+            .map((prof) => {
+              if (prof.codigo !== formData.categoriaPadre) {
+                const nuevoCodigo =
+                  prof.codigo +
+                  formData.codigo.substring(formData.categoriaPadre.length);
+                return createSubcategoriaIngreso({
+                  ...dataToSend,
+                  codigo: nuevoCodigo,
+                  categoriaPadre: prof.codigo,
+                });
+              }
+            })
+            .filter(Boolean),
+        ]);
+      } else {
+        await createSubcategoriaIngreso(dataToSend);
+      }
+
       setFormData(INITIAL_SUBCATEGORIA_FORM_STATE);
       onSubcategoriaCreada();
     } catch (err) {

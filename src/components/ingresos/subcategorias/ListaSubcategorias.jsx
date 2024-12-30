@@ -33,17 +33,27 @@ export const ListaSubcategorias = ({ subcategorias }) => {
         const esUltimo = index === hijos.length - 1;
         const prefijoActual = esUltimo ? "└── " : "├── ";
         const prefijoSiguiente = esUltimo ? "    " : "│   ";
+        const nivel = hijo.codigo.split(".").length - 1;
 
-        estructura += `${prefijo}${prefijoActual}${hijo.nombre} (${hijo.codigo})\n`;
-        construirRamas(hijo, prefijo + prefijoSiguiente);
+        estructura += `${prefijo}<span class="categoria-nivel-${nivel}">${prefijoActual}${hijo.nombre} (${hijo.codigo})</span>\n`;
+        construirRamas(
+          hijo,
+          prefijo +
+            `<span class="categoria-nivel-${nivel}">${prefijoSiguiente}</span>`
+        );
       });
     };
 
     categoriasRaiz.forEach((raiz, index) => {
       const esUltimo = index === categoriasRaiz.length - 1;
       const prefijoActual = esUltimo ? "└── " : "├── ";
-      estructura += `${prefijoActual}${raiz.nombre} (${raiz.codigo})\n`;
-      construirRamas(raiz, esUltimo ? "    " : "│   ");
+      estructura += `<span class="categoria-nivel-0">${prefijoActual}${raiz.nombre} (${raiz.codigo})</span>\n`;
+      construirRamas(
+        raiz,
+        esUltimo
+          ? '<span class="categoria-nivel-0">    </span>'
+          : '<span class="categoria-nivel-0">│   </span>'
+      );
     });
 
     return estructura;
@@ -65,7 +75,7 @@ export const ListaSubcategorias = ({ subcategorias }) => {
   return (
     <div className="lista-subcategorias-container">
       <div className="header-container">
-        <h2>Subcategorías de Ingresos Existentes</h2>
+        <p className="titulo-lista">Subcategorías de Ingresos Existentes</p>
         <button
           className="btn-toggle-view"
           onClick={() => setShowTree(!showTree)}
