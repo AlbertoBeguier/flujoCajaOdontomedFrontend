@@ -9,7 +9,7 @@ export const INITIAL_FORM_STATE = {
 };
 
 export const INITIAL_SUBCATEGORIA_FORM_STATE = {
-  codigo: "3",
+  codigo: "",
   nombre: "",
   nivel: 1,
   categoriaPadre: "",

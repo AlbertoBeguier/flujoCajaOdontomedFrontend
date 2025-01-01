@@ -15,23 +15,23 @@ export const ModalItems = ({
   const [editandoIndex, setEditandoIndex] = useState(null);
   const [nombreEditado, setNombreEditado] = useState("");
 
-  // Cargar items existentes al abrir el modal
   useEffect(() => {
-    // Filtrar las subcategorías que son items de esta lista
-    const itemsExistentes = subcategoriasIngresos
-      .filter((sub) => sub.categoriaPadre === subcategoria.codigo)
-      .map((sub) => ({
-        nombre: sub.nombre,
-        codigo: sub.codigo,
-      }));
+    const cargarItems = () => {
+      const itemsExistentes = subcategoriasIngresos
+        .filter((sub) => sub.categoriaPadre === subcategoria.codigo)
+        .map((sub) => ({
+          nombre: sub.nombre,
+          codigo: sub.codigo,
+        }));
+      setItems(itemsExistentes);
+    };
 
-    setItems(itemsExistentes);
+    cargarItems();
   }, [subcategoria, subcategoriasIngresos]);
 
   const handleAgregarItem = () => {
     if (!nuevoItem.trim()) return;
 
-    // Verificar si ya existe un item con ese nombre
     if (
       items.some(
         (item) => item.nombre.toLowerCase() === nuevoItem.trim().toLowerCase()
@@ -67,11 +67,9 @@ export const ModalItems = ({
     try {
       const itemEditado = items[index];
       if (itemEditado.codigo) {
-        // Si el item ya existe, actualizarlo
         await actualizarItem(itemEditado.codigo, nombreEditado.trim());
         window.location.reload();
       } else {
-        // Si es un item nuevo, solo actualizar el estado
         const nuevosItems = [...items];
         nuevosItems[index] = {
           ...nuevosItems[index],
@@ -90,12 +88,13 @@ export const ModalItems = ({
   return (
     <div className="modal-overlay">
       <div className="modal-container">
-        <button className="btn-close" onClick={onCerrar}>
-          <FaTimes />
-        </button>
-        <p>Items de {subcategoria.nombre}</p>
+        <div className="modal-header">
+          <h3>Items de {subcategoria.nombre}</h3>
+          <button className="btn-close" onClick={onCerrar}>
+            <FaTimes />
+          </button>
+        </div>
 
-        {/* Mostrar items existentes */}
         <div className="items-existentes">
           <p className="agregar-nuevo-item">Items Actuales:</p>
           <div className="items-list">
@@ -133,7 +132,6 @@ export const ModalItems = ({
 
         <div className="separador"></div>
 
-        {/* Formulario para agregar nuevos items */}
         <p className="agregar-nuevo-item">Agregar Nuevo Item:</p>
         <div className="input-container">
           <input
@@ -152,17 +150,12 @@ export const ModalItems = ({
         </div>
 
         <div className="buttons-container">
-          <button
-            className="btn-icon cancel"
-            onClick={onCerrar}
-            title="Cancelar"
-          >
+          <button className="btn-icon cancel" onClick={onCerrar}>
             <FaTimes />
           </button>
           <button
             className="btn-save-icon main-save"
             onClick={() => onGuardar(items.filter((item) => !item.codigo))}
-            title="Guardar Nuevos Items"
           >
             <FaSave />
           </button>
@@ -174,7 +167,6 @@ export const ModalItems = ({
 
 ModalItems.propTypes = {
   subcategoria: PropTypes.shape({
-    _id: PropTypes.string,
     codigo: PropTypes.string.isRequired,
     nombre: PropTypes.string.isRequired,
     nivel: PropTypes.number.isRequired,

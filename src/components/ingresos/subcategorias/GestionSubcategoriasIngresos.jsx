@@ -1,27 +1,32 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Box, Paper, Alert, Snackbar } from "@mui/material";
-import { FormularioSubcategoriaIngresos } from "./FormularioSubcategoriaIngresos";
 import { ListaSubcategorias } from "./ListaSubcategorias";
+import { ModalSubcategoria } from "./ModalSubcategoria";
 import logo from "../../../assets/odontomed512_512.png";
 import logo1 from "../../../assets/odontomedBigLogo.png";
 import "./GestionSubcategoriasIngresos.scss";
 import {
   getSubcategoriasIngresos,
+  createSubcategoriaIngreso,
   analizarEstructuraSubcategorias,
   sincronizarTodasLasSubcategorias,
 } from "../../../services/subcategoriaIngresosService";
 
 export const GestionSubcategoriasIngresos = () => {
   const [subcategorias, setSubcategorias] = useState([]);
-  const [rutaActual, setRutaActual] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [modalConfig, setModalConfig] = useState({
+    isOpen: false,
+    codigoAsignar: "",
+    isPrincipal: false,
+  });
   const [notification, setNotification] = useState({
     open: false,
     message: "",
     severity: "success",
   });
 
-  const fetchSubcategorias = async () => {
+  const cargarSubcategorias = useCallback(async () => {
     try {
       setIsLoading(true);
       const data = await getSubcategoriasIngresos();
@@ -30,51 +35,98 @@ export const GestionSubcategoriasIngresos = () => {
       console.error("Error al cargar subcategorías:", error);
       setNotification({
         open: true,
-        message: "El sistema de subcategorías está en mantenimiento",
+        message: "Error al cargar subcategorías",
         severity: "error",
       });
     } finally {
       setIsLoading(false);
     }
-  };
-
-  useEffect(() => {
-    fetchSubcategorias();
   }, []);
 
-  const handleSubcategoriaCreada = async () => {
-    await fetchSubcategorias();
-    setNotification({
-      open: true,
-      message: "Subcategoría creada exitosamente",
-      severity: "success",
-    });
-  };
+  useEffect(() => {
+    cargarSubcategorias();
+  }, [cargarSubcategorias]);
 
   const handleCloseNotification = () => {
     setNotification({ ...notification, open: false });
   };
 
-  const handleVerSubcategorias = (subcategoria) => {
-    setRutaActual([...rutaActual, subcategoria]);
+  const handleAgregarPrincipal = () => {
+    const nextCodigo = obtenerSiguienteCodigoPrincipal();
+    setModalConfig({
+      isOpen: true,
+      codigoAsignar: nextCodigo,
+      isPrincipal: true,
+    });
   };
 
-  const handleRutaChange = (nuevaRuta) => {
-    setRutaActual(nuevaRuta);
+  const handleAgregarSubcategoria = (subcategoria) => {
+    console.log("Agregando subcategoría a:", subcategoria);
+    const nextCodigo = obtenerSiguienteCodigoHijo(subcategoria.codigo);
+    console.log("Código generado:", nextCodigo);
+
+    setModalConfig({
+      isOpen: true,
+      codigoAsignar: nextCodigo,
+      isPrincipal: false,
+    });
+  };
+
+  const handleCloseModal = () => {
+    setModalConfig({ ...modalConfig, isOpen: false });
+  };
+
+  const handleSubmitSubcategoria = async (subcategoriaData) => {
+    try {
+      await createSubcategoriaIngreso(subcategoriaData);
+      await cargarSubcategorias();
+      setModalConfig({ ...modalConfig, isOpen: false });
+      setNotification({
+        open: true,
+        message: "Subcategoría creada exitosamente",
+        severity: "success",
+      });
+    } catch (error) {
+      console.error("Error al crear subcategoría:", error);
+      setNotification({
+        open: true,
+        message: "Error al crear la subcategoría",
+        severity: "error",
+      });
+    }
+  };
+
+  const obtenerSiguienteCodigoPrincipal = () => {
+    const codigosPrincipales = subcategorias
+      .filter((sub) => !sub.categoriaPadre)
+      .map((sub) => parseInt(sub.codigo))
+      .filter((codigo) => !isNaN(codigo));
+
+    return codigosPrincipales.length > 0
+      ? (Math.max(...codigosPrincipales) + 1).toString()
+      : "1";
+  };
+
+  const obtenerSiguienteCodigoHijo = (codigoPadre) => {
+    const codigosHijos = subcategorias
+      .filter((sub) => sub.categoriaPadre === codigoPadre)
+      .map((sub) => parseInt(sub.codigo.split(".").pop()))
+      .filter((codigo) => !isNaN(codigo));
+
+    if (codigosHijos.length === 0) {
+      return `${codigoPadre}.1`;
+    }
+
+    const maxCodigoHijo = Math.max(...codigosHijos);
+    return `${codigoPadre}.${maxCodigoHijo + 1}`;
   };
 
   const handleSincronizar = async () => {
     try {
       setIsLoading(true);
-
-      // Primero analizamos
       await analizarEstructuraSubcategorias();
-
-      // Luego sincronizamos
       await sincronizarTodasLasSubcategorias();
-
-      // Actualizamos la vista
-      await fetchSubcategorias();
+      await cargarSubcategorias();
 
       setNotification({
         open: true,
@@ -107,66 +159,37 @@ export const GestionSubcategoriasIngresos = () => {
           {isLoading ? "Sincronizando..." : "Sincronizar Todo"}
         </button>
       </div>
+
       <Box className="subcategorias-container">
-        {rutaActual.length > 0 && (
-          <div className="ruta-navegacion">
-            <button
-              className="btn-navegacion"
-              onClick={() => setRutaActual([])}
-            >
-              Inicio
-            </button>
-            {rutaActual.map((cat) => (
-              <span key={cat._id}>
-                <span className="separador-ruta">›</span>
-                <button
-                  className="btn-navegacion"
-                  onClick={() =>
-                    setRutaActual(
-                      rutaActual.slice(0, rutaActual.indexOf(cat) + 1)
-                    )
-                  }
-                >
-                  {cat.nombre}
-                </button>
-              </span>
-            ))}
-          </div>
-        )}
-
-        <Paper className="formulario-subcategoria">
-          <FormularioSubcategoriaIngresos
-            onSubcategoriaCreada={handleSubcategoriaCreada}
-            subcategorias={subcategorias}
-            rutaActual={rutaActual}
-            onRutaChange={handleRutaChange}
-          />
-        </Paper>
-
         <Paper className="tabla-subcategorias">
           {isLoading ? (
             <p className="mensaje-carga">Cargando subcategorías...</p>
-          ) : subcategorias.length === 0 ? (
-            <p className="mensaje-vacio">No hay subcategorías registradas</p>
           ) : (
             <ListaSubcategorias
               subcategorias={subcategorias}
-              onVerSubcategorias={handleVerSubcategorias}
+              onAgregarSubcategoria={handleAgregarSubcategoria}
+              onAgregarPrincipal={handleAgregarPrincipal}
             />
           )}
         </Paper>
+
+        <ModalSubcategoria
+          isOpen={modalConfig.isOpen}
+          onClose={handleCloseModal}
+          codigoAsignar={modalConfig.codigoAsignar}
+          onSubmit={handleSubmitSubcategoria}
+          isPrincipal={modalConfig.isPrincipal}
+        />
 
         <Snackbar
           open={notification.open}
           autoHideDuration={6000}
           onClose={handleCloseNotification}
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          className="notification"
         >
           <Alert
             onClose={handleCloseNotification}
             severity={notification.severity}
-            className={`alerta-${notification.severity}`}
           >
             {notification.message}
           </Alert>
