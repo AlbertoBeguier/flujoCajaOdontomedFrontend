@@ -1,13 +1,5 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  TextField,
-} from "@mui/material";
 import "./ModalListaMaestra.scss";
 
 export const ModalListaMaestra = ({
@@ -26,46 +18,48 @@ export const ModalListaMaestra = ({
     onSubmit(formData);
   };
 
+  if (!isOpen) return null;
+
   return (
-    <Dialog open={isOpen} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>
-        {lista ? "Editar Lista Maestra" : "Nueva Lista Maestra"}
-      </DialogTitle>
-      <form onSubmit={handleSubmit}>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Nombre de la Lista"
-            type="text"
-            fullWidth
-            value={formData.nombre}
-            onChange={(e) =>
-              setFormData({ ...formData, nombre: e.target.value })
-            }
-            required
-          />
-          <TextField
-            margin="dense"
-            label="Descripción"
-            type="text"
-            fullWidth
-            multiline
-            rows={3}
-            value={formData.descripcion}
-            onChange={(e) =>
-              setFormData({ ...formData, descripcion: e.target.value })
-            }
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={onClose}>Cancelar</Button>
-          <Button type="submit" variant="contained" color="primary">
-            {lista ? "Guardar Cambios" : "Crear Lista"}
-          </Button>
-        </DialogActions>
-      </form>
-    </Dialog>
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h2>{lista ? "Editar Lista Maestra" : "Nueva Lista Maestra"}</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="nombre">Nombre de la Lista</label>
+            <input
+              id="nombre"
+              type="text"
+              value={formData.nombre}
+              onChange={(e) =>
+                setFormData({ ...formData, nombre: e.target.value })
+              }
+              required
+              autoFocus
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="descripcion">Descripción</label>
+            <textarea
+              id="descripcion"
+              value={formData.descripcion}
+              onChange={(e) =>
+                setFormData({ ...formData, descripcion: e.target.value })
+              }
+              rows={3}
+            />
+          </div>
+          <div className="modal-actions">
+            <button type="button" className="btn-cancelar" onClick={onClose}>
+              Cancelar
+            </button>
+            <button type="submit" className="btn-guardar">
+              {lista ? "Guardar Cambios" : "Crear Lista"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 

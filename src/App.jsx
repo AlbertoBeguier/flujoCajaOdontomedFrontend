@@ -19,6 +19,7 @@ import { Login } from "./components/auth/Login";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { Register } from "./components/auth/Register";
 import { GestionSubcategoriasIngresos } from "./components/ingresos/subcategorias/GestionSubcategoriasIngresos";
+import { GestionListasMaestras } from "./components/listas-maestras/GestionListasMaestras";
 
 function App() {
   return (
@@ -63,6 +64,14 @@ function App() {
                   <Route
                     path="/agregar-subcategorias-ingresos"
                     element={<GestionSubcategoriasIngresos />}
+                  />
+                  <Route
+                    path="/listas-maestras"
+                    element={
+                      <ProtectedRoute>
+                        <GestionListasMaestras />
+                      </ProtectedRoute>
+                    }
                   />
                 </Routes>
                 <Footer />

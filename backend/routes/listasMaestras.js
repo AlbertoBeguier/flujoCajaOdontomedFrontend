@@ -1,67 +1,95 @@
-const express = require("express");
-const router = express.Router();
-const ListaMaestra = require("../models/ListaMaestra");
-const ItemListaMaestra = require("../models/ItemListaMaestra");
+import express from "express";
+import ListaMaestra from "../models/ListaMaestra.js";
 
-// Obtener todas las listas
+const router = express.Router();
+
+// GET /api/listas-maestras
 router.get("/", async (req, res) => {
   try {
-    const listas = await ListaMaestra.findAll({
-      include: [
-        {
-          model: ItemListaMaestra,
-          as: "items",
-          attributes: ["id", "nombre", "listaAsociadaId"],
-        },
-      ],
-      attributes: ["id", "nombre", "descripcion"],
-    });
+    const listas = await ListaMaestra.find();
     res.json(listas);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("Error al obtener listas maestras:", error);
+    res.status(500).json({ message: "Error al obtener listas maestras" });
   }
 });
 
-// Obtener una lista específica con sus items
-router.get("/:id", async (req, res) => {
-  try {
-    const lista = await ListaMaestra.findByPk(req.params.id, {
-      include: [
-        {
-          model: ItemListaMaestra,
-          as: "items",
-          attributes: ["id", "nombre", "listaAsociadaId"],
-        },
-      ],
-    });
-    if (!lista) {
-      return res.status(404).json({ message: "Lista no encontrada" });
-    }
-    res.json(lista);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Crear nueva lista
+// POST /api/listas-maestras
 router.post("/", async (req, res) => {
   try {
-    const lista = await ListaMaestra.create(req.body);
-    res.status(201).json(lista);
+    const { nombre, descripcion } = req.body;
+
+    // Validar datos requeridos
+    if (!nombre) {
+      return res.status(400).json({ message: "El nombre es requerido" });
+    }
+
+    // Crear nueva lista maestra
+    const nuevaLista = new ListaMaestra({
+      nombre,
+      descripcion,
+      items: [], // Inicialmente sin items
+    });
+
+    // Guardar en la base de datos
+    const listaGuardada = await nuevaLista.save();
+
+    res.status(201).json(listaGuardada);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error("Error al crear lista maestra:", error);
+    res.status(500).json({ message: "Error al crear lista maestra" });
   }
 });
 
-// Agregar item a lista
-router.post("/:listaId/items", async (req, res) => {
+// POST /api/listas-maestras/:id/items
+router.post("/:id/items", async (req, res) => {
   try {
-    const item = await ItemListaMaestra.create({
-      ...req.body,
-      listaId: req.params.listaId,
-    });
-    res.status(201).json(item);
+    const { id } = req.params;
+    const { nombre, parentId } = req.body;
+
+    // Validar datos requeridos
+    if (!nombre) {
+      return res
+        .status(400)
+        .json({ message: "El nombre del item es requerido" });
+    }
+
+    // Buscar la lista maestra
+    const lista = await ListaMaestra.findById(id);
+    if (!lista) {
+      return res.status(404).json({ message: "Lista maestra no encontrada" });
+    }
+
+    // Si no hay parentId, agregar al nivel principal
+    if (!parentId) {
+      lista.items.push({ nombre, items: [] });
+    } else {
+      // Función recursiva para encontrar y actualizar el item padre
+      const agregarSubitem = (items) => {
+        for (let item of items) {
+          if (item._id.toString() === parentId) {
+            if (!item.items) item.items = [];
+            item.items.push({ nombre, items: [] });
+            return true;
+          }
+          if (item.items && item.items.length > 0) {
+            if (agregarSubitem(item.items)) return true;
+          }
+        }
+        return false;
+      };
+
+      if (!agregarSubitem(lista.items)) {
+        return res.status(404).json({ message: "Item padre no encontrado" });
+      }
+    }
+
+    await lista.save();
+    res.status(201).json(lista);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error("Error al agregar item:", error);
+    res.status(500).json({ message: "Error al agregar item" });
   }
 });
+
+export default router;

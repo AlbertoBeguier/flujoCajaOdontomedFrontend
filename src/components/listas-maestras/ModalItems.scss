@@ -1,0 +1,225 @@
+@use "sass:color";
+@use "../../styles/variables" as var;
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: var.$color-fondo-estudio;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 800px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid var.$color-principal-cliente;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  h2 {
+    color: white;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 1.5rem;
+
+    span {
+      display: block;
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+      color: var.$color-principal-cliente;
+    }
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    label {
+      color: white;
+      font-size: 1.2rem;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .input-buttons-container {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      width: 100%;
+      justify-content: center;
+
+      input {
+        max-width: 300px;
+        padding: 0.8rem;
+        border: 1px solid var.$color-principal-cliente;
+        border-radius: 4px;
+        background-color: white;
+      }
+
+      button {
+        height: 42px;
+        padding: 0 1rem;
+        white-space: nowrap;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        min-width: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+
+        &.btn-cancelar {
+          background-color: transparent;
+          border: 1px solid var.$color-principal-cliente;
+          color: var.$color-principal-cliente;
+
+          &:hover {
+            background-color: var.$color-principal-cliente;
+            color: white;
+          }
+        }
+
+        &.btn-guardar {
+          background-color: var.$color-principal-estudio;
+          border: 1px solid var.$color-principal-estudio;
+          color: white;
+
+          &:hover {
+            opacity: 0.9;
+          }
+        }
+      }
+    }
+  }
+
+  .items-list-modal {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 0.5rem;
+    padding-left: 0.5rem;
+
+    .item-container {
+      margin: 0;
+      text-align: left;
+
+      .item-content {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0.1rem 0;
+        background: none;
+        min-height: 24px;
+
+        .item-nombre {
+          color: white;
+          margin-right: auto;
+          font-size: 0.9rem;
+        }
+
+        .btn-agregar-subitem {
+          background: transparent;
+          border: 1px solid var.$color-principal-cliente;
+          color: var.$color-principal-cliente;
+          padding: 0.2rem 0.5rem;
+          border-radius: 4px;
+          font-size: 0.8rem;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          white-space: nowrap;
+          margin-left: auto;
+          min-width: 110px;
+
+          &:hover {
+            background: var.$color-principal-cliente;
+            color: white;
+          }
+        }
+      }
+
+      .subitems {
+        margin-left: 1.2rem;
+        border-left: 1px solid rgba(64, 181, 166, 0.2);
+        padding-left: 0.8rem;
+
+        .subitems {
+          margin-left: 1.5rem;
+          padding-left: 1rem;
+        }
+      }
+    }
+  }
+
+  .btn-cerrar-modal {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: transparent;
+    border: none;
+    color: var.$color-principal-cliente;
+    font-size: 1.8rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    z-index: 1001;
+
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    &:hover {
+      color: white;
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}
+
+.ruta-actual {
+  color: var.$color-principal-cliente;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .btn-volver {
+    background: transparent;
+    border: none;
+    color: var.$color-principal-estudio;
+    cursor: pointer;
+    font-size: 0.8rem;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

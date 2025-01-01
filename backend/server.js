@@ -9,6 +9,7 @@ import egresosRoutes from "./routes/egresos.js";
 import subcategoriasEgresosRoutes from "./routes/subcategoriasEgresos.js";
 import authRoutes from "./routes/auth.js";
 import subcategoriasIngresosRouter from "./routes/subcategoriasIngresos.js";
+import listasMaestrasRouter from "./routes/listasMaestras.js";
 
 dotenv.config();
 
@@ -87,6 +88,7 @@ app.use("/api/egresos", egresosRoutes);
 app.use("/api/subcategorias-egresos", subcategoriasEgresosRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/subcategorias-ingresos", subcategoriasIngresosRouter);
+app.use("/api/listas-maestras", listasMaestrasRouter);
 
 // Ruta de prueba
 app.get("/test", (req, res) => {

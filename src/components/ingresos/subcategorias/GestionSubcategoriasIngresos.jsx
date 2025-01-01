@@ -169,6 +169,7 @@ export const GestionSubcategoriasIngresos = () => {
               subcategorias={subcategorias}
               onAgregarSubcategoria={handleAgregarSubcategoria}
               onAgregarPrincipal={handleAgregarPrincipal}
+              onVerSubcategorias={() => {}}
             />
           )}
         </Paper>

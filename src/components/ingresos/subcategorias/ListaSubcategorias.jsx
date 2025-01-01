@@ -8,15 +8,17 @@ import {
   TableRow,
 } from "@mui/material";
 import "./ListaSubcategorias.scss";
+import { useNavigate } from "react-router-dom";
 
 export const ListaSubcategorias = ({
   subcategorias,
-  onVerSubcategorias,
+  onVerSubcategorias = () => {},
   onAgregarSubcategoria,
   onAgregarPrincipal,
 }) => {
   const [expandidas, setExpandidas] = useState(new Set());
   const [vistaArbol, setVistaArbol] = useState(true);
+  const navigate = useNavigate();
 
   const toggleExpansion = (codigo, e) => {
     e?.stopPropagation();
@@ -162,12 +164,20 @@ export const ListaSubcategorias = ({
         </button>
       </div>
 
-      <button
-        className="btn-agregar-principal-small"
-        onClick={onAgregarPrincipal}
-      >
-        + Nueva Categoría Principal
-      </button>
+      <div className="botones-container">
+        <button
+          className="btn-agregar-principal-small"
+          onClick={onAgregarPrincipal}
+        >
+          + Nueva Categoría Principal
+        </button>
+        <button
+          className="btn-agregar-principal-small"
+          onClick={() => navigate("/listas-maestras")}
+        >
+          + Gestión de Listas Maestras
+        </button>
+      </div>
 
       {vistaArbol ? (
         <div className="arbol-estructura-completo">
@@ -191,7 +201,7 @@ ListaSubcategorias.propTypes = {
       categoriaPadre: PropTypes.string,
     })
   ).isRequired,
-  onVerSubcategorias: PropTypes.func.isRequired,
+  onVerSubcategorias: PropTypes.func,
   onAgregarSubcategoria: PropTypes.func.isRequired,
   onAgregarPrincipal: PropTypes.func.isRequired,
 };
