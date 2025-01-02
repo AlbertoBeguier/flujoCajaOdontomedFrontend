@@ -19,6 +19,10 @@ const createSubcategoriaIngreso = async (subcategoria) => {
   try {
     console.log("Enviando al backend:", subcategoria);
 
+    // Extraer solo los datos necesarios
+    const datos =
+      subcategoria.tipo === "subcategoria" ? subcategoria.datos : subcategoria;
+
     const response = await fetch(
       `${API_BASE_URL}${ENDPOINTS.SUBCATEGORIAS_INGRESOS}`,
       {
@@ -26,7 +30,7 @@ const createSubcategoriaIngreso = async (subcategoria) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(subcategoria),
+        body: JSON.stringify(datos), // Enviamos solo los datos
       }
     );
 
