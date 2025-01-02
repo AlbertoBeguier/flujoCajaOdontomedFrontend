@@ -10,6 +10,7 @@ import {
   createSubcategoriaIngreso,
   analizarEstructuraSubcategorias,
   sincronizarTodasLasSubcategorias,
+  convertirListaASubcategorias,
 } from "../../../services/subcategoriaIngresosService";
 
 export const GestionSubcategoriasIngresos = () => {
@@ -62,6 +63,7 @@ export const GestionSubcategoriasIngresos = () => {
 
   const handleAgregarSubcategoria = (subcategoria) => {
     console.log("Agregando subcategoría a:", subcategoria);
+    console.log("Nombre de la subcategoría:", subcategoria.nombre);
     const nextCodigo = obtenerSiguienteCodigoHijo(subcategoria.codigo);
     console.log("Código generado:", nextCodigo);
 
@@ -69,6 +71,7 @@ export const GestionSubcategoriasIngresos = () => {
       isOpen: true,
       codigoAsignar: nextCodigo,
       isPrincipal: false,
+      nombreSubcategoria: subcategoria.nombre,
     });
   };
 
@@ -78,19 +81,27 @@ export const GestionSubcategoriasIngresos = () => {
 
   const handleSubmitSubcategoria = async (subcategoriaData) => {
     try {
-      await createSubcategoriaIngreso(subcategoriaData);
+      if (subcategoriaData.tipo === "lista") {
+        await convertirListaASubcategorias(
+          subcategoriaData.datos.codigo,
+          subcategoriaData.datos.listaId
+        );
+      } else {
+        await createSubcategoriaIngreso(subcategoriaData);
+      }
+
       await cargarSubcategorias();
       setModalConfig({ ...modalConfig, isOpen: false });
       setNotification({
         open: true,
-        message: "Subcategoría creada exitosamente",
+        message: "Operación realizada exitosamente",
         severity: "success",
       });
     } catch (error) {
-      console.error("Error al crear subcategoría:", error);
+      console.error("Error:", error);
       setNotification({
         open: true,
-        message: "Error al crear la subcategoría",
+        message: error.message || "Error al realizar la operación",
         severity: "error",
       });
     }
@@ -180,6 +191,7 @@ export const GestionSubcategoriasIngresos = () => {
           codigoAsignar={modalConfig.codigoAsignar}
           onSubmit={handleSubmitSubcategoria}
           isPrincipal={modalConfig.isPrincipal}
+          nombreSubcategoria={modalConfig.nombreSubcategoria}
         />
 
         <Snackbar

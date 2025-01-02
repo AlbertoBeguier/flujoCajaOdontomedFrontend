@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { FaSave } from "react-icons/fa";
+import { getListasMaestras } from "../../../services/listaMaestraService";
 import "./ModalSubcategoria.scss";
 
 export const ModalSubcategoria = ({
@@ -9,18 +10,31 @@ export const ModalSubcategoria = ({
   codigoAsignar,
   onSubmit,
   isPrincipal = false,
+  nombreSubcategoria,
 }) => {
-  const [tipoAccion, setTipoAccion] = useState("subcategoria"); // 'subcategoria' o 'lista'
-  const [nombre, setNombre] = React.useState("");
+  console.log("Modal recibió nombreSubcategoria:", nombreSubcategoria);
+  const [tipoAccion, setTipoAccion] = useState("subcategoria");
+  const [nombre, setNombre] = useState("");
+  const [listas, setListas] = useState([]);
+  const [listaSeleccionada, setListaSeleccionada] = useState("");
   const inputRef = React.useRef(null);
 
-  React.useEffect(() => {
-    if (isOpen && inputRef.current) {
-      inputRef.current.focus();
+  // Cargar listas maestras cuando se abre el modal y se selecciona "lista"
+  useEffect(() => {
+    if (isOpen && tipoAccion === "lista") {
+      const cargarListas = async () => {
+        try {
+          const listasData = await getListasMaestras();
+          setListas(listasData);
+        } catch (error) {
+          console.error("Error al cargar listas:", error);
+        }
+      };
+      cargarListas();
     }
-  }, [isOpen]);
+  }, [isOpen, tipoAccion]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (tipoAccion === "subcategoria" && nombre.trim()) {
       onSubmit({
@@ -34,15 +48,17 @@ export const ModalSubcategoria = ({
             : codigoAsignar.split(".").slice(0, -1).join("."),
         },
       });
-    } else if (tipoAccion === "lista") {
+    } else if (tipoAccion === "lista" && listaSeleccionada) {
       onSubmit({
         tipo: "lista",
         datos: {
-          codigo: codigoAsignar,
+          codigo: codigoAsignar.split(".").slice(0, -1).join("."),
+          listaId: listaSeleccionada,
         },
       });
     }
     setNombre("");
+    setListaSeleccionada("");
   };
 
   if (!isOpen) return null;
@@ -57,6 +73,16 @@ export const ModalSubcategoria = ({
         <div className="codigo-preview">
           <label>Código a asignar:</label>
           <span className="codigo-valor">{codigoAsignar}</span>
+          {!isPrincipal && nombreSubcategoria && (
+            <div className="subcategoria-seleccionada">
+              <label>
+                {tipoAccion === "lista"
+                  ? "Asignar lista a:"
+                  : "Agregar subcategoría a:"}
+              </label>
+              <span className="nombre-subcategoria">{nombreSubcategoria}</span>
+            </div>
+          )}
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -71,7 +97,7 @@ export const ModalSubcategoria = ({
             </select>
           </div>
 
-          {tipoAccion === "subcategoria" && (
+          {tipoAccion === "subcategoria" ? (
             <div className="form-group">
               <input
                 ref={inputRef}
@@ -82,13 +108,35 @@ export const ModalSubcategoria = ({
                 className="form-input"
               />
             </div>
+          ) : (
+            <div className="form-group">
+              <select
+                value={listaSeleccionada}
+                onChange={(e) => setListaSeleccionada(e.target.value)}
+                className="form-select"
+              >
+                <option value="">Seleccione una lista...</option>
+                {listas.map((lista) => (
+                  <option key={lista._id} value={lista._id}>
+                    {lista.nombre}
+                  </option>
+                ))}
+              </select>
+            </div>
           )}
 
           <div className="modal-actions">
             <button type="button" className="btn-cancelar" onClick={onClose}>
               Cancelar
             </button>
-            <button type="submit" className="btn-grabar">
+            <button
+              type="submit"
+              className="btn-grabar"
+              disabled={
+                (tipoAccion === "subcategoria" && !nombre.trim()) ||
+                (tipoAccion === "lista" && !listaSeleccionada)
+              }
+            >
               <FaSave className="icono-grabar" />
               <span>Grabar</span>
             </button>
@@ -105,4 +153,5 @@ ModalSubcategoria.propTypes = {
   codigoAsignar: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
   isPrincipal: PropTypes.bool,
+  nombreSubcategoria: PropTypes.string,
 };

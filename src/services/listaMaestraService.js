@@ -53,3 +53,11 @@ export const addItemToLista = async (listaId, itemData) => {
     throw error;
   }
 };
+
+export const getListaPorSubcategoria = async (codigoSubcategoria) => {
+  const response = await fetch(`${API_URL}/subcategoria/${codigoSubcategoria}`);
+  if (!response.ok) {
+    throw new Error("Error al obtener la lista maestra");
+  }
+  return response.json();
+};

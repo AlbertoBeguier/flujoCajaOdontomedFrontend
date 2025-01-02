@@ -7,6 +7,11 @@ const subcategoriaIngresoSchema = new mongoose.Schema(
     nivel: { type: Number, required: true },
     categoriaPadre: { type: String, default: null },
     activo: { type: Boolean, default: true },
+    listaMaestra: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ListaMaestra",
+      default: null,
+    },
   },
   { timestamps: true }
 );

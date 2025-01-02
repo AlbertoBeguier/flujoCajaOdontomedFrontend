@@ -127,3 +127,22 @@
     }
   }
 }
+
+.subcategoria-seleccionada {
+  margin-top: 10px;
+  padding: 8px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+
+  label {
+    display: block;
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 4px;
+  }
+
+  .nombre-subcategoria {
+    font-weight: bold;
+    color: var.$color-principal-estudio;
+  }
+}

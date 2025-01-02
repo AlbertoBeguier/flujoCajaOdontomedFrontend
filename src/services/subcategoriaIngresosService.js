@@ -30,7 +30,7 @@ const createSubcategoriaIngreso = async (subcategoria) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(datos), // Enviamos solo los datos
+        body: JSON.stringify(datos),
       }
     );
 
@@ -105,10 +105,74 @@ const analizarEstructuraSubcategorias = async () => {
 
 const sincronizarTodasLasSubcategorias = async () => {
   try {
-    await getSubcategoriasIngresos();
-    return true;
+    const response = await fetch(
+      `${API_BASE_URL}${ENDPOINTS.SUBCATEGORIAS_INGRESOS}/sincronizar`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.mensaje || "Error al sincronizar");
+    }
+
+    return await response.json();
   } catch (error) {
-    console.error("Error al sincronizar:", error);
+    console.error("Error en sincronizarTodasLasSubcategorias:", error);
+    throw error;
+  }
+};
+
+const asignarListaMaestra = async (codigo, listaId) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}${ENDPOINTS.SUBCATEGORIAS_INGRESOS}/${codigo}/asignar-lista`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ listaId }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.mensaje || "Error al asignar la lista maestra");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error en asignarListaMaestra:", error);
+    throw error;
+  }
+};
+
+const convertirListaASubcategorias = async (codigo, listaId) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}${ENDPOINTS.SUBCATEGORIAS_INGRESOS}/${codigo}/convertir-lista`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ listaId }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.mensaje || "Error al convertir la lista");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error en convertirListaASubcategorias:", error);
     throw error;
   }
 };
@@ -120,4 +184,6 @@ export {
   actualizarItem,
   analizarEstructuraSubcategorias,
   sincronizarTodasLasSubcategorias,
+  asignarListaMaestra,
+  convertirListaASubcategorias,
 };
