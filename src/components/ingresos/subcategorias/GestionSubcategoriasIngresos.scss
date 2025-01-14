@@ -84,3 +84,15 @@
     }
   }
 }
+
+.btn-sincronizar {
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: 1px solid var.$color-principal-estudio;
+  color: var.$color-principal-estudio;
+}
+.btn-sincronizar:hover {
+  background-color: var.$color-principal-estudio;
+  color: white;
+}

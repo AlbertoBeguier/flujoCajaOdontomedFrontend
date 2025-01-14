@@ -97,30 +97,28 @@ export const ListaSubcategorias = ({
         <React.Fragment key={subcategoria.codigo}>
           <TableRow>
             <TableCell>
-              {nivel > 0 && "----"}
+              {nivel > 0 && "\u00A0\u00A0".repeat(nivel)}
               {tieneHijos && (
                 <span
                   className="btn-expandir"
-                  onClick={() => toggleExpansion(subcategoria.codigo)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleExpansion(subcategoria.codigo);
+                  }}
                 >
                   {estaExpandida ? "└" : "├"}
                 </span>
               )}
-              <span
-                className="categoria-contenido"
-                onClick={() => onVerSubcategorias(subcategoria)}
-              >
-                {subcategoria.nombre} ({subcategoria.codigo})
-              </span>
+              {subcategoria.codigo}
             </TableCell>
             <TableCell>{subcategoria.nombre}</TableCell>
-            <TableCell>{nivel}</TableCell>
-            <TableCell>
+            <TableCell align="center">{nivel}</TableCell>
+            <TableCell align="center">
               <button
-                className="btn-agregar"
+                className="btn-agregar-tabla"
                 onClick={() => handleAgregarClick(subcategoria)}
               >
-                [+]
+                +
               </button>
             </TableCell>
           </TableRow>

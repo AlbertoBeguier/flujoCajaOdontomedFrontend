@@ -30,21 +30,40 @@
 
   .codigo-preview {
     margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
 
-    label {
-      color: var.$color-principal-cliente;
-      font-weight: bold;
-    }
+    .codigo-info-row {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: nowrap;
 
-    .codigo-valor {
-      background-color: var.$color-fondo-estudio;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      border: 1px solid var.$color-principal-cliente;
-      color: var.$color-principal-cliente;
+      .codigo-section,
+      .subcategoria-section {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        label {
+          color: var.$color-principal-cliente;
+          font-weight: bold;
+          white-space: nowrap;
+        }
+      }
+
+      .codigo-valor {
+        background-color: var.$color-fondo-estudio;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        border: 1px solid var.$color-principal-cliente;
+        color: var.$color-principal-cliente;
+        min-width: 60px;
+        text-align: center;
+      }
+
+      .nombre-subcategoria {
+        font-weight: bold;
+        color: var.$color-principal-estudio;
+      }
     }
   }
 
@@ -106,40 +125,37 @@
       }
 
       &.btn-grabar {
-        background-color: var.$color-principal-cliente;
-        border: none;
-        color: white;
+        background-color: transparent;
+        border: 1px solid var.$color-principal-estudio;
+        color: var.$color-principal-estudio;
         display: flex;
         align-items: center;
         gap: 0.5rem;
 
         &:hover {
-          background-color: color.adjust(
-            var.$color-principal-cliente,
-            $lightness: -10%
-          );
+          background-color: rgba(var.$color-principal-estudio, 0.5);
+          color: white;
         }
 
         .icono-grabar {
           font-size: 1.1rem;
+          background-color: transparent;
         }
       }
     }
   }
 }
 
+.texto-grabar {
+  font-size: 1.1rem;
+  background-color: transparent;
+}
+
 .subcategoria-seleccionada {
   margin-top: 10px;
   padding: 8px;
-  background-color: #f5f5f5;
-  border-radius: 4px;
 
-  label {
-    display: block;
-    font-size: 0.9em;
-    color: #666;
-    margin-bottom: 4px;
-  }
+  border-radius: 4px;
 
   .nombre-subcategoria {
     font-weight: bold;

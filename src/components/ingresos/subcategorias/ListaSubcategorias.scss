@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "../../../styles/variables" as var;
 
 .lista-subcategorias-titulo {
@@ -23,17 +24,44 @@
   .MuiTableCell-root {
     color: var.$color-principal-cliente;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 6px;
+    padding: 4px 8px;
+    font-size: 0.75rem;
 
-    .btn-lista {
-      background: none;
-      border: none;
+    &:nth-child(3) {
+      text-align: center;
+    }
+
+    &:last-child {
+      text-align: center;
+
+      .btn-agregar-tabla {
+        background-color: var.$color-principal-estudio;
+        color: white;
+        border: none;
+        padding: 2px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.7rem;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background-color: color.adjust(
+            var.$color-principal-estudio,
+            $lightness: -10%
+          );
+        }
+      }
+    }
+
+    .btn-expandir {
       cursor: pointer;
       color: var.$color-principal-estudio;
-      padding: 0.5rem;
+      padding: 0 4px;
+      font-size: 0.8rem;
+      user-select: none;
 
       &:hover {
-        opacity: 0.8;
+        color: var.$color-principal-cliente;
       }
     }
   }
@@ -43,6 +71,13 @@
       background-color: var.$color-fondo-estudio;
       color: var.$color-principal-estudio;
       font-weight: 600;
+      text-align: left;
+      font-size: 0.8rem;
+
+      &:nth-child(3),
+      &:last-child {
+        text-align: center;
+      }
     }
   }
 

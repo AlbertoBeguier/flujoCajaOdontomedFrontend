@@ -71,18 +71,24 @@ export const ModalSubcategoria = ({
         </h2>
 
         <div className="codigo-preview">
-          <label>Código a asignar:</label>
-          <span className="codigo-valor">{codigoAsignar}</span>
-          {!isPrincipal && nombreSubcategoria && (
-            <div className="subcategoria-seleccionada">
-              <label>
-                {tipoAccion === "lista"
-                  ? "Asignar lista a:"
-                  : "Agregar subcategoría a:"}
-              </label>
-              <span className="nombre-subcategoria">{nombreSubcategoria}</span>
+          <div className="codigo-info-row">
+            <div className="codigo-section">
+              <label>Código a asignar:</label>
+              <span className="codigo-valor">{codigoAsignar}</span>
             </div>
-          )}
+            {!isPrincipal && nombreSubcategoria && (
+              <div className="subcategoria-section">
+                <label>
+                  {tipoAccion === "lista"
+                    ? "Asignar lista a:"
+                    : "Agregar subcategoría a:"}
+                </label>
+                <span className="nombre-subcategoria">
+                  {nombreSubcategoria}
+                </span>
+              </div>
+            )}
+          </div>
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -138,7 +144,7 @@ export const ModalSubcategoria = ({
               }
             >
               <FaSave className="icono-grabar" />
-              <span>Grabar</span>
+              <span className="texto-grabar">Grabar</span>
             </button>
           </div>
         </form>
