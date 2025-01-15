@@ -45,7 +45,7 @@ router.post("/", async (req, res) => {
 router.post("/:id/items", async (req, res) => {
   try {
     const { id } = req.params;
-    const { nombre } = req.body;
+    const { nombre, parentId, nivel } = req.body;
 
     if (!nombre) {
       return res
@@ -58,10 +58,49 @@ router.post("/:id/items", async (req, res) => {
       return res.status(404).json({ message: "Lista maestra no encontrada" });
     }
 
-    // Solo agregar el item a la lista maestra
-    lista.items.push({ nombre });
-    await lista.save();
+    const agregarSubitemRecursivo = (items, nivelActual = 1) => {
+      // No permitir más de 8 niveles
+      if (nivelActual > 8) return false;
 
+      // Si estamos en un nivel específico y no coincide, no permitir la operación
+      if (nivel && nivelActual !== parseInt(nivel)) {
+        return false;
+      }
+
+      for (let item of items) {
+        if (item._id.toString() === parentId) {
+          if (!item.items) item.items = [];
+          item.items.push({ nombre, items: [] });
+          return true;
+        }
+
+        if (item.items && item.items.length > 0) {
+          if (agregarSubitemRecursivo(item.items, nivelActual + 1)) {
+            return true;
+          }
+        }
+      }
+      return false;
+    };
+
+    if (!parentId) {
+      // Si se especifica un nivel, verificar que sea el correcto para items principales
+      if (nivel && parseInt(nivel) !== 1) {
+        return res.status(400).json({
+          message: "No se puede agregar un item principal en este nivel",
+        });
+      }
+      lista.items.push({ nombre, items: [] });
+    } else {
+      const resultado = agregarSubitemRecursivo(lista.items);
+      if (!resultado) {
+        return res.status(404).json({
+          message: "Item padre no encontrado o nivel no permitido",
+        });
+      }
+    }
+
+    await lista.save();
     res.status(201).json(lista);
   } catch (error) {
     console.error("Error al agregar item:", error);

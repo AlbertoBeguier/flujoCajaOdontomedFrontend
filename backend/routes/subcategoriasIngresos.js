@@ -128,30 +128,79 @@ router.post("/:codigo/asignar-lista", async (req, res) => {
 });
 
 // Función auxiliar para sincronizar items
+async function sincronizarItemsRecursivamente(
+  subcategoriaPadre,
+  items,
+  nivel = 1
+) {
+  const resultados = [];
+
+  for (const item of items) {
+    // Crear subcategoría para el item actual
+    const codigoBase = subcategoriaPadre.codigo;
+    const subcategoriasExistentes = await SubcategoriaIngreso.find({
+      categoriaPadre: codigoBase,
+    }).sort({ codigo: -1 });
+
+    const siguienteNumero =
+      subcategoriasExistentes.length > 0
+        ? Math.max(
+            ...subcategoriasExistentes.map((s) =>
+              parseInt(s.codigo.split(".").pop())
+            )
+          ) + 1
+        : 1;
+
+    const nuevoCodigo = `${codigoBase}.${siguienteNumero}`;
+
+    const nuevaSubcategoria = new SubcategoriaIngreso({
+      codigo: nuevoCodigo,
+      nombre: item.nombre,
+      nivel: subcategoriaPadre.nivel + 1,
+      categoriaPadre: codigoBase,
+      activo: true,
+    });
+
+    await nuevaSubcategoria.save();
+    resultados.push(nuevaSubcategoria);
+
+    // Si tiene subitems, procesarlos recursivamente
+    if (item.items && item.items.length > 0) {
+      const subresultados = await sincronizarItemsRecursivamente(
+        nuevaSubcategoria,
+        item.items,
+        nivel + 1
+      );
+      resultados.push(...subresultados);
+    }
+  }
+
+  return resultados;
+}
+
 async function sincronizarItemsLista(subcategoria, listaMaestra) {
   try {
     console.log("=== Iniciando sincronizarItemsLista ===");
 
-    // 1. Obtener el patrón base del código
-    const codigoPartes = subcategoria.codigo.split(".");
-    const nivelActual = codigoPartes.length;
-    const patronBase = codigoPartes.slice(0, -1).join(".");
+    // 1. Obtener el nivel base (primer número del código)
+    const nivelBase = subcategoria.codigo.split(".")[0];
+    const nivelActual = subcategoria.nivel;
 
-    // 2. Encontrar todas las subcategorías del mismo nivel y patrón
+    // 2. Encontrar todas las subcategorías del mismo nivel base y mismo nivel jerárquico
     const subcategoriasRelacionadas = await SubcategoriaIngreso.find({
-      codigo: new RegExp(`^${patronBase}\\.\\d+$`),
+      codigo: new RegExp(`^${nivelBase}\\.`),
       nivel: nivelActual,
     });
 
     console.log(
-      `📌 Encontradas ${subcategoriasRelacionadas.length} subcategorías relacionadas`
+      `📌 Encontradas ${subcategoriasRelacionadas.length} subcategorías relacionadas del nivel ${nivelBase}`
     );
 
     const resultados = [];
 
     // 3. Para cada subcategoría relacionada, sincronizar los items
     for (const subRelacionada of subcategoriasRelacionadas) {
-      // Obtener las subcategorías hijas existentes
+      // Verificar si la subcategoría ya tiene los items
       const subcategoriasHijas = await SubcategoriaIngreso.find({
         categoriaPadre: subRelacionada.codigo,
       }).sort({ codigo: 1 });
@@ -163,46 +212,49 @@ async function sincronizarItemsLista(subcategoria, listaMaestra) {
         ])
       );
 
-      let ultimoNumero =
-        subcategoriasHijas.length > 0
-          ? Math.max(
-              ...subcategoriasHijas.map((sub) =>
-                parseInt(sub.codigo.split(".").pop())
-              )
-            )
-          : 0;
-
-      // Crear nuevas subcategorías para los items que no existen
+      // Procesar cada item de la lista maestra
       for (const item of listaMaestra.items) {
-        const nombreNormalizado = item.nombre.toLowerCase().trim();
+        if (!nombresExistentes.has(item.nombre.toLowerCase().trim())) {
+          // Crear nueva subcategoría para este item
+          const siguienteNumero =
+            subcategoriasHijas.length > 0
+              ? Math.max(
+                  ...subcategoriasHijas.map((s) =>
+                    parseInt(s.codigo.split(".").pop())
+                  )
+                ) + 1
+              : 1;
 
-        if (!nombresExistentes.has(nombreNormalizado)) {
-          ultimoNumero++;
-          const nuevoCodigo = `${subRelacionada.codigo}.${ultimoNumero}`;
+          const nuevoCodigo = `${subRelacionada.codigo}.${siguienteNumero}`;
 
           const nuevaSubcategoria = new SubcategoriaIngreso({
             codigo: nuevoCodigo,
-            nombre: item.nombre.trim(),
+            nombre: item.nombre,
             nivel: subRelacionada.nivel + 1,
             categoriaPadre: subRelacionada.codigo,
             activo: true,
+            // Heredar la lista maestra si el item original la tiene
+            listaMaestra: item.listaMaestra || null,
           });
 
           await nuevaSubcategoria.save();
-          console.log(
-            `✅ Creada subcategoría ${nuevaSubcategoria.codigo}: ${nuevaSubcategoria.nombre}`
-          );
-
           resultados.push(nuevaSubcategoria);
+
+          // Si el item tiene subitems, procesarlos recursivamente
+          if (item.items && item.items.length > 0) {
+            const subresultados = await sincronizarItemsRecursivamente(
+              nuevaSubcategoria,
+              item.items
+            );
+            resultados.push(...subresultados);
+          }
         }
       }
     }
 
     return {
       itemsAgregados: resultados.length,
-      itemsOmitidos:
-        listaMaestra.items.length * subcategoriasRelacionadas.length -
-        resultados.length,
+      itemsOmitidos: 0,
       subcategorias: resultados,
     };
   } catch (error) {
