@@ -1,0 +1,68 @@
+@use "../../../styles/variables" as var;
+
+.lista-categorias-titulo {
+  color: var.$color-principal-estudio;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.tabla-categorias {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: auto !important;
+  max-width: 600px !important;
+  margin: 0 auto !important;
+  background-color: transparent !important;
+}
+
+.tabla-header {
+  background-color: var.$color-principal-estudio !important;
+  color: white !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  white-space: nowrap !important;
+  padding: 12px 16px !important;
+  border: 1px solid var.$color-principal-estudio !important;
+}
+
+.tabla-cell {
+  color: white !important;
+  font-size: 0.8rem !important;
+  padding: 4px 16px !important;
+  white-space: nowrap !important;
+  border-bottom: 1px solid var.$color-principal-estudio !important;
+}
+
+/* Ajustes para el ancho de las columnas */
+.tabla-header:first-child,
+.tabla-cell:first-child {
+  width: 20% !important;
+}
+
+.tabla-header:nth-child(2),
+.tabla-cell:nth-child(2) {
+  width: 60% !important;
+}
+
+.tabla-header:last-child,
+.tabla-cell:last-child {
+  width: 20% !important;
+  text-align: center !important;
+}
+
+.tabla-cell:last-child {
+  text-align: center !important;
+}
+
+.MuiTable-root {
+  min-width: unset !important;
+}
+
+@media (max-width: 700px) {
+  .tabla-categorias {
+    margin: 0 16px !important;
+  }
+}

@@ -1,0 +1,133 @@
+@use "../../styles/variables" as var;
+
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var.$color-fondo-estudio;
+  margin-top: 32px;
+}
+
+.login-box {
+  margin-top: 45px;
+  background-color: var.$color-fondo-estudio;
+  padding: 1.6rem;
+  border-radius: 10px;
+  border: 1px solid var.$color-principal-estudio;
+  width: 100%;
+  max-width: 320px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.estudio-logos {
+  position: relative;
+  width: 268px;
+  height: 56px;
+}
+
+.login-logo-estudio {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 20s ease-in-out;
+  border-radius: 10px;
+
+  &.show {
+    opacity: 1;
+  }
+}
+
+.cliente-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.login-logo-cliente {
+  width: 48px;
+}
+
+.login-logo-cliente-1 {
+  width: 160px;
+  margin-top: 7px;
+}
+
+.login-titulo {
+  color: var.$color-principal-cliente;
+  text-align: center;
+  margin-bottom: 0.9rem;
+  font-size: 1.9rem;
+  font-weight: 500;
+}
+
+.error-login {
+  color: #ff4444;
+  text-align: center;
+
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.1rem;
+  border-radius: 4px;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+
+  input {
+    width: 100%;
+    padding: 0.65rem;
+    border: 1px solid var.$color-principal-cliente;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 0.95rem;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var.$color-principal-estudio;
+    }
+  }
+}
+
+.login-button {
+  width: 100%;
+  padding: 0.65rem;
+  background-color: var.$color-principal-cliente;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 700;
+
+  &:hover {
+    background-color: var.$color-principal-estudio;
+  }
+}
+
+@media (max-width: 994px) {
+  .estudio-logos {
+    width: 200px;
+    height: 44px;
+  }
+}

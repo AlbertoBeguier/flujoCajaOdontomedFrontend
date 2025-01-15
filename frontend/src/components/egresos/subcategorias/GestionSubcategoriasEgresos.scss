@@ -1,0 +1,29 @@
+@use "../../../styles/variables" as var;
+
+.pagina-egresos-container-1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.notification {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+}
+
+.mensaje-carga,
+.mensaje-vacio {
+  color: var.$color-principal-cliente;
+  text-align: center;
+  padding: 20px;
+  font-size: 1.1rem;
+}
+
+.mensaje-vacio {
+  color: #666;
+  font-style: italic;
+}

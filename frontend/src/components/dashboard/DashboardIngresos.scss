@@ -1,0 +1,142 @@
+@use "../../styles/variables" as var;
+
+body {
+  background-color: var.$color-fondo-estudio;
+}
+
+.dashboard-container {
+  margin-bottom: 3rem;
+  padding: 1rem;
+  background-color: var.$color-fondo-estudio;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.graficos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.grafico-item {
+  height: 85%;
+  width: 98%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  background-color: var.$color-fondo-estudio;
+
+  h3 {
+    color: var.$color-principal-cliente;
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+  }
+}
+
+.dashboard-loading {
+  text-align: center;
+  color: white;
+  padding: 2rem;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 1200px) {
+  .graficos-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .graficos-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.grafico-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  h3 {
+    margin: 0;
+  }
+}
+
+.periodo-selector {
+  background-color: var.$color-fondo-estudio;
+  color: white;
+  border: 1px solid var.$color-principal-cliente;
+  border-radius: 4px;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+    border-color: var.$color-principal-estudio;
+  }
+
+  option {
+    background-color: var.$color-fondo-estudio;
+    color: white;
+  }
+}
+
+.dias-selector {
+  background-color: var.$color-fondo-estudio;
+  color: white;
+  border: 1px solid var.$color-principal-cliente;
+  border-radius: 4px;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+    border-color: var.$color-principal-estudio;
+  }
+
+  option {
+    background-color: var.$color-fondo-estudio;
+    color: white;
+  }
+}
+
+.dashboard-header {
+  margin-bottom: 1rem;
+  text-align: center;
+  background-color: var.$color-fondo-estudio;
+}
+
+.header-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  background-color: var.$color-fondo-estudio;
+}
+
+.line-left,
+.line-right {
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.3);
+  flex: 1;
+}
+
+.dashboard-title {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin: 0;
+  white-space: nowrap;
+}
+.separator-line {
+  background-color: var.$color-fondo-estudio;
+}
