@@ -45,50 +45,30 @@ router.post("/", async (req, res) => {
 router.post("/:id/items", async (req, res) => {
   try {
     const { id } = req.params;
-    const { nombre, parentId } = req.body;
+    const { nombre } = req.body;
 
-    // Validar datos requeridos
     if (!nombre) {
       return res
         .status(400)
         .json({ message: "El nombre del item es requerido" });
     }
 
-    // Buscar la lista maestra
     const lista = await ListaMaestra.findById(id);
     if (!lista) {
       return res.status(404).json({ message: "Lista maestra no encontrada" });
     }
 
-    // Si no hay parentId, agregar al nivel principal
-    if (!parentId) {
-      lista.items.push({ nombre, items: [] });
-    } else {
-      // Función recursiva para encontrar y actualizar el item padre
-      const agregarSubitem = (items) => {
-        for (let item of items) {
-          if (item._id.toString() === parentId) {
-            if (!item.items) item.items = [];
-            item.items.push({ nombre, items: [] });
-            return true;
-          }
-          if (item.items && item.items.length > 0) {
-            if (agregarSubitem(item.items)) return true;
-          }
-        }
-        return false;
-      };
-
-      if (!agregarSubitem(lista.items)) {
-        return res.status(404).json({ message: "Item padre no encontrado" });
-      }
-    }
-
+    // Solo agregar el item a la lista maestra
+    lista.items.push({ nombre });
     await lista.save();
+
     res.status(201).json(lista);
   } catch (error) {
     console.error("Error al agregar item:", error);
-    res.status(500).json({ message: "Error al agregar item" });
+    res.status(500).json({
+      message: "Error al agregar item",
+      error: error.message,
+    });
   }
 });
 

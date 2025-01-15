@@ -8,9 +8,10 @@ import "./GestionSubcategoriasIngresos.scss";
 import {
   getSubcategoriasIngresos,
   createSubcategoriaIngreso,
-  analizarEstructuraSubcategorias,
   sincronizarTodasLasSubcategorias,
   convertirListaASubcategorias,
+  analizarEstructuraSubcategorias,
+  sincronizarListaMaestra,
 } from "../../../services/subcategoriaIngresosService";
 
 export const GestionSubcategoriasIngresos = () => {
@@ -135,8 +136,23 @@ export const GestionSubcategoriasIngresos = () => {
   const handleSincronizar = async () => {
     try {
       setIsLoading(true);
+
+      // Primero analizar la estructura
       await analizarEstructuraSubcategorias();
+
+      // Sincronizar todas las subcategorías
       await sincronizarTodasLasSubcategorias();
+
+      // Buscar subcategorías con lista maestra y sincronizarlas
+      const todasLasSubcategorias = await getSubcategoriasIngresos();
+      const subcategoriasConLista = todasLasSubcategorias.filter(
+        (sub) => sub.listaMaestra
+      );
+
+      for (const sub of subcategoriasConLista) {
+        await sincronizarListaMaestra(sub.codigo);
+      }
+
       await cargarSubcategorias();
 
       setNotification({

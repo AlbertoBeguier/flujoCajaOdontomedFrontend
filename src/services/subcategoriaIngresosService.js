@@ -96,7 +96,8 @@ const actualizarItem = async (codigo, nombre) => {
 
 const analizarEstructuraSubcategorias = async () => {
   try {
-    return await getSubcategoriasIngresos();
+    const subcategorias = await getSubcategoriasIngresos();
+    return subcategorias;
   } catch (error) {
     console.error("Error al analizar estructura:", error);
     throw error;
@@ -166,13 +167,37 @@ const convertirListaASubcategorias = async (codigo, listaId) => {
     );
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.mensaje || "Error al convertir la lista");
+      const error = await response.json();
+      throw new Error(error.message || "Error al convertir la lista");
     }
 
-    return await response.json();
+    return response.json();
   } catch (error) {
     console.error("Error en convertirListaASubcategorias:", error);
+    throw error;
+  }
+};
+
+const sincronizarListaMaestra = async (codigo) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}${ENDPOINTS.SUBCATEGORIAS_INGRESOS}/${codigo}/sincronizar-lista`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Error al sincronizar la lista");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error en sincronizarListaMaestra:", error);
     throw error;
   }
 };
@@ -186,4 +211,5 @@ export {
   sincronizarTodasLasSubcategorias,
   asignarListaMaestra,
   convertirListaASubcategorias,
+  sincronizarListaMaestra,
 };

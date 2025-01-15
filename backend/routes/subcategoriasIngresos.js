@@ -7,7 +7,26 @@ const router = express.Router();
 // GET - Obtener todas las subcategorías
 router.get("/", async (req, res) => {
   try {
-    const subcategorias = await SubcategoriaIngreso.find().sort({ codigo: 1 });
+    // Obtener todas las subcategorías ordenadas por código
+    const subcategorias = await SubcategoriaIngreso.find().sort({
+      codigo: 1, // Ordenar por código para mantener la jerarquía
+      nivel: 1, // Y por nivel para asegurar la estructura correcta
+    });
+
+    // Validar la estructura del árbol
+    subcategorias.forEach((sub) => {
+      if (sub.nivel > 1) {
+        const padre = subcategorias.find(
+          (p) => p.codigo === sub.categoriaPadre
+        );
+        if (!padre) {
+          console.error(
+            `Subcategoría ${sub.codigo} (${sub.nombre}) tiene un categoriaPadre inválido`
+          );
+        }
+      }
+    });
+
     res.json(subcategorias);
   } catch (error) {
     console.error("Error al obtener subcategorías:", error);
@@ -108,61 +127,167 @@ router.post("/:codigo/asignar-lista", async (req, res) => {
   }
 });
 
-// POST - Convertir lista maestra en subcategorías
+// Función auxiliar para sincronizar items
+async function sincronizarItemsLista(subcategoria, listaMaestra) {
+  try {
+    console.log("=== Iniciando sincronizarItemsLista ===");
+
+    // 1. Obtener el patrón base del código
+    const codigoPartes = subcategoria.codigo.split(".");
+    const nivelActual = codigoPartes.length;
+    const patronBase = codigoPartes.slice(0, -1).join(".");
+
+    // 2. Encontrar todas las subcategorías del mismo nivel y patrón
+    const subcategoriasRelacionadas = await SubcategoriaIngreso.find({
+      codigo: new RegExp(`^${patronBase}\\.\\d+$`),
+      nivel: nivelActual,
+    });
+
+    console.log(
+      `📌 Encontradas ${subcategoriasRelacionadas.length} subcategorías relacionadas`
+    );
+
+    const resultados = [];
+
+    // 3. Para cada subcategoría relacionada, sincronizar los items
+    for (const subRelacionada of subcategoriasRelacionadas) {
+      // Obtener las subcategorías hijas existentes
+      const subcategoriasHijas = await SubcategoriaIngreso.find({
+        categoriaPadre: subRelacionada.codigo,
+      }).sort({ codigo: 1 });
+
+      const nombresExistentes = new Map(
+        subcategoriasHijas.map((sub) => [
+          sub.nombre.toLowerCase().trim(),
+          sub.codigo,
+        ])
+      );
+
+      let ultimoNumero =
+        subcategoriasHijas.length > 0
+          ? Math.max(
+              ...subcategoriasHijas.map((sub) =>
+                parseInt(sub.codigo.split(".").pop())
+              )
+            )
+          : 0;
+
+      // Crear nuevas subcategorías para los items que no existen
+      for (const item of listaMaestra.items) {
+        const nombreNormalizado = item.nombre.toLowerCase().trim();
+
+        if (!nombresExistentes.has(nombreNormalizado)) {
+          ultimoNumero++;
+          const nuevoCodigo = `${subRelacionada.codigo}.${ultimoNumero}`;
+
+          const nuevaSubcategoria = new SubcategoriaIngreso({
+            codigo: nuevoCodigo,
+            nombre: item.nombre.trim(),
+            nivel: subRelacionada.nivel + 1,
+            categoriaPadre: subRelacionada.codigo,
+            activo: true,
+          });
+
+          await nuevaSubcategoria.save();
+          console.log(
+            `✅ Creada subcategoría ${nuevaSubcategoria.codigo}: ${nuevaSubcategoria.nombre}`
+          );
+
+          resultados.push(nuevaSubcategoria);
+        }
+      }
+    }
+
+    return {
+      itemsAgregados: resultados.length,
+      itemsOmitidos:
+        listaMaestra.items.length * subcategoriasRelacionadas.length -
+        resultados.length,
+      subcategorias: resultados,
+    };
+  } catch (error) {
+    console.error("❌ Error en sincronizarItemsLista:", error);
+    throw error;
+  }
+}
+
+// Modificar el endpoint de convertir lista para usar la función de sincronización
 router.post("/:codigo/convertir-lista", async (req, res) => {
   try {
     const { codigo } = req.params;
     const { listaId } = req.body;
 
+    console.log("=== Iniciando conversión de lista ===");
+    console.log("Código:", codigo);
+    console.log("ListaId:", listaId);
+
     // 1. Obtener la lista maestra
     const listaMaestra = await ListaMaestra.findById(listaId);
     if (!listaMaestra) {
-      return res.status(404).json({ mensaje: "Lista maestra no encontrada" });
+      console.log("❌ Lista maestra no encontrada");
+      return res.status(404).json({
+        mensaje: "Lista maestra no encontrada",
+        listaId,
+      });
     }
 
-    // 2. Función recursiva para crear subcategorías
-    const crearSubcategorias = async (items, codigoBase) => {
-      const subcategorias = [];
-
-      for (let i = 0; i < items.length; i++) {
-        const item = items[i];
-        const codigoNuevo = `${codigoBase}.${i + 1}`;
-        const nivel = codigoNuevo.split(".").length;
-
-        const subcategoria = new SubcategoriaIngreso({
-          codigo: codigoNuevo,
-          nombre: item.nombre,
-          nivel: nivel,
-          categoriaPadre: codigoBase,
-          activo: true,
-        });
-
-        await subcategoria.save();
-        subcategorias.push(subcategoria);
-
-        if (item.items && item.items.length > 0) {
-          await crearSubcategorias(item.items, codigoNuevo);
-        }
-      }
-
-      return subcategorias;
-    };
-
-    // 3. Crear las subcategorías de los items
-    const subcategoriasCreadas = await crearSubcategorias(
-      listaMaestra.items,
-      codigo // Pasamos solo el código base
-    );
-
-    res.json({
-      mensaje: "Lista convertida exitosamente",
-      subcategorias: subcategoriasCreadas,
+    console.log("✅ Lista maestra encontrada:", {
+      nombre: listaMaestra.nombre,
+      id: listaMaestra._id,
+      items: listaMaestra.items?.length || 0,
     });
+
+    // 2. Obtener la subcategoría base
+    const subcategoriaBase = await SubcategoriaIngreso.findOne({ codigo });
+    if (!subcategoriaBase) {
+      console.log("❌ Subcategoría base no encontrada");
+      return res.status(404).json({
+        mensaje: "Subcategoría base no encontrada",
+        codigo,
+      });
+    }
+
+    console.log("✅ Subcategoría base encontrada:", {
+      nombre: subcategoriaBase.nombre,
+      codigo: subcategoriaBase.codigo,
+      nivel: subcategoriaBase.nivel,
+    });
+
+    try {
+      // 3. Asignar la lista maestra a la subcategoría base
+      subcategoriaBase.listaMaestra = listaId;
+      await subcategoriaBase.save();
+      console.log("✅ Lista maestra asignada a subcategoría base");
+
+      // 4. Sincronizar los items
+      const resultado = await sincronizarItemsLista(
+        subcategoriaBase,
+        listaMaestra
+      );
+      console.log("✅ Sincronización completada:", resultado);
+
+      return res.json({
+        mensaje:
+          resultado.itemsAgregados > 0
+            ? "Se agregaron nuevos items de la lista"
+            : "No hay nuevos items para agregar",
+        ...resultado,
+      });
+    } catch (syncError) {
+      console.error("❌ Error en sincronización:", syncError);
+      throw new Error(`Error en sincronización: ${syncError.message}`);
+    }
   } catch (error) {
-    console.error("Error al convertir lista:", error);
-    res.status(500).json({
+    console.error("❌ Error detallado:", {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+    });
+
+    return res.status(500).json({
       mensaje: "Error al convertir la lista en subcategorías",
       error: error.message,
+      detalles: error.stack,
     });
   }
 });
@@ -274,5 +399,42 @@ async function sincronizarCategoria(
 
   return nuevasSubcategorias;
 }
+
+// POST /:codigo/sincronizar-lista
+router.post("/:codigo/sincronizar-lista", async (req, res) => {
+  try {
+    const { codigo } = req.params;
+
+    // 1. Obtener la subcategoría
+    const subcategoria = await SubcategoriaIngreso.findOne({ codigo });
+    if (!subcategoria || !subcategoria.listaMaestra) {
+      return res.status(404).json({
+        mensaje: "Subcategoría no encontrada o no tiene lista maestra asociada",
+      });
+    }
+
+    // 2. Obtener la lista maestra
+    const listaMaestra = await ListaMaestra.findById(subcategoria.listaMaestra);
+    if (!listaMaestra) {
+      return res.status(404).json({
+        mensaje: "Lista maestra no encontrada",
+      });
+    }
+
+    // 3. Sincronizar items
+    const result = await sincronizarItemsLista(subcategoria, listaMaestra);
+
+    res.json({
+      mensaje: "Lista sincronizada exitosamente",
+      ...result,
+    });
+  } catch (error) {
+    console.error("Error al sincronizar lista:", error);
+    res.status(500).json({
+      mensaje: "Error al sincronizar la lista",
+      error: error.message,
+    });
+  }
+});
 
 export default router;
