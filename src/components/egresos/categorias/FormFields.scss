@@ -1,0 +1,130 @@
+@use "../../../styles/variables" as var;
+
+.form-fields-container {
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var.$color-principal-cliente;
+  border-radius: 4px;
+  background-color: white;
+  color: black;
+  font-size: 1rem;
+
+  &:focus {
+    outline: none;
+    border-color: var.$color-principal-estudio;
+  }
+}
+
+.codigo-sugerido {
+  color: var.$color-principal-cliente;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.ruta-navegacion {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn-navegacion {
+  background: none;
+  border: none;
+  color: var.$color-principal-cliente;
+  cursor: pointer;
+  padding: 4px 8px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.separador-ruta {
+  color: var.$color-principal-cliente;
+  margin: 0 8px;
+}
+
+.lista-categorias {
+  list-style: none;
+  padding: 0;
+}
+
+.categoria-item {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.categoria-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.categoria-codigo {
+  color: var.$color-principal-cliente;
+  margin-right: 1rem;
+}
+
+.categoria-nombre {
+  color: white;
+}
+
+.categoria-acciones {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-agregar-subcategoria {
+  background: none;
+  border: 1px solid var.$color-principal-cliente;
+  color: var.$color-principal-cliente;
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: var.$color-principal-cliente;
+    color: black;
+  }
+}
+
+.btn-navegar {
+  background: none;
+  border: 1px solid var.$color-principal-estudio;
+  color: var.$color-principal-estudio;
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: var.$color-principal-estudio;
+    color: black;
+  }
+}
+
+.lista-subcategorias {
+  margin-left: 20px;
+  margin-top: 10px;
+  list-style: none;
+  padding: 0;
+}
+
+.subcategoria-item {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}

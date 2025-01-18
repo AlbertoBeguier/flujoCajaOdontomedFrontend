@@ -1,0 +1,284 @@
+@use "../../../styles/variables" as var;
+
+.listado-egresos-container {
+  margin: auto;
+  padding: 10px;
+  max-width: 70%;
+}
+
+.listado-titulo {
+  color: var.$color-principal-estudio;
+  font-size: 1.5rem;
+  margin: 20px 0 20px 0;
+  text-align: center;
+}
+
+.tabla-responsive {
+  overflow-x: auto;
+}
+
+.tabla-egresos {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+
+  th,
+  td {
+    padding: 4px 15px;
+    vertical-align: middle;
+  }
+
+  tr {
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.4);
+
+      td {
+        background-color: rgba(0, 0, 0, 0.4);
+
+        .subcategoria-container,
+        .subcategoria-cell,
+        .btn-accion {
+          background-color: rgba(0, 0, 0, 0.4);
+        }
+      }
+    }
+  }
+
+  th {
+    color: var.$color-principal-estudio;
+    font-weight: 700;
+    border-bottom: 2px solid var.$color-principal-cliente;
+
+    &:first-child,
+    &:nth-child(2) {
+      text-align: left;
+    }
+    &:last-child {
+      text-align: center;
+    }
+  }
+
+  td {
+    color: white;
+    font-size: 0.9rem;
+
+    &:first-child,
+    &:nth-child(2) {
+      text-align: left;
+    }
+  }
+
+  td.importe {
+    text-align: right;
+    font-weight: 500;
+    color: white;
+  }
+
+  th,
+  td {
+    &:first-child {
+      width: 15%;
+    }
+    &:nth-child(2) {
+      width: 25%;
+    }
+    &:nth-child(3) {
+      width: 25%;
+      text-align: center;
+    }
+    &:nth-child(4) {
+      width: 15%;
+      text-align: right;
+    }
+    &:nth-child(5) {
+      width: 10%;
+      text-align: center;
+    }
+    &:last-child {
+      width: 10%;
+      text-align: left;
+    }
+  }
+
+  tbody {
+    tr {
+      background-color: var.$color-fondo-estudio;
+      border-bottom: 1px solid var.$color-principal-cliente;
+      transition: background-color 0.2s ease;
+      height: 32px;
+
+      &:last-child {
+        border-bottom: 1px solid var.$color-principal-cliente;
+      }
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.4);
+
+        .subcategoria-container,
+        .subcategoria-cell,
+        .btn-accion,
+        .btn-accion svg {
+          background-color: inherit;
+        }
+      }
+
+      td {
+        background-color: inherit;
+        padding: 0.25rem 0.75rem;
+        color: white;
+      }
+    }
+  }
+
+  .acciones {
+    text-align: center;
+
+    .btn-accion {
+      background: none;
+      border: none;
+      color: var.$color-principal-cliente;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      text-align: center;
+
+      &:hover {
+        color: rgb(193, 186, 186);
+        transform: scale(1.3);
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .tabla-egresos {
+    th,
+    td {
+      padding: 8px;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.nuevo-egreso {
+  animation: resaltarNuevo 3s ease;
+}
+
+@keyframes resaltarNuevo {
+  0% {
+    color: #ff0000;
+  }
+  70% {
+    color: #ff0000;
+  }
+  100% {
+    color: white;
+  }
+}
+
+.nuevo-egreso td {
+  animation: resaltarNuevo 3s ease;
+}
+
+.observaciones {
+  text-align: left;
+  padding-left: 20px !important;
+
+  .tiene-obs {
+    color: var.$color-principal-cliente;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+
+    &:hover {
+      text-decoration: none;
+      color: rgb(193, 186, 186);
+      font-weight: 700;
+    }
+  }
+
+  & > span,
+  & {
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+}
+
+[title] {
+  transition: none;
+}
+
+.importe {
+  text-align: right;
+}
+
+.subcategoria-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+
+.subcategoria-cell {
+  color: var.$color-principal-estudio;
+  font-weight: 500;
+  cursor: help;
+  text-align: center;
+  display: inline-block;
+}
+
+.subcategoria-tooltip {
+  visibility: hidden;
+  position: absolute;
+  z-index: 1000;
+  bottom: 150%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var.$color-principal-estudio;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.2s ease-in-out;
+  min-width: max-content;
+
+  .tooltip-content {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    text-align: center;
+    white-space: nowrap;
+    display: block;
+    width: 100%;
+    background-color: var.$color-principal-estudio;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -4px;
+    border-width: 4px;
+    border-style: solid;
+    border-color: var.$color-principal-estudio transparent transparent
+      transparent;
+  }
+}
+
+.subcategoria-container:hover .subcategoria-tooltip {
+  visibility: visible;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 5px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}

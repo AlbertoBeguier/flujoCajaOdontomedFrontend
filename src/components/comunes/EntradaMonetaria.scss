@@ -1,0 +1,17 @@
+@use "../../styles/variables" as var;
+
+.entrada-monetaria {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  text-align: right;
+  background-color: #fff;
+}
+
+.entrada-monetaria:focus {
+  border-color: var.$color-principal-cliente;
+  outline: none;
+  box-shadow: 1px 1px 1px 2px rgba(64, 181, 166, 0.2);
+}

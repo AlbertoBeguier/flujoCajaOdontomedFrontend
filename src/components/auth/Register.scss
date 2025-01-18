@@ -1,0 +1,105 @@
+@use "../../styles/variables" as var;
+
+.register-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 90px); // Ajustar por el NavBar
+  padding: 20px;
+}
+
+.register-box {
+  background-color: var.$color-fondo-estudio;
+  padding: 2rem;
+  border-radius: 10px;
+  border: 1px solid var.$color-principal-estudio;
+  width: 100%;
+  max-width: 400px;
+}
+
+h2 {
+  color: var.$color-principal-cliente;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+
+  input,
+  select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var.$color-principal-cliente;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+    appearance: none;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var.$color-principal-estudio;
+    }
+  }
+
+  select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+    padding-right: 2.5rem;
+
+    option {
+      background-color: var.$color-fondo-estudio;
+      color: white;
+      padding: 0.8rem;
+    }
+
+    &:hover {
+      border-color: var.$color-principal-estudio;
+    }
+  }
+}
+
+.register-button {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: var.$color-principal-cliente;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 700;
+
+  &:hover {
+    background-color: var.$color-principal-estudio;
+  }
+}
+
+.message {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  text-align: center;
+
+  &.error {
+    background-color: rgba(255, 0, 0, 0.1);
+    color: #ff4444;
+    border: 1px solid #ff4444;
+  }
+
+  &.success {
+    background-color: rgba(0, 255, 0, 0.1);
+    color: #00c851;
+    border: 1px solid #00c851;
+  }
+}
