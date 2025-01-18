@@ -1,5 +1,6 @@
 export const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "https://caja-om.estudiobeguier.com:5005";
+  import.meta.env.VITE_API_URL ||
+  "https://hammerhead-app-iuitt.ondigitalocean.app";
 
 export const INITIAL_FORM_STATE = {
   codigo: "",
