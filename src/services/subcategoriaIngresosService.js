@@ -122,8 +122,7 @@ const sincronizarTodasLasSubcategorias = async () => {
       throw new Error(error.message || "Error al sincronizar");
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
     console.error("Error en sincronizarTodasLasSubcategorias:", error);
     throw error;
@@ -145,7 +144,7 @@ const asignarListaMaestra = async (codigo, listaId) => {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.mensaje || "Error al asignar la lista maestra");
+      throw new Error(errorData.message || "Error al asignar la lista maestra");
     }
 
     return await response.json();
@@ -173,7 +172,12 @@ const convertirListaASubcategorias = async (codigo, listaId) => {
       throw new Error(error.message || "Error al convertir la lista");
     }
 
-    return response.json();
+    const data = await response.json();
+
+    // Recargar las subcategorías inmediatamente para mostrar los cambios
+    await getSubcategoriasIngresos();
+
+    return data;
   } catch (error) {
     console.error("Error en convertirListaASubcategorias:", error);
     throw error;
