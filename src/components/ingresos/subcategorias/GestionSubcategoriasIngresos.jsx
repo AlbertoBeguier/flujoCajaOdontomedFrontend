@@ -12,6 +12,7 @@ import {
   convertirListaASubcategorias,
   analizarEstructuraSubcategorias,
   sincronizarListaMaestra,
+  descargarBackup,
 } from "../../../services/subcategoriaIngresosService";
 
 export const GestionSubcategoriasIngresos = () => {
@@ -172,6 +173,24 @@ export const GestionSubcategoriasIngresos = () => {
     }
   };
 
+  const handleBackup = async () => {
+    try {
+      await descargarBackup();
+      setNotification({
+        open: true,
+        message: "Copia de seguridad descargada correctamente",
+        severity: "success",
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      setNotification({
+        open: true,
+        message: "Error al descargar la copia de seguridad",
+        severity: "error",
+      });
+    }
+  };
+
   return (
     <>
       <div className="pagina-ingresos-container-1">
@@ -190,6 +209,20 @@ export const GestionSubcategoriasIngresos = () => {
             </>
           ) : (
             "Sincronizar Todo"
+          )}
+        </button>
+        <button
+          className="btn-backup"
+          onClick={handleBackup}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <>
+              Generando Backup
+              <div className="spinner"></div>
+            </>
+          ) : (
+            "Copia de Seguridad"
           )}
         </button>
       </div>

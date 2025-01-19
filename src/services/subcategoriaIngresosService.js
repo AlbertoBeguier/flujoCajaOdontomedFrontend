@@ -208,6 +208,61 @@ const sincronizarListaMaestra = async (codigo) => {
   }
 };
 
+const descargarBackup = async () => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}${ENDPOINTS.SUBCATEGORIAS_INGRESOS}/backup`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Error al obtener la copia de seguridad");
+    }
+
+    const data = await response.json();
+
+    // Crear y descargar archivo de subcategorías
+    const subcategoriasBlob = new Blob([data.subcategorias], {
+      type: "application/json",
+    });
+    const subcategoriasUrl = window.URL.createObjectURL(subcategoriasBlob);
+    const subcategoriasLink = document.createElement("a");
+    subcategoriasLink.href = subcategoriasUrl;
+    subcategoriasLink.download = `subcategorias_${
+      new Date().toISOString().split("T")[0]
+    }.json`;
+    document.body.appendChild(subcategoriasLink);
+    subcategoriasLink.click();
+    window.URL.revokeObjectURL(subcategoriasUrl);
+    document.body.removeChild(subcategoriasLink);
+
+    // Crear y descargar archivo de listas maestras
+    const listasMaestrasBlob = new Blob([data.listasMaestras], {
+      type: "application/json",
+    });
+    const listasMaestrasUrl = window.URL.createObjectURL(listasMaestrasBlob);
+    const listasMaestrasLink = document.createElement("a");
+    listasMaestrasLink.href = listasMaestrasUrl;
+    listasMaestrasLink.download = `listas_maestras_${
+      new Date().toISOString().split("T")[0]
+    }.json`;
+    document.body.appendChild(listasMaestrasLink);
+    listasMaestrasLink.click();
+    window.URL.revokeObjectURL(listasMaestrasUrl);
+    document.body.removeChild(listasMaestrasLink);
+
+    return data;
+  } catch (error) {
+    console.error("Error al descargar backup:", error);
+    throw error;
+  }
+};
+
 export {
   getSubcategoriasIngresos,
   createSubcategoriaIngreso,
@@ -218,4 +273,5 @@ export {
   asignarListaMaestra,
   convertirListaASubcategorias,
   sincronizarListaMaestra,
+  descargarBackup,
 };
