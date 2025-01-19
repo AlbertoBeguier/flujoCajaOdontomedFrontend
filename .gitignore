@@ -8,6 +8,7 @@
 
 # Production
 /dist
+dist/
 /build
 
 # Environment files
