@@ -60,7 +60,7 @@ export const FormularioIngreso = ({
   };
 
   return (
-    <div className="container-general">
+    <div className="container-general-formulario-ingreso">
       <div className="formulario-ingreso-container">
         <h2 className="formulario-titulo">Registrar Ingreso</h2>
         <RutaCategoria rutaCompleta={rutaCompleta} />
