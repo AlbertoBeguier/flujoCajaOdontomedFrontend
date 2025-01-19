@@ -183,7 +183,14 @@ export const GestionSubcategoriasIngresos = () => {
           onClick={handleSincronizar}
           disabled={isLoading}
         >
-          {isLoading ? "Sincronizando..." : "Sincronizar Todo"}
+          {isLoading ? (
+            <>
+              Sincronizando
+              <div className="spinner"></div>
+            </>
+          ) : (
+            "Sincronizar Todo"
+          )}
         </button>
       </div>
 

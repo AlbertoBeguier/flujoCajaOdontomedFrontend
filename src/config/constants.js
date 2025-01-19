@@ -23,5 +23,3 @@ export const ENDPOINTS = {
   SUBCATEGORIAS_INGRESOS: "/api/subcategorias-ingresos",
   CONVERTIR_LISTA: "/api/subcategorias-ingresos/convertir-lista",
 };
-
-// Prueba de detección de cambios

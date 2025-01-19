@@ -91,8 +91,72 @@
   border-radius: 5px;
   border: 1px solid var.$color-principal-estudio;
   color: var.$color-principal-estudio;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    background-color: var.$color-principal-estudio;
+    color: white;
+  }
+
+  &:disabled {
+    animation: borderPulse 2s ease-in-out infinite;
+
+    border: 1px solid var.$color-principal-cliente;
+    color: var.$color-principal-cliente;
+    cursor: not-allowed;
+    animation: textPulse 2s ease-in-out infinite;
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var.$color-principal-estudio;
+      border-radius: 50%;
+      animation: spin 1s linear infinite, spinnerPulse 2s ease-in-out infinite;
+      margin-left: 8px;
+    }
+  }
 }
-.btn-sincronizar:hover {
-  background-color: var.$color-principal-estudio;
-  color: white;
+
+@keyframes textPulse {
+  0%,
+  100% {
+    color: var.$color-principal-estudio;
+  }
+  50% {
+    color: var.$color-principal-cliente;
+  }
+}
+
+@keyframes spinnerPulse {
+  0%,
+  100% {
+    border-color: var.$color-principal-estudio;
+    border-top-color: #1a1a2e;
+  }
+  50% {
+    border-color: rgba(74, 158, 255, 0.6);
+    border-top-color: #1a1a2e;
+  }
+}
+
+@keyframes borderPulse {
+  0%,
+  100% {
+    border-color: var.$color-principal-estudio;
+  }
+  50% {
+    border-color: var.$color-principal-cliente;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
