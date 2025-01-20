@@ -3,6 +3,15 @@
 /* Elimina el subrayado de todos los enlaces */
 a {
   text-decoration: none; /* Elimina el subrayado */
+  margin: 0 15px; // 15px de margen horizontal entre botones
+
+  &:first-child {
+    margin-left: 0; // Sin margen izquierdo para el primer botón
+  }
+
+  &:last-child {
+    margin-right: 0; // Sin margen derecho para el último botón
+  }
 }
 
 .pagina-ingresos-container {
@@ -288,6 +297,44 @@ a {
 
   &:hover {
     background-color: #4a90e2;
+    color: white;
+    border-color: rgb(167, 160, 160);
+
+    .btn-ingresos-icon {
+      color: white;
+      background-color: transparent !important;
+    }
+  }
+}
+
+%btn-base {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  gap: 8px;
+  font-weight: 700;
+  min-width: 200px;
+  transition: all 0.3s ease;
+}
+
+.btn-dashboard-ingresos {
+  @extend %btn-base;
+  background-color: black;
+  color: var.$color-principal-cliente;
+  border: 2px solid var.$color-principal-cliente;
+
+  .btn-ingresos-icon {
+    color: var.$color-principal-cliente;
+    transition: all 0.3s ease;
+  }
+
+  &:hover {
+    background-color: var.$color-principal-cliente;
     color: white;
     border-color: rgb(167, 160, 160);
 

@@ -20,6 +20,7 @@ import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { Register } from "./components/auth/Register";
 import { GestionSubcategoriasIngresos } from "./components/ingresos/subcategorias/GestionSubcategoriasIngresos";
 import { GestionListasMaestras } from "./components/listas-maestras/GestionListasMaestras";
+import { PanelIngresos } from "./components/ingresos/dashboard/PanelIngresos";
 
 function App() {
   return (
@@ -72,6 +73,10 @@ function App() {
                         <GestionListasMaestras />
                       </ProtectedRoute>
                     }
+                  />
+                  <Route
+                    path="/dashboard-ingresos"
+                    element={<PanelIngresos />}
                   />
                 </Routes>
                 <Footer />

@@ -1,0 +1,299 @@
+@use "../../../styles/variables" as var;
+
+.dashboard-container {
+  margin: auto;
+  padding: 10px;
+  max-width: 70%;
+}
+
+.dashboard-filtros {
+  margin: 20px auto;
+  max-width: 70%;
+  display: flex;
+  justify-content: center;
+}
+
+.dashboard-periodo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var.$color-fondo-estudio;
+  padding: 15px 20px;
+  border-radius: 5px;
+  border: 1px solid var.$color-principal-cliente;
+
+  .filtro-label {
+    color: var.$color-principal-cliente;
+    font-weight: 500;
+    margin: 0 5px;
+  }
+
+  select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var.$color-principal-cliente;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+    min-width: 100px;
+
+    &:focus {
+      outline: none;
+      border-color: var.$color-principal-estudio;
+    }
+
+    option {
+      background-color: var.$color-fondo-estudio;
+    }
+  }
+
+  .input-dia {
+    width: 45px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var.$color-principal-cliente;
+    background-color: transparent;
+    color: white;
+    text-align: center;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var.$color-principal-estudio;
+    }
+  }
+}
+
+.dashboard-tabla-container {
+  margin: auto;
+  padding: 10px;
+  max-width: 70%;
+  display: flex;
+  justify-content: center;
+
+  .tabla-responsive {
+    overflow-x: auto;
+    display: inline-block;
+  }
+}
+
+.dashboard-tabla {
+  width: auto;
+  border-collapse: collapse;
+  margin: 0 auto;
+
+  th,
+  td {
+    padding: 4px 15px;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  tr {
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  th {
+    color: var.$color-principal-estudio;
+    font-weight: 700;
+    border-bottom: 2px solid var.$color-principal-cliente;
+
+    &:first-child {
+      min-width: 100px;
+      text-align: left;
+    }
+    &:nth-child(2) {
+      min-width: 150px;
+      text-align: left;
+    }
+    &:nth-child(3) {
+      min-width: 80px;
+      text-align: left;
+    }
+    &:last-child {
+      min-width: 100px;
+      text-align: right;
+    }
+  }
+
+  td {
+    color: white;
+    font-size: 0.9rem;
+    background-color: var.$color-fondo-estudio;
+
+    &:first-child {
+      text-align: left;
+    }
+    &:nth-child(2) {
+      text-align: left;
+    }
+    &:nth-child(3) {
+      text-align: left;
+    }
+    &.importe {
+      text-align: right;
+    }
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var.$color-principal-cliente;
+    height: 32px;
+
+    &:last-child {
+      border-bottom: 1px solid var.$color-principal-cliente;
+    }
+  }
+}
+
+// Estilos para tooltips
+.categoria-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+
+  .categoria-cell {
+    color: white;
+    cursor: help;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categoria-tooltip {
+    visibility: hidden;
+    position: absolute;
+    z-index: 1000;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var.$color-principal-estudio;
+    color: white;
+    padding: 6px 8px;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    max-width: min(400px, 90vw);
+    width: max-content;
+    margin: 0;
+
+    .tooltip-content {
+      font-size: 0.75rem;
+      line-height: 1.4;
+      text-align: left;
+      white-space: nowrap;
+      display: inline-block;
+      padding: 4px 8px;
+      margin: 0;
+      background-color: var.$color-principal-estudio;
+    }
+  }
+
+  &:hover .categoria-tooltip {
+    visibility: visible;
+  }
+}
+
+// Dirección del tooltip según la posición
+tr:first-child .categoria-tooltip {
+  top: 150%;
+}
+
+tr:not(:first-child) .categoria-tooltip {
+  bottom: 150%;
+}
+
+.dashboard-total {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: var.$color-fondo-estudio;
+  border: 1px solid var.$color-principal-cliente;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: white;
+
+  .periodo-total {
+    font-size: 1rem;
+    color: var.$color-principal-cliente;
+    text-align: center;
+    margin-bottom: 2px;
+  }
+
+  .monto-total {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var.$color-principal-cliente;
+    text-align: center;
+  }
+
+  .totales-desglose {
+    padding-left: 5.5rem;
+    padding-top: 0.2rem;
+    font-family: "Courier New", monospace;
+    white-space: pre;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    width: 100%;
+    border-radius: 8px;
+    overflow-x: auto;
+
+    .btn-expandir {
+      display: inline-block;
+      color: inherit !important;
+      cursor: pointer;
+      user-select: none;
+      padding: 0 4px;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+
+    .categoria-contenido {
+      display: inline-block;
+      padding: 0 1rem;
+      margin-right: 0.1rem;
+    }
+
+    @for $i from 0 through 20 {
+      .categoria-nivel-#{$i} {
+        margin-left: $i * 0.7rem;
+        $ciclo: $i % 3;
+        @if $ciclo == 0 {
+          color: #8290e6 !important;
+          font-weight: 400;
+        } @else if $ciclo == 1 {
+          color: #6674d2 !important;
+          font-weight: 500;
+        } @else {
+          color: #4a57b3 !important;
+          font-weight: 600;
+        }
+        background: transparent;
+        border-radius: 3px;
+        padding: 0 2px;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+.total-general {
+  text-align: center;
+  color: white;
+  font-size: 1rem;
+  font-weight: normal;
+  margin-bottom: 10px;
+  font-family: inherit;
+}
