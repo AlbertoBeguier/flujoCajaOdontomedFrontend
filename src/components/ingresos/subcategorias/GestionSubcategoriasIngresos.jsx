@@ -138,34 +138,44 @@ export const GestionSubcategoriasIngresos = () => {
     try {
       setIsLoading(true);
 
-      // Primero analizar la estructura
-      await analizarEstructuraSubcategorias();
+      // 1. Primero analizar la estructura completa del árbol
+      const estructuraAnalizada = await analizarEstructuraSubcategorias();
 
-      // Sincronizar todas las subcategorías
+      // Verificar que la estructura sea válida antes de continuar
+      if (!estructuraAnalizada || estructuraAnalizada.length === 0) {
+        throw new Error("La estructura del árbol está vacía o es inválida");
+      }
+
+      // 2. Sincronizar toda la estructura jerárquica
       await sincronizarTodasLasSubcategorias();
 
-      // Buscar subcategorías con lista maestra y sincronizarlas
+      // 3. Obtener todas las subcategorías actualizadas
       const todasLasSubcategorias = await getSubcategoriasIngresos();
+
+      // 4. Sincronizar todas las subcategorías que tengan lista maestra, sin importar su nivel o categoría
       const subcategoriasConLista = todasLasSubcategorias.filter(
         (sub) => sub.listaMaestra
       );
 
-      for (const sub of subcategoriasConLista) {
-        await sincronizarListaMaestra(sub.codigo);
+      // 5. Sincronizar cada subcategoría con su lista maestra correspondiente
+      for (const subcategoria of subcategoriasConLista) {
+        await sincronizarListaMaestra(subcategoria.codigo);
       }
 
+      // 6. Recargar los datos actualizados
       await cargarSubcategorias();
 
       setNotification({
         open: true,
-        message: "Sincronización completada correctamente",
+        message:
+          "Sincronización completa de toda la estructura realizada con éxito",
         severity: "success",
       });
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error en la sincronización:", error);
       setNotification({
         open: true,
-        message: "Error en la sincronización",
+        message: "Error al sincronizar la estructura: " + error.message,
         severity: "error",
       });
     } finally {
