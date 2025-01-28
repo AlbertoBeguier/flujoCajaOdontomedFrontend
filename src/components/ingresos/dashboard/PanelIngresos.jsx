@@ -5,6 +5,7 @@ import { ArbolJerarquico } from "./ArbolJerarquico";
 import logo from "../../../assets/odontomed512_512.png";
 import logo1 from "../../../assets/odontomedBigLogo.png";
 import "./DashboardIngresos.scss";
+import { SaldosPanel } from "./SaldosPanel";
 
 export const PanelIngresos = () => {
   // Estados principales
@@ -255,6 +256,8 @@ export const PanelIngresos = () => {
           <img src={logo1} alt="Logo1" className="ingresos-logo-1" />
           <p className="ingresos-titulo">Dashboard de Ingresos</p>
         </div>
+
+        <SaldosPanel />
       </div>
 
       <div className="dashboard-filtros">
