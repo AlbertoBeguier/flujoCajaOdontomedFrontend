@@ -1,5 +1,12 @@
 import { API_BASE_URL } from "../config/constants";
 
+// Cache para almacenar las respuestas
+let cache = {
+  data: null,
+  timestamp: null,
+  timeToLive: 5 * 60 * 1000, // 5 minutos en milisegundos
+};
+
 export const createIngreso = async (ingresoData) => {
   try {
     const response = await fetch(`${API_BASE_URL}/api/ingresos`, {
@@ -21,7 +28,9 @@ export const createIngreso = async (ingresoData) => {
       }
     }
 
-    return await response.json();
+    const data = await response.json();
+    clearCache(); // Limpiar caché después de crear
+    return data;
   } catch (error) {
     throw new Error(error.message || "Error al crear el ingreso");
   }
@@ -29,6 +38,15 @@ export const createIngreso = async (ingresoData) => {
 
 export const getIngresos = async () => {
   try {
+    // Verificar si hay datos en caché y si aún son válidos
+    if (cache.data && cache.timestamp) {
+      const ahora = Date.now();
+      if (ahora - cache.timestamp < cache.timeToLive) {
+        return cache.data; // Retorna datos del caché si son válidos
+      }
+    }
+
+    // Si no hay caché válido, hacer la petición
     const response = await fetch(`${API_BASE_URL}/api/ingresos`);
 
     if (!response.ok) {
@@ -41,7 +59,13 @@ export const getIngresos = async () => {
       }
     }
 
-    return await response.json();
+    const data = await response.json();
+
+    // Guardar en caché
+    cache.data = data;
+    cache.timestamp = Date.now();
+
+    return data;
   } catch (error) {
     throw new Error(error.message || "Error al obtener los ingresos");
   }
@@ -68,8 +92,18 @@ export const updateIngreso = async (id, ingresoData) => {
       }
     }
 
-    return await response.json();
+    const data = await response.json();
+    clearCache(); // Limpiar caché después de actualizar
+    return data;
   } catch (error) {
     throw new Error(error.message || "Error al actualizar el ingreso");
   }
+};
+
+// Función para limpiar el caché (útil después de crear/actualizar ingresos)
+export const clearCache = () => {
+  cache = {
+    data: null,
+    timestamp: null,
+  };
 };
