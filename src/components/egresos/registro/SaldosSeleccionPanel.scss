@@ -1,0 +1,162 @@
+@use "../../../styles/variables" as var;
+
+.panel-saldos-egresos {
+  margin: 20px auto 0;
+  background-color: var(--color-fondo-estudio);
+  border: 1px solid var.$color-principal-cliente;
+  border-radius: 12px;
+  max-width: 35%;
+  padding: 15px 0;
+  position: relative;
+
+  .titulo-saldos-egresos {
+    color: var.$color-principal-cliente !important;
+    text-align: center;
+    font-size: 1.2rem;
+    position: absolute;
+    top: -0.6em;
+    left: 40%;
+    transform: translateX(-33%);
+    background-color: var.$color-fondo-estudio;
+    padding: 0 20px;
+    z-index: 2;
+  }
+
+  .boton-volver {
+    position: absolute;
+    left: 20px;
+    top: -0.8em;
+    padding: 4px 12px;
+    background-color: var.$color-principal-cliente;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: var.$color-principal-estudio;
+    }
+  }
+
+  .ruta-actual {
+    color: var.$color-principal-cliente;
+    text-align: center;
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .contenedor-saldos-egresos {
+    padding: 4px 10px;
+    margin-top: 10px;
+  }
+
+  .item-saldo-egreso {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 4px;
+    margin: 0;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+
+    &.tiene-hijos {
+      cursor: pointer;
+      background-color: rgba(64, 181, 166, 0.05);
+      border: 1px solid transparent;
+
+      &:hover {
+        background-color: rgba(64, 181, 166, 0.1);
+        border-color: var.$color-principal-cliente;
+      }
+
+      .indicador-hijos {
+        color: var.$color-principal-cliente;
+        margin-left: 10px;
+      }
+    }
+
+    &.seleccionable {
+      cursor: pointer;
+      background-color: rgba(62, 73, 156, 0.05);
+      border: 1px solid transparent;
+
+      &:hover {
+        background-color: rgba(62, 73, 156, 0.1);
+        border-color: var.$color-principal-estudio;
+        transform: translateX(5px);
+      }
+
+      .nombre-saldo-egreso,
+      .monto-saldo-egreso {
+        color: var.$color-principal-estudio !important;
+      }
+    }
+
+    &:not(.seleccionable) {
+      .nombre-saldo-egreso,
+      .monto-saldo-egreso {
+        color: #8290e6 !important;
+      }
+    }
+
+    .contenido-saldo-egreso {
+      display: flex;
+      justify-content: space-between;
+      gap: 0;
+      width: 100%;
+      padding: 0;
+
+      .nombre-saldo-egreso {
+        flex: 0 1 auto;
+        padding-right: 10px;
+      }
+
+      .monto-saldo-egreso {
+        text-align: right;
+        min-width: 100px;
+        margin-left: auto;
+      }
+    }
+
+    @for $i from 1 through 10 {
+      &.nivel-#{$i} {
+        padding-left: $i * 20px;
+
+        .nombre-saldo-egreso {
+          @if $i == 1 {
+            color: #8290e6 !important;
+            font-weight: 500;
+          } @else if $i == 2 {
+            color: #6674d2 !important;
+            font-weight: 500;
+          } @else {
+            color: white !important;
+            font-weight: 400;
+          }
+        }
+
+        .monto-saldo-egreso {
+          color: var.$color-principal-cliente;
+          font-weight: 500;
+          min-width: 100px;
+          text-align: right;
+          position: absolute;
+          right: 10px;
+        }
+      }
+    }
+  }
+}
+
+.saldos-cargando,
+.saldos-error {
+  text-align: center;
+  padding: 20px;
+  color: var.$color-principal-cliente;
+}
+
+.saldos-error {
+  color: var.$color-error;
+}

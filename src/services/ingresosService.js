@@ -1,11 +1,8 @@
 import { API_BASE_URL } from "../config/constants";
+import { createCache } from "./cacheService";
 
-// Cache para almacenar las respuestas
-let cache = {
-  data: null,
-  timestamp: null,
-  timeToLive: 5 * 60 * 1000, // 5 minutos en milisegundos
-};
+const ingresosCache = createCache();
+const CACHE_KEY = "ingresos";
 
 export const createIngreso = async (ingresoData) => {
   try {
@@ -29,7 +26,7 @@ export const createIngreso = async (ingresoData) => {
     }
 
     const data = await response.json();
-    clearCache(); // Limpiar caché después de crear
+    ingresosCache.invalidate(); // Usamos el nuevo sistema
     return data;
   } catch (error) {
     throw new Error(error.message || "Error al crear el ingreso");
@@ -37,38 +34,33 @@ export const createIngreso = async (ingresoData) => {
 };
 
 export const getIngresos = async () => {
-  try {
-    // Verificar si hay datos en caché y si aún son válidos
-    if (cache.data && cache.timestamp) {
-      const ahora = Date.now();
-      if (ahora - cache.timestamp < cache.timeToLive) {
-        return cache.data; // Retorna datos del caché si son válidos
-      }
-    }
+  const cachedData = ingresosCache.get(CACHE_KEY);
+  if (cachedData) return cachedData;
 
-    // Si no hay caché válido, hacer la petición
-    const response = await fetch(`${API_BASE_URL}/api/ingresos`);
+  const response = await fetch(`${API_BASE_URL}/api/ingresos`, {
+    headers: {
+      Accept: "application/json",
+      "Cache-Control": "no-cache",
+      "If-None-Match": localStorage.getItem("ingresosEtag"),
+    },
+  });
 
-    if (!response.ok) {
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        const errorData = await response.json();
-        throw new Error(errorData.mensaje || "Error al obtener los ingresos");
-      } else {
-        throw new Error("Error en la conexión con el servidor");
-      }
-    }
-
-    const data = await response.json();
-
-    // Guardar en caché
-    cache.data = data;
-    cache.timestamp = Date.now();
-
-    return data;
-  } catch (error) {
-    throw new Error(error.message || "Error al obtener los ingresos");
+  if (response.status === 304) {
+    return ingresosCache.get(CACHE_KEY);
   }
+
+  if (!response.ok) {
+    throw new Error("Error al obtener los ingresos");
+  }
+
+  const etag = response.headers.get("ETag");
+  if (etag) {
+    localStorage.setItem("ingresosEtag", etag);
+  }
+
+  const data = await response.json();
+  ingresosCache.set(CACHE_KEY, data);
+  return data;
 };
 
 export const updateIngreso = async (id, ingresoData) => {
@@ -93,17 +85,9 @@ export const updateIngreso = async (id, ingresoData) => {
     }
 
     const data = await response.json();
-    clearCache(); // Limpiar caché después de actualizar
+    ingresosCache.invalidate(); // Usamos el nuevo sistema
     return data;
   } catch (error) {
     throw new Error(error.message || "Error al actualizar el ingreso");
   }
-};
-
-// Función para limpiar el caché (útil después de crear/actualizar ingresos)
-export const clearCache = () => {
-  cache = {
-    data: null,
-    timestamp: null,
-  };
 };

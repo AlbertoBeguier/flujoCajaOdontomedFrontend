@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getIngresos } from "../../../services/ingresosService";
+import { getSaldosCalculados } from "../../../services/saldosService";
 import "./SaldosPanel.scss";
 
 export const SaldosPanel = () => {
@@ -15,43 +15,30 @@ export const SaldosPanel = () => {
   };
 
   useEffect(() => {
-    const calcularSaldos = async () => {
+    const cargarSaldos = async () => {
       try {
         setIsLoading(true);
-        const ingresos = await getIngresos();
-        const saldosPorCategoria = {};
-
-        // Solo procesar categorías principales
-        ingresos.forEach((ingreso) => {
-          const rutaCompleta = ingreso.categoria.rutaCategoria;
-          let nodoActual = saldosPorCategoria;
-
-          rutaCompleta.forEach((cat) => {
-            if (!nodoActual[cat.nombre]) {
-              nodoActual[cat.nombre] = {
-                saldo: 0,
-                subcategorias: {},
-                nivel: cat.codigo.split(".").length,
-              };
-            }
-            nodoActual[cat.nombre].saldo += ingreso.importe;
-            nodoActual = nodoActual[cat.nombre].subcategorias;
-          });
-        });
-
-        setSaldos(saldosPorCategoria);
-      } catch (error) {
+        const saldosCalculados = await getSaldosCalculados();
+        setSaldos(saldosCalculados);
+      } catch {
         setError("Error al cargar los saldos");
-        console.error("Error:", error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    calcularSaldos();
+    cargarSaldos();
   }, []);
 
   const renderizarCategoria = (nombre, datos, nivel = 1) => {
+    // Si el saldo es 0 y no tiene subcategorías con saldos, no renderizar
+    if (
+      datos.saldo === 0 &&
+      Object.values(datos.subcategorias).every((sub) => sub.saldo === 0)
+    ) {
+      return null;
+    }
+
     const nivelClase = `nivel-${nivel}`;
     return (
       <div key={nombre}>
@@ -60,6 +47,7 @@ export const SaldosPanel = () => {
           <span>{formatearImporte(datos.saldo)}</span>
         </div>
         {Object.entries(datos.subcategorias)
+          .filter(([, subDatos]) => subDatos.saldo !== 0)
           .sort(([a], [b]) => a.localeCompare(b))
           .map(([subNombre, subDatos]) =>
             renderizarCategoria(subNombre, subDatos, nivel + 1)

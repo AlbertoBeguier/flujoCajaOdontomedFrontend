@@ -3,69 +3,79 @@ import logo from "../../../assets/odontomed512_512.png";
 import logo1 from "../../../assets/odontomedBigLogo.png";
 import { createEgreso } from "../../../services/egresosService";
 import { FormularioEgreso } from "./FormularioEgreso";
-import { useCategoriasEgresos } from "../../../hooks/useCategoriasEgresos";
 import { ListadoEgresos } from "./ListadoEgresos";
+import { SaldosSeleccionPanel } from "./SaldosSeleccionPanel";
 import "./RegistroEgresos.scss";
+import { actualizarSaldo } from "../../../services/saldosService";
 
 export const RegistroEgresos = () => {
-  const {
-    rutaSeleccion,
-    categoriasVisibles,
-    cargando,
-    error,
-    esCategoriaNivelFinal,
-    seleccionarCategoria,
-    volverAtras,
-  } = useCategoriasEgresos();
-
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [saldoSeleccionado, setSaldoSeleccionado] = useState(null);
   const [ultimoEgresoId, setUltimoEgresoId] = useState(null);
+  const [actualizarSaldos, setActualizarSaldos] = useState(0);
 
-  const handleSeleccionar = () => {
-    if (rutaSeleccion.length > 0) {
-      setMostrarFormulario(true);
-    }
+  const handleSaldoSeleccionado = (saldo) => {
+    setSaldoSeleccionado(saldo);
+    setMostrarFormulario(true);
   };
 
   const handleGuardarEgreso = async (egresoData) => {
     try {
-      const nuevoEgreso = await createEgreso(egresoData);
+      const egresoCompleto = {
+        fecha: egresoData.fecha,
+        importe: egresoData.importe,
+        categoria: {
+          codigo:
+            saldoSeleccionado.rutaCategoria[
+              saldoSeleccionado.rutaCategoria.length - 1
+            ].codigo,
+          nombre: saldoSeleccionado.nombre,
+          rutaCategoria: saldoSeleccionado.rutaCategoria,
+        },
+        saldoAfectado: {
+          nombre: saldoSeleccionado.nombre,
+          rutaCategoria: saldoSeleccionado.rutaCategoria,
+        },
+        observaciones: egresoData.observaciones || "",
+      };
+
+      // Primero actualizamos el saldo
+      await actualizarSaldo(
+        saldoSeleccionado.categoriaId,
+        saldoSeleccionado.saldo - egresoData.importe
+      );
+
+      // Luego creamos el egreso
+      const nuevoEgreso = await createEgreso(egresoCompleto);
+
       setUltimoEgresoId(nuevoEgreso._id);
+      setMostrarFormulario(false);
+      setSaldoSeleccionado(null);
+      setActualizarSaldos((prev) => prev + 1);
+
       return nuevoEgreso;
     } catch (error) {
-      console.error("Error al guardar el egreso:", error);
+      console.error("Error:", error);
       throw error;
     }
   };
 
   const handleCancelarEgreso = () => {
     setMostrarFormulario(false);
+    setSaldoSeleccionado(null);
   };
-
-  if (cargando) {
-    return <div className="mensaje-carga">Cargando categorías...</div>;
-  }
-
-  if (error) {
-    return <div className="mensaje-error">Error: {error}</div>;
-  }
 
   if (mostrarFormulario) {
     return (
       <>
         <FormularioEgreso
-          categoriaSeleccionada={rutaSeleccion[rutaSeleccion.length - 1]}
-          rutaCompleta={rutaSeleccion}
+          saldoAfectado={saldoSeleccionado}
           onGuardar={handleGuardarEgreso}
           onCancelar={handleCancelarEgreso}
         />
       </>
     );
   }
-
-  const categoriaActual = rutaSeleccion[rutaSeleccion.length - 1];
-  const mostrarBotonRegistrar =
-    categoriaActual && esCategoriaNivelFinal(categoriaActual);
 
   return (
     <>
@@ -74,39 +84,10 @@ export const RegistroEgresos = () => {
         <img src={logo1} alt="Logo1" className="egresos-logo-1" />
         <p className="egresos-registro-titulo">Registro de Egresos</p>
       </div>
-      <div className="seleccion-categorias-container">
-        {rutaSeleccion.length > 0 && (
-          <div className="ruta-navegacion">
-            <button className="boton-volver" onClick={volverAtras}>
-              ← Volver
-            </button>
-            <div className="ruta-seleccion">
-              {rutaSeleccion.map((cat, index) => (
-                <span key={cat.codigo} className="categoria-seleccionada">
-                  {index > 0 ? " → " : ""}
-                  {cat.nombre}
-                </span>
-              ))}
-            </div>
-            {mostrarBotonRegistrar && (
-              <button className="boton-registrar" onClick={handleSeleccionar}>
-                Registrar →
-              </button>
-            )}
-          </div>
-        )}
-        <div className="grid-categorias">
-          {categoriasVisibles.map((categoria) => (
-            <button
-              key={categoria.codigo}
-              className="boton-categoria"
-              onClick={() => seleccionarCategoria(categoria)}
-            >
-              {categoria.nombre}
-            </button>
-          ))}
-        </div>
-      </div>
+      <SaldosSeleccionPanel
+        onSaldoSeleccionado={handleSaldoSeleccionado}
+        actualizarSaldos={actualizarSaldos}
+      />
       <ListadoEgresos ultimoEgresoId={ultimoEgresoId} />
     </>
   );

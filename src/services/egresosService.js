@@ -1,4 +1,7 @@
 import { API_BASE_URL } from "../config/constants";
+import { createCache } from "./cacheService";
+
+const egresosCache = createCache();
 
 export const createEgreso = async (egresoData) => {
   try {
@@ -21,7 +24,9 @@ export const createEgreso = async (egresoData) => {
       }
     }
 
-    return await response.json();
+    const data = await response.json();
+    egresosCache.invalidate();
+    return data;
   } catch (error) {
     throw new Error(error.message || "Error al crear el egreso");
   }
@@ -29,6 +34,9 @@ export const createEgreso = async (egresoData) => {
 
 export const getEgresos = async () => {
   try {
+    const cachedData = egresosCache.get();
+    if (cachedData) return cachedData;
+
     const response = await fetch(`${API_BASE_URL}/api/egresos`);
 
     if (!response.ok) {
@@ -41,7 +49,9 @@ export const getEgresos = async () => {
       }
     }
 
-    return await response.json();
+    const data = await response.json();
+    egresosCache.set(data);
+    return data;
   } catch (error) {
     throw new Error(error.message || "Error al obtener los egresos");
   }

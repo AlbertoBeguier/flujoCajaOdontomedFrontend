@@ -19,11 +19,15 @@ export const ListadoIngresos = ({ ultimoIngresoId }) => {
   const cargarIngresos = async () => {
     try {
       const data = await getIngresos();
-      const ingresosOrdenados = data.sort(
-        (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
-      );
+      console.log("Total de ingresos cargados:", data.length); // Para debugging
+      const ingresosOrdenados = data.sort((a, b) => {
+        const fechaA = new Date(a.fecha);
+        const fechaB = new Date(b.fecha);
+        return fechaB - fechaA;
+      });
       setIngresos(ingresosOrdenados);
     } catch (error) {
+      console.error("Error al cargar ingresos:", error);
       setError(error.message);
     }
   };
