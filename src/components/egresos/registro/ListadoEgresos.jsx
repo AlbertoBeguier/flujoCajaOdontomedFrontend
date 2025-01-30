@@ -13,20 +13,18 @@ export const ListadoEgresos = ({ ultimoEgresoId }) => {
   const { subcategorias } = useSubcategoriasEgresos();
 
   useEffect(() => {
-    cargarEgresos();
-  }, []);
+    const cargarEgresos = async () => {
+      try {
+        const data = await getEgresos();
+        setEgresos(data);
+      } catch (err) {
+        console.error("Error al cargar egresos:", err);
+        setError("Error al cargar los egresos");
+      }
+    };
 
-  const cargarEgresos = async () => {
-    try {
-      const data = await getEgresos();
-      const egresosOrdenados = data.sort(
-        (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
-      );
-      setEgresos(egresosOrdenados);
-    } catch (error) {
-      setError(error.message);
-    }
-  };
+    cargarEgresos();
+  }, [ultimoEgresoId]);
 
   const formatearFecha = (fecha) => {
     const date = new Date(fecha);

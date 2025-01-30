@@ -19,43 +19,57 @@ export const RegistroEgresos = () => {
     setMostrarFormulario(true);
   };
 
-  const handleGuardarEgreso = async (egresoData) => {
+  const handleGuardarEgreso = async (formData) => {
+    let egresoCompleto;
     try {
-      const egresoCompleto = {
-        fecha: egresoData.fecha,
-        importe: egresoData.importe,
+      if (!saldoSeleccionado?.nombre) {
+        throw new Error("No hay saldo seleccionado");
+      }
+
+      // Limpiar los _id de la ruta
+      const rutaLimpia = saldoSeleccionado.rutaCategoria.map(
+        ({ codigo, nombre }) => ({
+          codigo,
+          nombre,
+        })
+      );
+
+      egresoCompleto = {
+        fecha: formData.fecha,
+        importe: Number(formData.importe),
         categoria: {
-          codigo:
-            saldoSeleccionado.rutaCategoria[
-              saldoSeleccionado.rutaCategoria.length - 1
-            ].codigo,
+          codigo: saldoSeleccionado.categoriaId,
           nombre: saldoSeleccionado.nombre,
-          rutaCategoria: saldoSeleccionado.rutaCategoria,
+          rutaCategoria: rutaLimpia,
         },
         saldoAfectado: {
           nombre: saldoSeleccionado.nombre,
-          rutaCategoria: saldoSeleccionado.rutaCategoria,
+          rutaCategoria: rutaLimpia,
         },
-        observaciones: egresoData.observaciones || "",
+        observaciones: "",
       };
 
-      // Primero actualizamos el saldo
-      await actualizarSaldo(
-        saldoSeleccionado.categoriaId,
-        saldoSeleccionado.saldo - egresoData.importe
-      );
+      console.log("Datos a enviar:", JSON.stringify(egresoCompleto, null, 2));
 
-      // Luego creamos el egreso
       const nuevoEgreso = await createEgreso(egresoCompleto);
 
-      setUltimoEgresoId(nuevoEgreso._id);
-      setMostrarFormulario(false);
-      setSaldoSeleccionado(null);
-      setActualizarSaldos((prev) => prev + 1);
+      if (nuevoEgreso) {
+        await actualizarSaldo(
+          saldoSeleccionado.categoriaId,
+          saldoSeleccionado.saldo - formData.importe
+        );
 
-      return nuevoEgreso;
+        setUltimoEgresoId(nuevoEgreso._id);
+        setMostrarFormulario(false);
+        setSaldoSeleccionado(null);
+        setActualizarSaldos((prev) => prev + 1);
+      }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error detallado al guardar egreso:", {
+        mensaje: error.message,
+        saldoSeleccionado,
+        datosEnviados: egresoCompleto,
+      });
       throw error;
     }
   };

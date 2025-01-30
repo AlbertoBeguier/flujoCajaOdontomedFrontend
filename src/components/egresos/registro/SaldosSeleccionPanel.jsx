@@ -38,12 +38,17 @@ export const SaldosSeleccionPanel = ({
 
   const handleSaldoClick = (nombre, datos) => {
     if (datos.esSeleccionable) {
+      console.log("Datos originales:", { nombre, datos });
+
       const saldoSeleccionado = {
         nombre: nombre,
         saldo: datos.saldo,
         rutaCategoria: datos.rutaCompleta,
         categoriaId: datos.codigo,
       };
+
+      console.log("Saldo seleccionado construido:", saldoSeleccionado);
+
       onSaldoSeleccionado(saldoSeleccionado);
     }
   };

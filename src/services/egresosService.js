@@ -15,20 +15,19 @@ export const createEgreso = async (egresoData) => {
     });
 
     if (!response.ok) {
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        const errorData = await response.json();
-        throw new Error(errorData.mensaje || "Error al procesar la solicitud");
-      } else {
-        throw new Error("Error en la conexión con el servidor");
-      }
+      const errorData = await response.json();
+      console.error("Error del servidor:", errorData);
+      throw new Error(
+        errorData.error || errorData.mensaje || "Error al guardar el egreso"
+      );
     }
 
     const data = await response.json();
     egresosCache.invalidate();
     return data;
   } catch (error) {
-    throw new Error(error.message || "Error al crear el egreso");
+    console.error("Error completo:", error);
+    throw error;
   }
 };
 
