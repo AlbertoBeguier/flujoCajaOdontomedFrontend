@@ -2,6 +2,14 @@ export const API_BASE_URL =
   import.meta.env.VITE_API_URL ||
   "https://api.flujo-caja-odontomed.estudiobeguier.com";
 
+// Configuración de fetch
+export const fetchConfig = {
+  credentials: "include",
+  headers: {
+    "Content-Type": "application/json",
+  },
+};
+
 export const INITIAL_FORM_STATE = {
   codigo: "",
   nombre: "",
