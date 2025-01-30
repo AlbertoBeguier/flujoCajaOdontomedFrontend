@@ -29,4 +29,5 @@ export const ENDPOINTS = {
   SUBCATEGORIAS_EGRESOS: "/api/subcategorias-egresos",
   SUBCATEGORIAS_INGRESOS: "/api/subcategorias-ingresos",
   CONVERTIR_LISTA: "/api/subcategorias-ingresos/convertir-lista",
+  LISTAS_MAESTRAS: "/api/listas-maestras",
 };

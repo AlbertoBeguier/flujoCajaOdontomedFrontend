@@ -1,13 +1,19 @@
-import { API_BASE_URL } from "../config/constants";
+import { API_BASE_URL, ENDPOINTS } from "../config/constants";
 
-const API_URL = `${API_BASE_URL}/api/listas-maestras`;
+// Usar ENDPOINTS para mantener consistencia y centralizar las rutas
+const API_URL = `${API_BASE_URL}${ENDPOINTS.LISTAS_MAESTRAS}`;
 
 export const getListasMaestras = async () => {
-  const response = await fetch(API_URL);
-  if (!response.ok) {
+  try {
+    const response = await fetch(API_URL);
+    if (!response.ok) {
+      throw new Error("Error al obtener listas maestras");
+    }
+    return await response.json();
+  } catch (err) {
+    console.error("Error en getListasMaestras:", err);
     throw new Error("Error al obtener listas maestras");
   }
-  return response.json();
 };
 
 export const getListaMaestra = async (id) => {
