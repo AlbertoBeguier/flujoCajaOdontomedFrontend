@@ -1,9 +1,10 @@
 export const API_BASE_URL =
-  import.meta.env.VITE_API_URL ||
-  "https://api.flujo-caja-odontomed.estudiobeguier.com";
+  process.env.NODE_ENV === "production"
+    ? "https://api.flujo-caja-odontomed.estudiobeguier.com"
+    : "http://localhost:8080";
 
 // Configuración de fetch
-export const fetchConfig = {
+export const API_CONFIG = {
   credentials: "include",
   headers: {
     "Content-Type": "application/json",
