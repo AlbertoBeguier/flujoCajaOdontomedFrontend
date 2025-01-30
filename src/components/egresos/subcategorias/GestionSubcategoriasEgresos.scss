@@ -1,29 +1,255 @@
 @use "../../../styles/variables" as var;
 
-.pagina-egresos-container-1 {
+.egresos-pagina-container-1 {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
   text-align: center;
+  margin-top: 30px;
 }
 
-.notification {
+.egresos-notification {
   position: fixed;
   bottom: 24px;
   right: 24px;
   z-index: 1000;
 }
 
-.mensaje-carga,
-.mensaje-vacio {
+.egresos-mensaje-carga,
+.egresos-mensaje-vacio {
   color: var.$color-principal-cliente;
   text-align: center;
   padding: 20px;
   font-size: 1.1rem;
 }
 
-.mensaje-vacio {
+.egresos-mensaje-vacio {
   color: #666;
   font-style: italic;
+}
+
+.egresos-subcategorias-header {
+  margin-bottom: 0.5rem;
+
+  .egresos-subtitulo {
+    color: var.$color-principal-cliente;
+    margin: 0;
+    font-size: 1.2rem;
+  }
+}
+
+.egresos-btn-agregar-principal-small {
+  background: none;
+  border: 1px solid var.$color-principal-cliente;
+  color: var.$color-principal-cliente;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 1rem;
+
+  &:hover {
+    background-color: var.$color-principal-cliente;
+    color: white;
+  }
+}
+
+.egresos-lista-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  .egresos-titulo-lista {
+    color: var.$color-principal-cliente;
+    margin: 0;
+    font-size: 1.2rem;
+  }
+
+  .egresos-btn-agregar-principal-small {
+    align-self: flex-start;
+    background: none;
+    border: 1px solid var.$color-principal-cliente;
+    color: var.$color-principal-cliente;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: var.$color-principal-cliente;
+      color: white;
+    }
+  }
+}
+
+.egresos-btn-sincronizar {
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: 1px solid var.$color-principal-estudio;
+  color: var.$color-principal-estudio;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    background-color: var.$color-principal-estudio;
+    color: white;
+  }
+
+  &:disabled {
+    animation: egresos-borderPulse 2s ease-in-out infinite;
+    border: 1px solid var.$color-principal-estudio;
+    color: var.$color-principal-estudio;
+    cursor: not-allowed;
+    animation: egresos-textPulse 2s ease-in-out infinite;
+
+    .egresos-spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var.$color-principal-estudio;
+      border-radius: 50%;
+      animation: egresos-spin 1s linear infinite,
+        egresos-spinnerPulse 2s ease-in-out infinite;
+      margin-left: 8px;
+    }
+  }
+}
+
+.egresos-btn-backup {
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: 1px solid var.$color-principal-cliente;
+  color: var.$color-principal-cliente;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    background-color: var.$color-principal-cliente;
+    color: white;
+  }
+
+  &:disabled {
+    animation: egresos-borderPulse 2s ease-in-out infinite;
+    border: 1px solid var.$color-principal-cliente;
+    color: var.$color-principal-cliente;
+    cursor: not-allowed;
+    animation: egresos-textPulse 2s ease-in-out infinite;
+
+    .egresos-spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var.$color-principal-cliente;
+      border-radius: 50%;
+      animation: egresos-spin 1s linear infinite,
+        egresos-spinnerPulse 2s ease-in-out infinite;
+      margin-left: 8px;
+    }
+  }
+}
+
+.egresos-logo {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.egresos-logo-1 {
+  width: 200px;
+  height: 50px;
+  margin-right: 20px;
+}
+
+.egresos-titulo {
+  color: var.$color-principal-cliente;
+  font-size: 1.2rem;
+  margin: 0 20px;
+}
+
+.egresos-subcategorias-container {
+  margin-top: 1rem;
+  padding: 1rem;
+}
+
+.egresos-tabla-subcategorias {
+  padding: 1rem;
+  background-color: var.$color-fondo-estudio;
+}
+
+@keyframes egresos-textPulse {
+  0%,
+  100% {
+    color: var.$color-principal-estudio;
+  }
+  50% {
+    color: var.$color-principal-cliente;
+  }
+}
+
+@keyframes egresos-spinnerPulse {
+  0%,
+  100% {
+    border-color: var.$color-principal-estudio;
+    border-top-color: #1a1a2e;
+  }
+  50% {
+    border-color: rgba(74, 158, 255, 0.6);
+    border-top-color: #1a1a2e;
+  }
+}
+
+@keyframes egresos-borderPulse {
+  0%,
+  100% {
+    border-color: var.$color-principal-estudio;
+  }
+  50% {
+    border-color: var.$color-principal-cliente;
+  }
+}
+
+@keyframes egresos-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.egresos-contenedor-vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+
+  .egresos-mensaje-vacio {
+    color: var.$color-principal-cliente;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .egresos-btn-agregar-inicial {
+    background: none;
+    border: 1px solid var.$color-principal-cliente;
+    color: var.$color-principal-cliente;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: var.$color-principal-cliente;
+      color: white;
+    }
+  }
 }

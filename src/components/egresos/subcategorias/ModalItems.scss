@@ -1,0 +1,334 @@
+@use "../../../styles/variables" as var;
+
+.egresos-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.egresos-modal-container {
+  position: relative;
+  background-color: var.$color-fondo-estudio;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  border: 1px solid var.$color-principal-cliente;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var.$color-principal-cliente;
+    border-radius: 4px;
+  }
+
+  p {
+    margin-bottom: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var.$color-principal-cliente !important;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .egresos-agregar-nuevo-item {
+    margin-bottom: 20px;
+    text-align: center;
+    color: var.$color-principal-estudio;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .egresos-input-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+
+    input {
+      flex: 1;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid var.$color-principal-cliente;
+      background-color: white;
+      color: black;
+      margin-left: 20px;
+    }
+
+    button {
+      padding: 8px 16px;
+      background-color: var.$color-principal-cliente;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      &:hover {
+        background-color: var.$color-principal-cliente;
+      }
+    }
+
+    .egresos-btn-icon {
+      padding: 8px;
+      background: none;
+      border: none;
+      color: var.$color-principal-cliente;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+
+      svg {
+        transition: transform 0.3s ease;
+      }
+
+      &:hover {
+        background: none;
+        svg {
+          transform: scale(1.5);
+        }
+        color: var.$color-principal-cliente;
+      }
+    }
+  }
+
+  .egresos-items-list {
+    max-height: 300px;
+    overflow-y: auto;
+    margin: 1rem 0;
+    color: var.$color-principal-estudio;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var.$color-principal-cliente;
+      border-radius: 4px;
+    }
+
+    .egresos-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+      margin-bottom: 8px;
+      border: 1px solid var.$color-principal-cliente;
+      border-radius: 4px;
+
+      &.egresos-existing {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+
+      .egresos-edit-container {
+        display: flex;
+        gap: 8px;
+        width: 100%;
+
+        input {
+          flex: 1;
+          padding: 4px 8px;
+          border: 1px solid var.$color-principal-cliente;
+          border-radius: 4px;
+          background-color: white;
+          color: black;
+        }
+      }
+
+      button {
+        background: none;
+        border: none;
+        color: var.$color-principal-cliente;
+        cursor: pointer;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s ease;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+
+        svg {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}
+
+.egresos-buttons-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+
+  button {
+    background: none;
+    border: none;
+    color: var.$color-principal-cliente;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &.egresos-cancel {
+      color: var.$color-principal-cliente;
+    }
+
+    &.egresos-main-save {
+      color: var.$color-principal-estudio;
+    }
+
+    svg {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.egresos-separador {
+  height: 1px;
+  background-color: var.$color-principal-cliente;
+  margin: 1rem 0;
+  opacity: 0.2;
+}
+
+.egresos-modal-header {
+  position: sticky;
+  top: 0;
+  background-color: var.$color-fondo-estudio;
+  padding: 1rem 2rem;
+  z-index: 1002;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  height: 3rem;
+
+  h3 {
+    margin: 0;
+    color: var.$color-principal-cliente;
+  }
+
+  .egresos-header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .egresos-btn-close {
+    background: none;
+    border: none;
+    color: var.$color-principal-estudio;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.egresos-btn-close {
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.egresos-listas-disponibles {
+  margin-top: 3rem !important;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var.$color-principal-cliente;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.05);
+
+  h4 {
+    margin: 0 0 0.5rem;
+    color: var.$color-principal-estudio;
+    font-size: 1rem;
+  }
+
+  .egresos-lista-opciones {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .egresos-lista-opcion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.02);
+
+    span {
+      color: var.$color-principal-cliente;
+    }
+
+    .egresos-btn-asignar {
+      background: none;
+      border: 1px solid var.$color-principal-cliente;
+      color: var.$color-principal-cliente;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: var.$color-principal-cliente;
+        color: white;
+      }
+    }
+  }
+}
+
+.egresos-btn-toggle-listas {
+  background: none;
+  border: none;
+  color: var.$color-principal-cliente;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}

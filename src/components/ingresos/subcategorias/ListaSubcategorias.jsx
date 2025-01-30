@@ -184,7 +184,7 @@ export const ListaSubcategorias = ({
             .map((subcategoria) => renderSubcategoria(subcategoria))}
         </div>
       ) : (
-        <div className="tabla-subcategorias">{renderTabla()}</div>
+        <div className="tabla-subcategoria">{renderTabla()}</div>
       )}
     </div>
   );

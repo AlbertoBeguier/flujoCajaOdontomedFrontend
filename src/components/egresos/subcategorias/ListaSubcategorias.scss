@@ -1,77 +1,178 @@
+@use "sass:color";
 @use "../../../styles/variables" as var;
 
-.lista-subcategorias-wrapper {
-  margin-top: 0;
+.egresos-encabezado {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.lista-subcategorias-titulo {
-  color: var.$color-principal-estudio;
+.egresos-titulo-1 {
+  color: var.$color-principal-cliente !important;
   font-weight: 600;
-  margin-top: 10px;
-  margin-bottom: 0.7rem;
-  text-align: center;
-  padding-bottom: 5px;
-  font-size: 1.4rem;
+  margin: 0;
+  font-size: 1.2rem;
 }
 
-.tabla-subcategorias {
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: auto !important;
-  max-width: 600px !important;
-  margin: 0 auto !important;
-  background-color: transparent !important;
-}
+.egresos-toggle-vista-btn {
+  padding: 6px 12px;
+  background-color: var.$color-principal-cliente;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
 
-.tabla-header {
-  background-color: var.$color-principal-estudio !important;
-  color: white !important;
-  font-weight: 600 !important;
-  font-size: 0.9rem !important;
-  white-space: nowrap !important;
-  padding: 12px 16px !important;
-  border: 1px solid var.$color-principal-estudio !important;
-}
-
-.tabla-cell {
-  color: white !important;
-  font-size: 0.8rem !important;
-  padding: 4px 16px !important;
-  white-space: nowrap !important;
-  border-bottom: 1px solid var.$color-principal-estudio !important;
-}
-
-/* Ajustes para el ancho de las columnas */
-.tabla-header:first-child,
-.tabla-cell:first-child {
-  width: 20% !important; /* Columna código */
-}
-
-.tabla-header:nth-child(2),
-.tabla-cell:nth-child(2) {
-  width: 60% !important; /* Columna nombre */
-}
-
-.tabla-header:last-child,
-.tabla-cell:last-child {
-  width: 20% !important; /* Columna categoría padre */
-  text-align: center !important;
-}
-
-/* Centrar el contenido de la celda de categoría padre */
-.tabla-cell:last-child {
-  text-align: center !important;
-}
-
-/* Asegurar que la tabla se mantenga compacta */
-.MuiTable-root {
-  min-width: unset !important;
-}
-
-/* Hacer que el contenedor de la tabla sea responsive */
-@media (max-width: 700px) {
-  .tabla-subcategorias {
-    margin: 0 16px !important;
+  &:hover {
+    opacity: 0.9;
   }
+}
+
+.egresos-botones-principales {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  button {
+    background: none;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .egresos-agregar-principal-btn {
+    border: 1px solid var.$color-principal-cliente;
+    color: var.$color-principal-cliente;
+
+    &:hover {
+      background-color: var.$color-principal-cliente;
+      color: white;
+    }
+  }
+
+  .egresos-gestionar-listas-btn {
+    border: 1px solid var.$color-principal-estudio;
+    color: var.$color-principal-estudio;
+
+    &:hover {
+      background-color: var.$color-principal-estudio;
+      color: white;
+    }
+  }
+}
+
+.egresos-arbol-estructura {
+  padding-left: 40%;
+  padding-top: 1rem;
+  font-family: "Courier New", monospace;
+  white-space: pre;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.egresos-tabla-contenedor {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+
+  .MuiTableCell-root {
+    color: var.$color-principal-cliente;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 4px 8px;
+    font-size: 0.75rem;
+
+    &:nth-child(1) {
+      width: 15%;
+      min-width: 80px;
+    }
+    &:nth-child(2) {
+      width: 60%;
+    }
+    &:nth-child(3) {
+      width: 10%;
+      min-width: 60px;
+    }
+    &:nth-child(4) {
+      width: 15%;
+      min-width: 70px;
+    }
+  }
+
+  .egresos-tabla-header {
+    color: var.$color-principal-estudio;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .egresos-tabla-celda-centro {
+    text-align: center;
+  }
+
+  .egresos-agregar-btn-tabla {
+    background-color: var.$color-principal-estudio;
+    color: white;
+    border: none;
+    padding: 2px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.7rem;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: color.adjust(
+        var.$color-principal-estudio,
+        $lightness: -10%
+      );
+    }
+  }
+}
+
+// Estilos para la vista de árbol
+@for $i from 0 through 20 {
+  .egresos-subcategoria-nivel-#{$i} {
+    margin-left: $i * 0.7rem;
+    $ciclo: $i % 3;
+    @if $ciclo == 0 {
+      color: #8290e6;
+      font-weight: 400;
+    } @else if $ciclo == 1 {
+      color: #6674d2;
+      font-weight: 500;
+    } @else {
+      color: #4a57b3;
+      font-weight: 600;
+    }
+    background: transparent;
+    border-radius: 3px;
+    padding: 0 2px;
+    white-space: nowrap;
+  }
+}
+
+.egresos-expandir-btn,
+.egresos-agregar-btn {
+  display: inline-block;
+  color: inherit;
+  cursor: pointer;
+  user-select: none;
+  padding: 0 4px;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.egresos-subcategoria-contenido {
+  display: inline-block;
+  padding: 0 1rem;
+  margin-right: 0.1rem;
+}
+
+.egresos-subcategorias-hijos {
+  margin-left: 1rem;
 }

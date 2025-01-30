@@ -1,6 +1,6 @@
 @use "../../../styles/variables" as var;
 
-.formulario-subcategoria-container {
+.egresos-formulario-subcategoria-container {
   max-width: 600px;
   margin: 20px auto;
   padding: 20px;
@@ -9,20 +9,38 @@
   background-color: var.$color-fondo-estudio;
 }
 
-.formulario-subcategoria {
+.egresos-formulario-subcategoria {
   padding: 20px;
   background-color: transparent !important;
   box-shadow: none !important;
   text-align: center !important;
 }
 
-.icono-centrado {
+.egresos-icono-centrado {
   display: flex;
   justify-content: center;
+  align-items: center;
+  gap: 2rem;
   margin-bottom: 20px;
+
+  .egresos-boton-con-texto {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .egresos-texto-grabar {
+      color: var.$color-principal-estudio;
+      font-size: 1rem;
+    }
+
+    .egresos-texto-lista {
+      color: var.$color-principal-cliente;
+      font-size: 1rem;
+    }
+  }
 }
 
-.icono-agregar {
+.egresos-icono-agregar {
   font-size: 30px;
   color: var.$color-principal-estudio;
   cursor: pointer;
@@ -38,7 +56,7 @@
   }
 }
 
-.input-container {
+.egresos-input-container {
   width: 100%;
 
   input {
@@ -57,7 +75,7 @@
   }
 }
 
-.alerta-error {
+.egresos-alerta-error {
   color: #c62828 !important;
   border-radius: 8px !important;
   margin-bottom: 16px !important;
@@ -67,7 +85,7 @@
   border: 1px solid #c62828 !important;
 }
 
-.alerta-success {
+.egresos-alerta-success {
   color: #2e7d32 !important;
   border-radius: 8px !important;
   margin-bottom: 16px !important;
@@ -75,4 +93,24 @@
   z-index: 2 !important;
   background-color: black !important;
   border: 1px solid #2e7d32 !important;
+}
+
+.egresos-boton-con-texto {
+  .egresos-btn-lista {
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+
+      &:hover {
+        transform: none;
+      }
+    }
+  }
+
+  .egresos-texto-lista {
+    &.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
 }
