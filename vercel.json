@@ -12,7 +12,7 @@
         { "key": "Access-Control-Allow-Credentials", "value": "true" },
         {
           "key": "Access-Control-Allow-Origin",
-          "value": "https://api.flujo-caja-odontomed.estudiobeguier.com"
+          "value": "https://flujo-caja-odontomed.estudiobeguier.com"
         },
         {
           "key": "Access-Control-Allow-Methods",
