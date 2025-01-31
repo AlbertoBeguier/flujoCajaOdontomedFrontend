@@ -1,0 +1,287 @@
+@use "../../../styles/variables" as var;
+
+.dashboard-egresos-container {
+  margin: auto;
+  padding: 10px;
+  max-width: 70%;
+}
+
+.dashboard-egresos-filtros {
+  margin: 20px auto;
+  max-width: 70%;
+  display: flex;
+  justify-content: center;
+}
+
+.dashboard-egresos-periodo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var.$color-fondo-estudio;
+  padding: 15px 20px;
+  border-radius: 5px;
+  border: 1px solid var.$color-principal-cliente;
+
+  .filtro-egresos-label {
+    color: var.$color-principal-cliente;
+    font-weight: 500;
+    margin: 0 5px;
+  }
+
+  select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var.$color-principal-cliente;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+    min-width: 100px;
+
+    &:focus {
+      outline: none;
+      border-color: var.$color-principal-estudio;
+    }
+
+    option {
+      background-color: var.$color-fondo-estudio;
+    }
+  }
+
+  .input-dia-egresos {
+    width: 45px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var.$color-principal-cliente;
+    background-color: transparent;
+    color: white;
+    text-align: center;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var.$color-principal-estudio;
+    }
+  }
+}
+
+.dashboard-egresos-tabla-container {
+  margin: auto;
+  padding: 10px;
+  max-width: 70%;
+  display: flex;
+  justify-content: center;
+
+  .tabla-egresos-responsive {
+    overflow-x: auto;
+    display: inline-block;
+    width: 100%;
+  }
+}
+
+.dashboard-egresos-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+
+  th,
+  td {
+    padding: 4px 15px;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  tr {
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  th {
+    color: var.$color-principal-estudio;
+    font-weight: 700;
+    border-bottom: 2px solid var.$color-principal-cliente;
+
+    &:first-child {
+      min-width: 100px;
+      text-align: left;
+    }
+    &:nth-child(2) {
+      min-width: 150px;
+      text-align: left;
+    }
+    &:nth-child(3) {
+      min-width: 80px;
+      text-align: left;
+    }
+    &:last-child {
+      min-width: 100px;
+      text-align: right;
+    }
+  }
+
+  td {
+    color: white;
+    font-size: 0.9rem;
+    background-color: var.$color-fondo-estudio;
+
+    &:first-child {
+      text-align: left;
+    }
+    &:nth-child(2) {
+      text-align: left;
+    }
+    &:nth-child(3) {
+      text-align: left;
+    }
+    &.importe {
+      text-align: right;
+    }
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var.$color-principal-cliente;
+    height: 32px;
+
+    &:last-child {
+      border-bottom: 1px solid var.$color-principal-cliente;
+    }
+  }
+}
+
+.categoria-egresos-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+
+  .categoria-egresos-cell {
+    color: white;
+    cursor: help;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categoria-egresos-tooltip {
+    visibility: hidden;
+    position: absolute;
+    z-index: 1000;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var.$color-principal-estudio;
+    color: white;
+    padding: 6px 8px;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    max-width: min(400px, 90vw);
+    width: max-content;
+    margin: 0;
+
+    .tooltip-egresos-content {
+      font-size: 0.75rem;
+      line-height: 1.4;
+      text-align: left;
+      white-space: nowrap;
+      display: inline-block;
+      padding: 4px 8px;
+      margin: 0;
+      background-color: var.$color-principal-estudio;
+    }
+  }
+
+  &:hover .categoria-egresos-tooltip {
+    visibility: visible;
+  }
+}
+
+tr:first-child .categoria-egresos-tooltip {
+  top: 150%;
+}
+
+tr:not(:first-child) .categoria-egresos-tooltip {
+  bottom: 150%;
+}
+
+.dashboard-egresos-total {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: var.$color-fondo-estudio;
+  border: 1px solid var.$color-principal-cliente;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: white;
+
+  .periodo-egresos-total {
+    font-size: 1rem;
+    color: var.$color-principal-cliente;
+    text-align: center;
+    margin-bottom: 2px;
+  }
+
+  .monto-egresos-total {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var.$color-principal-cliente;
+    text-align: center;
+  }
+}
+
+.pagina-egresos-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+
+  .egresos-logo {
+    width: 55px;
+    height: auto;
+  }
+
+  .egresos-logo-1 {
+    width: 200px;
+    height: auto;
+  }
+
+  .egresos-titulo {
+    font-size: 2.3rem;
+    color: var.$color-principal-estudio;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+  }
+}
+
+.totales-egresos-desglose {
+  padding-left: 1.5rem;
+  padding-top: 0.2rem;
+  font-family: "Courier New", monospace;
+  white-space: pre;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  width: 100%;
+  border-radius: 8px;
+  overflow-x: auto;
+  background-color: transparent;
+}
+
+.total-egresos-general {
+  text-align: center;
+  color: white;
+  font-size: 1rem;
+  font-weight: normal;
+  margin-bottom: 10px;
+  font-family: inherit;
+}

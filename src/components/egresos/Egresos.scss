@@ -1,5 +1,21 @@
 @use "../../styles/variables" as var;
 
+// Definir el placeholder %btn-base antes de usarlo
+%btn-base {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  gap: 8px;
+  font-weight: 700;
+  min-width: 200px;
+  transition: all 0.3s ease;
+}
+
 body {
   background-color: var.$color-fondo-estudio;
 }
@@ -157,6 +173,29 @@ a {
 
   &:hover {
     background-color: #403f3f;
+    color: white;
+    border-color: rgb(167, 160, 160);
+
+    .btn-egresos-icon {
+      color: white;
+      background-color: transparent !important;
+    }
+  }
+}
+
+.btn-dashboard-egresos {
+  @extend %btn-base;
+  background-color: black;
+  color: var.$color-principal-cliente;
+  border: 2px solid var.$color-principal-cliente;
+
+  .btn-egresos-icon {
+    color: var.$color-principal-cliente;
+    transition: all 0.3s ease;
+  }
+
+  &:hover {
+    background-color: var.$color-principal-cliente;
     color: white;
     border-color: rgb(167, 160, 160);
 

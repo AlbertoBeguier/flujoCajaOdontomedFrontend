@@ -20,6 +20,7 @@ import { Register } from "./components/auth/Register";
 import { GestionSubcategoriasIngresos } from "./components/ingresos/subcategorias/GestionSubcategoriasIngresos";
 import { GestionListasMaestras } from "./components/listas-maestras/GestionListasMaestras";
 import { PanelIngresos } from "./components/ingresos/dashboard/PanelIngresos";
+import { PanelEgresos } from "./components/egresos/dashboard/PanelEgresos";
 
 function App() {
   return (
@@ -73,6 +74,7 @@ function App() {
                     path="/dashboard-ingresos"
                     element={<PanelIngresos />}
                   />
+                  <Route path="/dashboard-egresos" element={<PanelEgresos />} />
                 </Routes>
                 <Footer />
               </div>

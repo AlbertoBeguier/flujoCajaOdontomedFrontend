@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ListadoEgresos } from "./registro/ListadoEgresos";
 import logo from "../../assets/odontomed512_512.png";
 import logo1 from "../../assets/odontomedBigLogo.png";
-import { FaCashRegister, FaSitemap } from "react-icons/fa";
+import { FaCashRegister, FaSitemap, FaChartLine } from "react-icons/fa";
 import "./Egresos.scss";
 
 export const Egresos = () => {
@@ -26,6 +25,12 @@ export const Egresos = () => {
           <button className="btn-subcategorias-egresos">
             <FaSitemap className="btn-egresos-icon" />
             Agregar Subcategorías
+          </button>
+        </Link>
+        <Link to="/dashboard-egresos">
+          <button className="btn-dashboard-egresos">
+            <FaChartLine className="btn-egresos-icon" />
+            Dashboard Egresos
           </button>
         </Link>
       </div>
