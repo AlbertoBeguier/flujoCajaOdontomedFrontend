@@ -89,10 +89,6 @@ export const ListadoEgresos = ({ ultimoEgresoId }) => {
                       <div className="subcategoria-tooltip">
                         <div className="tooltip-content">
                           {(() => {
-                            const rutaCategoria = egreso.categoria.rutaCategoria
-                              .map((cat) => cat.nombre)
-                              .join(" → ");
-
                             const rutaSubcategoria = [];
                             let actual = subcategorias.find(
                               (s) => s.codigo === egreso.subcategoria.codigo
@@ -105,9 +101,7 @@ export const ListadoEgresos = ({ ultimoEgresoId }) => {
                               );
                             }
 
-                            return `${rutaCategoria} → ${rutaSubcategoria.join(
-                              " → "
-                            )}`;
+                            return `${rutaSubcategoria.join(" → ")}`;
                           })()}
                         </div>
                       </div>
