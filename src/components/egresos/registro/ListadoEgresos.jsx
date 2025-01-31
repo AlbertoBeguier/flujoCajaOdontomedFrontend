@@ -12,17 +12,22 @@ export const ListadoEgresos = ({ ultimoEgresoId }) => {
   const [egresoSeleccionado, setEgresoSeleccionado] = useState(null);
   const { subcategorias } = useSubcategoriasEgresos();
 
-  useEffect(() => {
-    const cargarEgresos = async () => {
-      try {
-        const data = await getEgresos();
-        setEgresos(data);
-      } catch (err) {
-        console.error("Error al cargar egresos:", err);
-        setError("Error al cargar los egresos");
-      }
-    };
+  const cargarEgresos = async () => {
+    try {
+      const data = await getEgresos();
+      const egresosOrdenados = data.sort((a, b) => {
+        const fechaA = new Date(a.fecha);
+        const fechaB = new Date(b.fecha);
+        return fechaB - fechaA;
+      });
+      setEgresos(egresosOrdenados);
+    } catch (err) {
+      console.error("Error al cargar egresos:", err);
+      setError("Error al cargar los egresos");
+    }
+  };
 
+  useEffect(() => {
     cargarEgresos();
   }, [ultimoEgresoId]);
 

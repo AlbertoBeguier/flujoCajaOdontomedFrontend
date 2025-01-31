@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { updateEgreso } from "../../../services/egresosService";
 import { useSubcategoriasEgresos } from "../../../hooks/useSubcategoriasEgresos";
 import { FaChevronRight, FaUndo } from "react-icons/fa";
@@ -22,8 +22,6 @@ export const EgresosDatosAdicionales = ({ egreso, onClose, onUpdate }) => {
     resetearSeleccion,
     rutaSeleccion,
   } = useSubcategoriasEgresos();
-
-  useEffect(() => {}, []);
 
   const formatearFecha = (fecha) => {
     const date = new Date(fecha);
@@ -89,15 +87,17 @@ export const EgresosDatosAdicionales = ({ egreso, onClose, onUpdate }) => {
   };
 
   return (
-    <div className="datos-adicionales-overlay">
-      <div className="datos-adicionales-container">
-        <p>Egresos - Datos Adicionales</p>
-        <div className="datos-content">
-          <div className="dato-grupo">
+    <div className="egresos-datos-adicionales-overlay">
+      <div className="egresos-datos-adicionales-container">
+        <p className="egresos-datos-adicionales-titulo">
+          Egresos - Datos Adicionales
+        </p>
+        <div className="egresos-datos-content">
+          <div className="egresos-dato-grupo">
             <label>Fecha:</label>
             <span>{formatearFecha(egreso.fecha)}</span>
           </div>
-          <div className="dato-grupo">
+          <div className="egresos-dato-grupo">
             <label>Ruta Completa:</label>
             <span>
               {egreso.categoria.rutaCategoria
@@ -105,23 +105,23 @@ export const EgresosDatosAdicionales = ({ egreso, onClose, onUpdate }) => {
                 .join(" > ")}
             </span>
           </div>
-          <div className="dato-grupo">
+          <div className="egresos-dato-grupo">
             <label>Importe:</label>
             <span>{formatearImporte(egreso.importe)}</span>
           </div>
-          <div className="dato-grupo">
+          <div className="egresos-dato-grupo">
             <label>Subcategoría:</label>
             {cargando ? (
               <span>Cargando subcategorías...</span>
             ) : error ? (
-              <span className="error">{error}</span>
+              <span className="egresos-error">{error}</span>
             ) : (
-              <div className="subcategorias-navegacion">
+              <div className="egresos-subcategorias-navegacion">
                 {subcategoriaSeleccionada && (
-                  <div className="ruta-actual">
+                  <div className="egresos-ruta-actual">
                     {subcategoriaSeleccionada.rutaSubcategoria.length > 1 && (
                       <button
-                        className="btn-reset"
+                        className="egresos-btn-reset"
                         onClick={handleResetear}
                         title="Volver al inicio"
                       >
@@ -141,11 +141,11 @@ export const EgresosDatosAdicionales = ({ egreso, onClose, onUpdate }) => {
                   </div>
                 )}
 
-                <div className="subcategorias-grid">
+                <div className="egresos-subcategorias-grid">
                   {subcategoriasVisibles.map((sub) => (
                     <button
                       key={sub.codigo}
-                      className={`btn-subcategoria ${
+                      className={`egresos-btn-subcategoria ${
                         subcategoriaSeleccionada?.codigo === sub.codigo
                           ? "seleccionada"
                           : ""
@@ -159,7 +159,7 @@ export const EgresosDatosAdicionales = ({ egreso, onClose, onUpdate }) => {
 
                 {subcategoriaSeleccionada &&
                   subcategoriaSeleccionada.rutaSubcategoria.length > 1 && (
-                    <div className="subcategoria-seleccionada">
+                    <div className="egresos-subcategoria-seleccionada">
                       <span>✓ {subcategoriaSeleccionada.nombre}</span>
                       <small>
                         Subcategoría seleccionada - Puede guardar los cambios
@@ -169,7 +169,7 @@ export const EgresosDatosAdicionales = ({ egreso, onClose, onUpdate }) => {
               </div>
             )}
           </div>
-          <div className="dato-grupo">
+          <div className="egresos-dato-grupo">
             <label>Observaciones:</label>
             <textarea
               value={observaciones}
@@ -178,21 +178,21 @@ export const EgresosDatosAdicionales = ({ egreso, onClose, onUpdate }) => {
                 adjustTextareaHeight(e);
               }}
               onInput={adjustTextareaHeight}
-              className="observaciones-input"
+              className="egresos-observaciones-input"
               placeholder="Ingrese sus observaciones aquí..."
             />
           </div>
         </div>
-        <div className="botones-container">
+        <div className="egresos-botones-container">
           <button
-            className="btn-cancelar"
+            className="egresos-btn-cancelar"
             onClick={onClose}
             disabled={isLoading}
           >
             Cancelar
           </button>
           <button
-            className="btn-guardar"
+            className="egresos-btn-guardar"
             onClick={handleGuardar}
             disabled={isLoading}
           >

@@ -89,7 +89,7 @@ export const IngresosDatosAdicionales = ({ ingreso, onClose, onUpdate }) => {
   return (
     <div className="datos-adicionales-overlay">
       <div className="datos-adicionales-container">
-        <p>Ingresos - Datos Adicionales</p>
+        <p className="datos-ad-titulo">Ingresos - Datos Adicionales</p>
         <div className="datos-content">
           <div className="dato-grupo">
             <label>Fecha:</label>
