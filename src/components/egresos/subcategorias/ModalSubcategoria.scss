@@ -18,8 +18,8 @@
   background-color: var.$color-fondo-estudio;
   padding: 2rem;
   border-radius: 8px;
-  width: 90%;
-  max-width: 500px;
+  width: 100%;
+  max-width: 700px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
   h2 {
@@ -81,7 +81,7 @@
       &:focus {
         outline: none;
         border-color: #4a90e2;
-        background-color: #f0f7ff;
+        background-color: #a8c6e8;
         box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
       }
     }
@@ -100,6 +100,11 @@
       outline: none;
       border-color: #4a90e2;
       box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+    }
+
+    option {
+      background-color: var.$color-fondo-estudio; // O un color oscuro
+      color: white; // Hace que el texto sea blanco
     }
   }
 
